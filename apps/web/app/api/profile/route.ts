@@ -89,23 +89,45 @@ export async function POST(req: Request) {
 
     const body = await req.json()
 
-    // Whitelist fields + coerce types
-    const row = {
+    // Partial update: only include fields that are actually present in the body.
+    // This lets the onboarding flow save fields across steps without clobbering
+    // previously-saved data (e.g. step 2 must not wipe the CV from step 1).
+    const row: Record<string, unknown> = {
       user_id: user.id,
-      full_name: typeof body.full_name === 'string' ? body.full_name.slice(0, 200) : null,
-      cv_text: typeof body.cv_text === 'string' ? body.cv_text.slice(0, 30000) : null,
-      target_roles: Array.isArray(body.target_roles)
-        ? body.target_roles.map(String).slice(0, 20)
-        : null,
-      salary_min: Number.isFinite(Number(body.salary_min)) ? Number(body.salary_min) : null,
-      salary_max: Number.isFinite(Number(body.salary_max)) ? Number(body.salary_max) : null,
-      positive_keywords: Array.isArray(body.positive_keywords)
-        ? body.positive_keywords.map(String).slice(0, 50)
-        : null,
-      negative_keywords: Array.isArray(body.negative_keywords)
-        ? body.negative_keywords.map(String).slice(0, 50)
-        : null,
       updated_at: new Date().toISOString(),
+    }
+    if ('full_name' in body) {
+      row.full_name =
+        typeof body.full_name === 'string' ? body.full_name.slice(0, 200) : null
+    }
+    if ('cv_text' in body) {
+      row.cv_text =
+        typeof body.cv_text === 'string' ? body.cv_text.slice(0, 30000) : null
+    }
+    if ('target_roles' in body) {
+      row.target_roles = Array.isArray(body.target_roles)
+        ? body.target_roles.map(String).slice(0, 20)
+        : null
+    }
+    if ('salary_min' in body) {
+      row.salary_min = Number.isFinite(Number(body.salary_min))
+        ? Number(body.salary_min)
+        : null
+    }
+    if ('salary_max' in body) {
+      row.salary_max = Number.isFinite(Number(body.salary_max))
+        ? Number(body.salary_max)
+        : null
+    }
+    if ('positive_keywords' in body) {
+      row.positive_keywords = Array.isArray(body.positive_keywords)
+        ? body.positive_keywords.map(String).slice(0, 50)
+        : null
+    }
+    if ('negative_keywords' in body) {
+      row.negative_keywords = Array.isArray(body.negative_keywords)
+        ? body.negative_keywords.map(String).slice(0, 50)
+        : null
     }
 
     const { error } = await supabase.from('user_profiles').upsert(row, { onConflict: 'user_id' })
