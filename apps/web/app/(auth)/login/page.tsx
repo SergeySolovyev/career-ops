@@ -16,11 +16,18 @@ export default async function LoginPage({
           Введите email и пароль для входа
         </p>
 
-        {params.error && (
+        {params.error === 'supabase_disabled' ? (
+          <div className="mt-4 rounded-md bg-yellow-50 px-3 py-2 text-sm text-yellow-900">
+            Вход в demo-режиме отключён.{' '}
+            <Link href="/dashboard" className="font-medium underline">
+              Открыть демо-кабинет →
+            </Link>
+          </div>
+        ) : params.error ? (
           <div className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
             {params.error}
           </div>
-        )}
+        ) : null}
 
         <form action={signIn} className="mt-8 space-y-4">
           <div>

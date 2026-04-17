@@ -16,11 +16,18 @@ export default async function SignupPage({
           Бесплатно. 3 AI-оценки в месяц. Без карты.
         </p>
 
-        {params.error && (
+        {params.error === 'supabase_disabled' ? (
+          <div className="mt-4 rounded-md bg-yellow-50 px-3 py-2 text-sm text-yellow-900">
+            Регистрация в demo-режиме отключена.{' '}
+            <Link href="/dashboard" className="font-medium underline">
+              Открыть демо-кабинет →
+            </Link>
+          </div>
+        ) : params.error ? (
           <div className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
             {params.error}
           </div>
-        )}
+        ) : null}
 
         <form action={signUp} className="mt-8 space-y-4">
           <div>

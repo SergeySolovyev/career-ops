@@ -2,18 +2,27 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 
 export async function signIn(formData: FormData) {
-  const supabase = await createClient()
+  if (!isSupabaseConfigured()) {
+    redirect('/login?error=supabase_disabled')
+  }
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  })
+  try {
+    const supabase = await createClient()
 
-  if (error) {
-    redirect('/login?error=' + encodeURIComponent(error.message))
+    const { error } = await supabase.auth.signInWithPassword({
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+    })
+
+    if (error) {
+      redirect('/login?error=' + encodeURIComponent(error.message))
+    }
+  } catch (e: any) {
+    if (e?.digest?.startsWith('NEXT_REDIRECT')) throw e
+    redirect('/login?error=server')
   }
 
   revalidatePath('/', 'layout')
@@ -21,7 +30,14 @@ export async function signIn(formData: FormData) {
 }
 
 export async function signOut() {
-  const supabase = await createClient()
-  await supabase.auth.signOut()
+  if (!isSupabaseConfigured()) {
+    redirect('/login')
+  }
+  try {
+    const supabase = await createClient()
+    await supabase.auth.signOut()
+  } catch {
+    // ignore
+  }
   redirect('/login')
 }

@@ -1,4 +1,4 @@
-import { streamText, convertToModelMessages } from 'ai'
+import { streamText } from 'ai'
 import { createAnthropic } from '@ai-sdk/anthropic'
 import { readFileSync } from 'fs'
 import { join } from 'path'
@@ -60,6 +60,19 @@ function getTopVacancies(): string {
 export async function POST(req: Request) {
   const { messages } = await req.json()
 
+  // Normalize both AI SDK v6 UIMessage (parts[]) and CoreMessage (content:string) formats
+  const normalized = (messages as any[])
+    .map((m) => ({
+      role: m.role,
+      content: typeof m.content === 'string'
+        ? m.content
+        : Array.isArray(m.parts)
+          ? m.parts.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('')
+          : '',
+    }))
+    .filter((m) => m.content && m.content.length > 0)
+    .map((m) => ({ ...m, content: m.content.slice(0, 8000) }))
+
   const result = streamText({
     model: anthropic(process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929'),
     system: `Ты — AI карьерный консультант платформы CareerPilot.
@@ -81,7 +94,7 @@ ${getTopVacancies()}
 - Если спрашивают про вакансию из списка — ссылайся на скор и причины
 - Будь конкретен, actionable, давай цифры и примеры из его опыта
 - Максимум 300 слов на ответ, используй Markdown`,
-    messages: convertToModelMessages(messages),
+    messages: normalized,
   })
 
   return result.toUIMessageStreamResponse()

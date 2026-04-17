@@ -36,7 +36,8 @@ export default async function DashboardPage() {
   } : { found: 0, evaluated: 0, recommended: 0, applied: 0, interviews: 0 }
 
   const recentEvals = Object.entries(evalLog.evaluated || {})
-    .sort((a, b) => ((b[1] as any).date || '').localeCompare((a[1] as any).date || ''))
+    .filter(([, v]) => (v as any).status === 'apply')
+    .sort((a, b) => ((b[1] as any).score || 0) - ((a[1] as any).score || 0))
     .slice(0, 5) as [string, any][]
 
   const candidate = profile?.candidate
@@ -122,7 +123,7 @@ export default async function DashboardPage() {
       {/* Two-column: recent activity + superpowers */}
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <section>
-          <h2 className="text-lg font-semibold">Последние AI-оценки</h2>
+          <h2 className="text-lg font-semibold">Топ AI-матчей</h2>
           <div className="mt-4 space-y-2">
             {recentEvals.length === 0 && (
               <p className="text-sm text-muted-foreground">Пока нет оценок.</p>

@@ -1,4 +1,16 @@
 import Link from 'next/link'
+import { headers } from 'next/headers'
+
+async function getStats() {
+  try {
+    const host = (await headers()).get('host') || 'localhost:3000'
+    const protocol = host.includes('localhost') ? 'http' : 'https'
+    const res = await fetch(`${protocol}://${host}/api/stats`, { cache: 'no-store' })
+    return res.json()
+  } catch {
+    return null
+  }
+}
 
 const features = [
   {
@@ -50,7 +62,10 @@ const plans = [
   },
 ]
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const data = await getStats()
+  const f = data?.funnel
+  const s = data?.stats
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
@@ -90,20 +105,20 @@ export default function LandingPage() {
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <Link
-            href="/signup"
+            href="/dashboard"
             className="rounded-lg bg-primary px-8 py-3 text-lg font-semibold text-primary-foreground hover:bg-primary/90"
           >
-            Начать бесплатно
+            Открыть демо-кабинет
           </Link>
           <Link
-            href="#features"
+            href="/chat"
             className="rounded-lg border border-border px-8 py-3 text-lg font-semibold hover:bg-secondary"
           >
-            Как это работает
+            Спросить AI
           </Link>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">
-          Бесплатно. Без карты. 3 AI-оценки в месяц.
+          Демо с реальными данными. Без регистрации.
         </p>
       </section>
 
@@ -111,20 +126,20 @@ export default function LandingPage() {
       <section className="border-y border-border bg-secondary/50 py-8">
         <div className="mx-auto flex max-w-4xl items-center justify-center gap-12 px-4">
           <div className="text-center">
-            <div className="text-3xl font-bold">200+</div>
-            <div className="text-sm text-muted-foreground">вакансий оценено</div>
+            <div className="text-3xl font-bold">{f?.found ?? '200+'}</div>
+            <div className="text-sm text-muted-foreground">вакансий найдено</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold">29</div>
+            <div className="text-3xl font-bold">{f?.aiEvaluated ?? 29}</div>
             <div className="text-sm text-muted-foreground">AI-отчётов</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold">5</div>
-            <div className="text-sm text-muted-foreground">откликов за 2 дня</div>
+            <div className="text-3xl font-bold">{f?.recommended ?? 5}</div>
+            <div className="text-sm text-muted-foreground">рекомендовано</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold">4.7/5</div>
-            <div className="text-sm text-muted-foreground">средний AI-скор матчей</div>
+            <div className="text-3xl font-bold">{s?.avgScore ? `${s.avgScore}/5` : '4.7/5'}</div>
+            <div className="text-sm text-muted-foreground">средний AI-скор</div>
           </div>
         </div>
       </section>
