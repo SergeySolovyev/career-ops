@@ -1,5 +1,6 @@
 import { headers } from 'next/headers'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
@@ -44,9 +45,20 @@ export default async function DashboardPage() {
   const apiProfile = await getUserProfile()
   const isUserProfile = apiProfile?._source === 'user'
   const isEmptyUserProfile = isUserProfile && apiProfile?._empty
+
+  // New authenticated users without a CV: force onboarding flow
+  if (isEmptyUserProfile) {
+    redirect('/onboarding')
+  }
+
   // For logged-in users, use their profile. For anon/demo — Sergey's hardcoded profile.
   const profile = isUserProfile ? apiProfile : loadJSON('profile.json')
-  const evalLog = loadJSON('auto-eval-log.json') || { evaluated: {} }
+
+  // Only load Sergey's global eval log for the anon demo view.
+  // Authenticated users get an empty state (no leaking Sergey's matches).
+  const evalLog = !isUserProfile
+    ? (loadJSON('auto-eval-log.json') || { evaluated: {} })
+    : { evaluated: {} }
 
   const stats = data?.funnel ? {
     found: data.funnel.found,
@@ -141,7 +153,14 @@ export default async function DashboardPage() {
       )}
 
       {/* Stats */}
-      <h2 className="mt-10 text-lg font-semibold">Воронка поиска</h2>
+      <div className="mt-10 flex items-center gap-3">
+        <h2 className="text-lg font-semibold">Воронка поиска</h2>
+        {isUserProfile && (
+          <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-700">
+            Старт — появится после первых откликов
+          </span>
+        )}
+      </div>
       <div className="mt-4 grid gap-4 sm:grid-cols-5">
         {[
           { label: 'Найдено', value: stats.found, color: 'text-blue-600', emoji: '🔍' },
@@ -163,7 +182,21 @@ export default async function DashboardPage() {
         <section>
           <h2 className="text-lg font-semibold">Топ AI-матчей</h2>
           <div className="mt-4 space-y-2">
-            {recentEvals.length === 0 && (
+            {recentEvals.length === 0 && isUserProfile && (
+              <div className="rounded-xl border border-dashed border-border p-6 text-center">
+                <div className="text-3xl">🎯</div>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Пока нет оценённых вакансий.
+                </p>
+                <Link
+                  href="/chat"
+                  className="mt-3 inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+                >
+                  💬 Спросите AI советника
+                </Link>
+              </div>
+            )}
+            {recentEvals.length === 0 && !isUserProfile && (
               <p className="text-sm text-muted-foreground">Пока нет оценок.</p>
             )}
             {recentEvals.map(([url, v]) => {

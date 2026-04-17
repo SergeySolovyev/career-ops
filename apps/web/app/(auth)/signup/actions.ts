@@ -32,5 +32,6 @@ export async function signUp(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard')
+  // New signups always start onboarding — they haven't loaded a CV yet
+  redirect('/onboarding')
 }

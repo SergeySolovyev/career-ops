@@ -1,13 +1,44 @@
 import { NextResponse } from 'next/server'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 
 function loadJSON(filename: string) {
   const filePath = join(process.cwd(), 'data', filename)
   return JSON.parse(readFileSync(filePath, 'utf-8'))
 }
 
+const EMPTY_FUNNEL = {
+  funnel: {
+    found: 0,
+    preScreened: 0,
+    aiEvaluated: 0,
+    recommended: 0,
+    applied: 0,
+    interviews: 0,
+    offers: 0,
+  },
+  stats: { totalEvaluated: 0, avgScore: '0', topScore: 0, applyRate: '0' },
+  topVacancies: [],
+  lastRun: null,
+  _source: 'user' as const,
+}
+
 export async function GET() {
+  // Authenticated users get their own (empty) funnel, not Sergey's demo data.
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = await createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        // TODO: query per-user evaluation/outreach tables once they exist.
+        return NextResponse.json(EMPTY_FUNNEL)
+      }
+    } catch {
+      // fall through to demo
+    }
+  }
+
   try {
     const evalLog = loadJSON('auto-eval-log.json')
     const outreach = loadJSON('outreach.json')

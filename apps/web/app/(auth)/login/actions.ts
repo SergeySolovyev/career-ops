@@ -20,6 +20,18 @@ export async function signIn(formData: FormData) {
     if (error) {
       redirect('/login?error=' + encodeURIComponent(error.message))
     }
+
+    // Redirect-by-profile: users without a CV go to onboarding
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('cv_text')
+        .eq('user_id', user.id)
+        .maybeSingle()
+      revalidatePath('/', 'layout')
+      redirect(profile?.cv_text ? '/dashboard' : '/onboarding')
+    }
   } catch (e: any) {
     if (e?.digest?.startsWith('NEXT_REDIRECT')) throw e
     redirect('/login?error=server')

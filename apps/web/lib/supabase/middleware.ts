@@ -37,7 +37,7 @@ export async function updateSession(request: NextRequest) {
 
   // Redirect unauthenticated users from protected routes
   // Note: /chat is intentionally public — anonymous users get demo (Sergey) CV; logged-in users get their own.
-  const protectedPaths = ['/dashboard', '/matches', '/analytics', '/settings', '/pipeline']
+  const protectedPaths = ['/dashboard', '/matches', '/analytics', '/settings', '/pipeline', '/onboarding']
   const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p))
   if (!user && isProtected) {
     const url = request.nextUrl.clone()
