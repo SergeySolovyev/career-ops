@@ -57,7 +57,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json()
 
   const result = streamText({
-    model: anthropic(process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514'),
+    model: anthropic(process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929'),
     system: `Ты — AI карьерный консультант платформы CareerPilot.
 Помогаешь кандидату с поиском работы, подготовкой к интервью, tailoring CV и стратегией.
 
