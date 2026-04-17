@@ -1,4 +1,4 @@
-import { streamText } from 'ai'
+import { streamText, convertToModelMessages } from 'ai'
 import { createAnthropic } from '@ai-sdk/anthropic'
 import { readFileSync } from 'fs'
 import { join } from 'path'
@@ -81,7 +81,7 @@ ${getTopVacancies()}
 - Если спрашивают про вакансию из списка — ссылайся на скор и причины
 - Будь конкретен, actionable, давай цифры и примеры из его опыта
 - Максимум 300 слов на ответ, используй Markdown`,
-    messages,
+    messages: convertToModelMessages(messages),
   })
 
   return result.toUIMessageStreamResponse()
