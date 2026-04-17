@@ -5,10 +5,15 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 
 async function getStats() {
-  const host = (await headers()).get('host') || 'localhost:3000'
+  const h = await headers()
+  const host = h.get('host') || 'localhost:3000'
   const protocol = host.includes('localhost') ? 'http' : 'https'
+  const cookie = h.get('cookie') || ''
   try {
-    const res = await fetch(`${protocol}://${host}/api/stats`, { cache: 'no-store' })
+    const res = await fetch(`${protocol}://${host}/api/stats`, {
+      cache: 'no-store',
+      headers: { cookie },
+    })
     return res.json()
   } catch {
     return null
