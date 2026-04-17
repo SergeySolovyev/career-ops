@@ -1,0 +1,1694 @@
+{
+  "version": "1.0",
+  "meta": {
+    "created": "2026-04-14",
+    "description": "Unified outreach tracking — all channels, all statuses",
+    "updated": "2026-04-16T07:58:33.833Z"
+  },
+  "records": [
+    {
+      "id": "OUT-001",
+      "channel": "email",
+      "type": "executive-intro",
+      "recipient": {
+        "email": "info@wardhowell.com",
+        "name": "Ward Howell",
+        "company": "Ward Howell",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "",
+        "url": "",
+        "company": "Ward Howell",
+        "score": null,
+        "report": ""
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "tags": [
+        "agency",
+        "ru"
+      ],
+      "notes": "Крупнейшее в РФ. Конфиденциальный executive search. Уточнить email через сайт.",
+      "created_at": "2026-04-14T21:00:13.150Z",
+      "updated_at": "2026-04-14T21:00:13.150Z"
+    },
+    {
+      "id": "OUT-002",
+      "channel": "email",
+      "type": "executive-intro",
+      "recipient": {
+        "email": "info@kontakt.ru",
+        "name": "Kontakt InterSearch Russia",
+        "company": "Kontakt InterSearch Russia",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "",
+        "url": "",
+        "company": "Kontakt InterSearch Russia",
+        "score": null,
+        "report": ""
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "tags": [
+        "agency",
+        "ru"
+      ],
+      "notes": "Международная сеть InterSearch. Офис Москва.",
+      "created_at": "2026-04-14T21:00:13.155Z",
+      "updated_at": "2026-04-14T21:00:13.155Z"
+    },
+    {
+      "id": "OUT-003",
+      "channel": "email",
+      "type": "executive-intro",
+      "recipient": {
+        "email": "info@rosexpert.ru",
+        "name": "RosExpert",
+        "company": "RosExpert",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "",
+        "url": "",
+        "company": "RosExpert",
+        "score": null,
+        "report": ""
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "tags": [
+        "agency",
+        "ru"
+      ],
+      "notes": "Партнёр Korn Ferry в России.",
+      "created_at": "2026-04-14T21:00:13.156Z",
+      "updated_at": "2026-04-14T21:00:13.156Z"
+    },
+    {
+      "id": "OUT-004",
+      "channel": "email",
+      "type": "executive-intro",
+      "recipient": {
+        "email": "info@midlandhunt.com",
+        "name": "Midland Hunt",
+        "company": "Midland Hunt",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "",
+        "url": "",
+        "company": "Midland Hunt",
+        "score": null,
+        "report": ""
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "tags": [
+        "agency",
+        "ru"
+      ],
+      "notes": "Executive search, FinTech/banking фокус.",
+      "created_at": "2026-04-14T21:00:13.156Z",
+      "updated_at": "2026-04-14T21:00:13.156Z"
+    },
+    {
+      "id": "OUT-005",
+      "channel": "email",
+      "type": "executive-intro",
+      "recipient": {
+        "email": "info@ibs-gc.ru",
+        "name": "IBS Global Career",
+        "company": "IBS Global Career",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "",
+        "url": "",
+        "company": "IBS Global Career",
+        "score": null,
+        "report": ""
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "tags": [
+        "agency",
+        "ru"
+      ],
+      "notes": "IT/Digital/FinTech executives.",
+      "created_at": "2026-04-14T21:00:13.156Z",
+      "updated_at": "2026-04-14T21:00:13.156Z"
+    },
+    {
+      "id": "OUT-006",
+      "channel": "email",
+      "type": "executive-intro",
+      "recipient": {
+        "email": "info@cornerstone-int.com",
+        "name": "Cornerstone",
+        "company": "Cornerstone",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "",
+        "url": "",
+        "company": "Cornerstone",
+        "score": null,
+        "report": ""
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "tags": [
+        "agency",
+        "ru"
+      ],
+      "notes": "Публикуют на hh.ru (employer/1068), но также direct search.",
+      "created_at": "2026-04-14T21:00:13.156Z",
+      "updated_at": "2026-04-14T21:00:13.156Z"
+    },
+    {
+      "id": "OUT-007",
+      "channel": "email",
+      "type": "executive-intro",
+      "recipient": {
+        "email": "info@firsthrs.com",
+        "name": "FIRST (Ward Howell Group)",
+        "company": "FIRST (Ward Howell Group)",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "",
+        "url": "",
+        "company": "FIRST (Ward Howell Group)",
+        "score": null,
+        "report": ""
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "tags": [
+        "agency",
+        "ru"
+      ],
+      "notes": "Сайт firsthrs.ru, ранее публиковали проекты. Тел: +7 (495) 651 97 88.",
+      "created_at": "2026-04-14T21:00:13.157Z",
+      "updated_at": "2026-04-14T21:00:13.157Z"
+    },
+    {
+      "id": "OUT-008",
+      "channel": "email",
+      "type": "executive-intro",
+      "recipient": {
+        "email": "hr@m-choice.com",
+        "name": "M-Choice Executive Search",
+        "company": "M-Choice Executive Search",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "",
+        "url": "",
+        "company": "M-Choice Executive Search",
+        "score": null,
+        "report": ""
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "tags": [
+        "agency",
+        "en"
+      ],
+      "notes": "Сайт англоязычный. Тел: +7 (499) 714-61-16. C-level/CEO поиск.",
+      "created_at": "2026-04-14T21:00:13.157Z",
+      "updated_at": "2026-04-14T21:00:13.157Z"
+    },
+    {
+      "id": "OUT-009",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Тогас/Togas",
+        "company": "Тогас/Togas",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Директор по маркетингу",
+        "url": "https://hh.ru/vacancy/131125081",
+        "company": "Тогас/Togas",
+        "score": 0.5,
+        "report": "001-togas-togas-2026-04-15.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 0.5/5. This is a traditional marketing director role for a luxury home textiles brand with zero overlap wit",
+      "created_at": "2026-04-15T05:08:44.955Z",
+      "updated_at": "2026-04-15T05:08:44.955Z"
+    },
+    {
+      "id": "OUT-010",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Аптечная сеть Ваша №1 х Таблетка.ру",
+        "company": "Аптечная сеть Ваша №1 х Таблетка.ру",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Директор по цифровой трансформации / Chief Digital Officer (CDO)",
+        "url": "https://hh.ru/vacancy/121368532",
+        "company": "Аптечная сеть Ваша №1 х Таблетка.ру",
+        "score": 2.3,
+        "report": "002-aptechnaya-set-vasha-1-kh-tabletka-ru-2026-04-15.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 2.3/5. This retail/pharmacy digital transformation role has limited overlap with candidate's finance-focuse",
+      "created_at": "2026-04-15T05:44:29.521Z",
+      "updated_at": "2026-04-15T05:44:29.521Z"
+    },
+    {
+      "id": "OUT-011",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "ТЕХНОЛОГИИ ОТРАСЛЕВОЙ ТРАНСФОРМАЦИИ",
+        "company": "ТЕХНОЛОГИИ ОТРАСЛЕВОЙ ТРАНСФОРМАЦИИ",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "PR-директор",
+        "url": "https://hh.ru/vacancy/131961968",
+        "company": "ТЕХНОЛОГИИ ОТРАСЛЕВОЙ ТРАНСФОРМАЦИИ",
+        "score": 1.2,
+        "report": "003-tekhnologii-otraslevoy-transformatsii-2026-04-15.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 1.2/5. This is a PR Director role at a Sber analytics subsidiary focused on B2B communications and media re",
+      "created_at": "2026-04-15T05:44:55.150Z",
+      "updated_at": "2026-04-15T05:44:55.150Z"
+    },
+    {
+      "id": "OUT-012",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "IBC Human Resources",
+        "company": "IBC Human Resources",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Генеральный директор тревел-бизнеса",
+        "url": "https://hh.ru/vacancy/131882682",
+        "company": "IBC Human Resources",
+        "score": 1.5,
+        "report": "004-ibc-human-resources-2026-04-15.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 1.5/5. Это роль генерального директора туристической компании, что кардинально не соответствует профилю фин",
+      "created_at": "2026-04-15T05:45:05.723Z",
+      "updated_at": "2026-04-15T05:45:05.723Z"
+    },
+    {
+      "id": "OUT-013",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "СБЕР",
+        "company": "СБЕР",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Руководитель команды RnD Data Science",
+        "url": "https://hh.ru/vacancy/131842821",
+        "company": "СБЕР",
+        "score": 4.2,
+        "report": "005-sber-2026-04-15.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.2/5. Strong alignment with R&D Data Science leadership role at Sber. Candidate's end-to-end ML pipeline e",
+      "created_at": "2026-04-15T05:45:18.505Z",
+      "updated_at": "2026-04-15T05:45:18.505Z",
+      "cv_pdf": "C:\\Yandex.Disk\\Yandex.Disk\\! work -  i found job\\career-ops\\output\\tailored-cv\\cv-sber-2026-04-15.pdf",
+      "ats_score": 69
+    },
+    {
+      "id": "OUT-014",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Группа компаний VR",
+        "company": "Группа компаний VR",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Директор по цифровой трансформации (CDO)",
+        "url": "https://hh.ru/vacancy/131830165",
+        "company": "Группа компаний VR",
+        "score": 4.2,
+        "report": "006-gruppa-kompaniy-vr-2026-04-15.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.2/5. Strong alignment with CDO role requiring AI expertise and business transformation leadership. Candid",
+      "created_at": "2026-04-15T05:46:07.148Z",
+      "updated_at": "2026-04-15T05:46:07.148Z",
+      "cv_pdf": "C:\\Yandex.Disk\\Yandex.Disk\\! work -  i found job\\career-ops\\output\\tailored-cv\\cv-gruppa-kompaniy-vr-2026-04-15.pdf",
+      "ats_score": 81
+    },
+    {
+      "id": "OUT-015",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Управляющая Компания",
+        "company": "Управляющая Компания",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Директор по информационным технологиям",
+        "url": "https://hh.ru/vacancy/131793602",
+        "company": "Управляющая Компания",
+        "score": 4.2,
+        "report": "007-upravlyayushchaya-kompaniya-2026-04-15.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "CTO FinTech",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.2/5. Strong match for senior IT leadership role with strategic portfolio management focus. Candidate's C-",
+      "created_at": "2026-04-15T05:46:56.185Z",
+      "updated_at": "2026-04-15T05:46:56.185Z",
+      "cv_pdf": "C:\\Yandex.Disk\\Yandex.Disk\\! work -  i found job\\career-ops\\output\\tailored-cv\\cv-upravlyayushchaya-kompaniya-2026-04-15.pdf",
+      "ats_score": 50
+    },
+    {
+      "id": "OUT-016",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Cornerstone Russia",
+        "company": "Cornerstone Russia",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Data & AI Director/Директор по данным и искусственному интеллекту (г. Баку)",
+        "url": "https://hh.ru/vacancy/131752998",
+        "company": "Cornerstone Russia",
+        "score": 4.7,
+        "report": "008-cornerstone-russia-2026-04-15.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.7/5. Exceptional match for banking AI transformation role. Candidate's current position as Bank President",
+      "created_at": "2026-04-15T05:47:41.840Z",
+      "updated_at": "2026-04-15T05:47:41.840Z",
+      "cv_pdf": "C:\\Yandex.Disk\\Yandex.Disk\\! work -  i found job\\career-ops\\output\\tailored-cv\\cv-cornerstone-russia-2026-04-15.pdf",
+      "ats_score": 67
+    },
+    {
+      "id": "OUT-017",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "МТС",
+        "company": "МТС",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Директор по продукту (СPO) (МТС AdTech)",
+        "url": "https://hh.ru/vacancy/131731972",
+        "company": "МТС",
+        "score": 3.7,
+        "report": "009-mts-2026-04-15.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 3.7/5. Strong alignment on AI/ML strategy and product transformation experience, but AdTech domain differs ",
+      "created_at": "2026-04-15T05:48:28.015Z",
+      "updated_at": "2026-04-15T05:48:28.015Z"
+    },
+    {
+      "id": "OUT-018",
+      "type": "vacancy-apply",
+      "company": "Cornerstone Russia",
+      "role": "Data & AI Director (Баку)",
+      "channel": "hh-ru",
+      "vacancy_url": "https://hh.ru/vacancy/131752998",
+      "hh_id": "131752998",
+      "ai_score": 4.7,
+      "recommendation": "apply",
+      "status": "sent",
+      "created_at": "2026-04-15T14:45:50.788Z",
+      "delivery": {
+        "sent_at": "2026-04-15T14:45:50.788Z",
+        "channel": "hh-ru-playwright"
+      },
+      "cover_letter_path": "output/cover-letters/cl-131752998.txt",
+      "report": "reports/008-*.md",
+      "follow_up": {
+        "planned_at": "2026-04-22",
+        "count": 0
+      }
+    },
+    {
+      "id": "OUT-019",
+      "type": "vacancy-apply",
+      "company": "СБЕР",
+      "role": "Руководитель команды RnD Data Science",
+      "channel": "hh-ru",
+      "vacancy_url": "https://hh.ru/vacancy/131842821",
+      "hh_id": "131842821",
+      "ai_score": 4.2,
+      "recommendation": "apply",
+      "status": "sent",
+      "created_at": "2026-04-15T14:45:50.788Z",
+      "delivery": {
+        "sent_at": "2026-04-15T14:45:50.788Z",
+        "channel": "hh-ru-playwright"
+      },
+      "cover_letter_path": "output/cover-letters/cl-131842821.txt",
+      "report": "reports/005-*.md",
+      "follow_up": {
+        "planned_at": "2026-04-22",
+        "count": 0
+      }
+    },
+    {
+      "id": "OUT-020",
+      "type": "vacancy-apply",
+      "company": "Группа компаний VR",
+      "role": "Директор по цифровой трансформации (CDO)",
+      "channel": "hh-ru",
+      "vacancy_url": "https://hh.ru/vacancy/131830165",
+      "hh_id": "131830165",
+      "ai_score": 4.2,
+      "recommendation": "apply",
+      "status": "sent",
+      "created_at": "2026-04-15T14:45:50.788Z",
+      "delivery": {
+        "sent_at": "2026-04-15T14:45:50.788Z",
+        "channel": "hh-ru-playwright"
+      },
+      "cover_letter_path": "output/cover-letters/cl-131830165.txt",
+      "report": "reports/006-*.md",
+      "follow_up": {
+        "planned_at": "2026-04-22",
+        "count": 0
+      }
+    },
+    {
+      "id": "OUT-021",
+      "type": "vacancy-apply",
+      "company": "Управляющая Компания",
+      "role": "Директор по ИТ",
+      "channel": "hh-ru",
+      "vacancy_url": "https://hh.ru/vacancy/131793602",
+      "hh_id": "131793602",
+      "ai_score": 4.2,
+      "recommendation": "apply",
+      "status": "sent",
+      "created_at": "2026-04-15T14:45:50.788Z",
+      "delivery": {
+        "sent_at": "2026-04-15T14:45:50.788Z",
+        "channel": "hh-ru-playwright"
+      },
+      "cover_letter_path": "output/cover-letters/cl-131793602.txt",
+      "report": "reports/007-*.md",
+      "follow_up": {
+        "planned_at": "2026-04-22",
+        "count": 0
+      }
+    },
+    {
+      "id": "OUT-022",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Брайт Эйдженси",
+        "company": "Брайт Эйдженси",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Account Manager",
+        "url": "https://hh.ru/vacancy/131418495",
+        "company": "Брайт Эйдженси",
+        "score": 1.5,
+        "report": "011-brayt-eydzhensi-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 1.5/5. This Account Manager role at an IT outsourcing company is completely misaligned with the candidate's",
+      "created_at": "2026-04-16T07:28:36.980Z",
+      "updated_at": "2026-04-16T07:28:36.980Z"
+    },
+    {
+      "id": "OUT-023",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "PROTALENT Lab",
+        "company": "PROTALENT Lab",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Директор по информационным технологиям (CIO)",
+        "url": "https://hh.ru/vacancy/131293063",
+        "company": "PROTALENT Lab",
+        "score": 3.8,
+        "report": "012-protalent-lab-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "CTO FinTech",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 3.8/5. Strong technical leadership match with proven AI transformation experience at banking level. Candida",
+      "created_at": "2026-04-16T07:28:50.836Z",
+      "updated_at": "2026-04-16T07:28:50.836Z"
+    },
+    {
+      "id": "OUT-024",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Diamond Personnel R&C",
+        "company": "Diamond Personnel R&C",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Руководитель направления (цифровизация/финансовые рынки/цифровое право)",
+        "url": "https://hh.ru/vacancy/123392035",
+        "company": "Diamond Personnel R&C",
+        "score": 2.3,
+        "report": "013-diamond-personnel-r-c-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 2.3/5. This is a legal/regulatory role focused on digital financial assets regulation, not an executive pos",
+      "created_at": "2026-04-16T07:29:05.801Z",
+      "updated_at": "2026-04-16T07:29:05.801Z"
+    },
+    {
+      "id": "OUT-025",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Компания БКС",
+        "company": "Компания БКС",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Руководитель практики бизнес-анализа брокерского бизнеса/Head of BA",
+        "url": "https://hh.ru/vacancy/131950007",
+        "company": "Компания БКС",
+        "score": 3.2,
+        "report": "014-kompaniya-bks-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 3.2/5. Moderate fit for business analysis leadership role at brokerage. Strong financial markets expertise ",
+      "created_at": "2026-04-16T07:29:19.595Z",
+      "updated_at": "2026-04-16T07:29:19.595Z"
+    },
+    {
+      "id": "OUT-026",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "ANS-Group",
+        "company": "ANS-Group",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Финансовый директор (CFO)",
+        "url": "https://hh.ru/vacancy/131839839",
+        "company": "ANS-Group",
+        "score": 2.8,
+        "report": "015-ans-group-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Head of Treasury",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 2.8/5. Traditional CFO role in construction holding with some treasury overlap but significant industry/sen",
+      "created_at": "2026-04-16T07:29:32.217Z",
+      "updated_at": "2026-04-16T07:29:32.217Z"
+    },
+    {
+      "id": "OUT-027",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "ГЕТ ЭКСПЕРТС РЕКРУТМЕНТ",
+        "company": "ГЕТ ЭКСПЕРТС РЕКРУТМЕНТ",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Директор по развитию клиентского опыта / Customer Experience Director",
+        "url": "https://hh.ru/vacancy/131124127",
+        "company": "ГЕТ ЭКСПЕРТС РЕКРУТМЕНТ",
+        "score": 1.5,
+        "report": "016-get-eksperts-rekrutment-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 1.5/5. This Customer Experience Director role at an infrastructure company in Uzbekistan has minimal alignm",
+      "created_at": "2026-04-16T07:29:44.744Z",
+      "updated_at": "2026-04-16T07:29:44.744Z"
+    },
+    {
+      "id": "OUT-028",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Voximplant",
+        "company": "Voximplant",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Head of Service Delivery / Директор департамента внедрения B2B",
+        "url": "https://hh.ru/vacancy/131128860",
+        "company": "Voximplant",
+        "score": 2.5,
+        "report": "017-voximplant-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 2.5/5. This is a service delivery director role at a B2B communications platform company, not aligned with ",
+      "created_at": "2026-04-16T07:40:59.724Z",
+      "updated_at": "2026-04-16T07:40:59.724Z"
+    },
+    {
+      "id": "OUT-029",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Мокка",
+        "company": "Мокка",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Solution architect (AI transformation)",
+        "url": "https://hh.ru/vacancy/131781344",
+        "company": "Мокка",
+        "score": 4.8,
+        "report": "018-mokka-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.8/5. Exceptional match for Мокка's AI transformation architect role. Candidate's direct experience as Ban",
+      "created_at": "2026-04-16T07:41:13.103Z",
+      "updated_at": "2026-04-16T07:41:13.103Z"
+    },
+    {
+      "id": "OUT-030",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "СБЕР",
+        "company": "СБЕР",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Руководитель направления (Red Team, МАРС)",
+        "url": "https://hh.ru/vacancy/131976560",
+        "company": "СБЕР",
+        "score": 3.8,
+        "report": "019-sber-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI/ML Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 3.8/5. Strong technical alignment with AI/ML expertise and cybersecurity research background, but represent",
+      "created_at": "2026-04-16T07:43:25.988Z",
+      "updated_at": "2026-04-16T07:43:25.988Z"
+    },
+    {
+      "id": "OUT-031",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Промышленное оборудование с ИИ-решениями для автоматизации",
+        "company": "Промышленное оборудование с ИИ-решениями для автоматизации",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Технический директор (CTO)",
+        "url": "https://hh.ru/vacancy/131867372",
+        "company": "Промышленное оборудование с ИИ-решениями для автоматизации",
+        "score": 2.8,
+        "report": "020-promyshlennoe-oborudovanie-s-ii-resheniy-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 2.8/5. While this CTO role involves AI/ML systems, it focuses on industrial robotics and computer vision fo",
+      "created_at": "2026-04-16T07:43:40.008Z",
+      "updated_at": "2026-04-16T07:43:40.008Z"
+    },
+    {
+      "id": "OUT-032",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "AGS",
+        "company": "AGS",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Product Owner (Trade Finance)",
+        "url": "https://hh.ru/vacancy/131038884",
+        "company": "AGS",
+        "score": 4.2,
+        "report": "021-ags-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Head of Treasury",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.2/5. Strong match for commodity trade finance role leveraging candidate's $4B+ portfolio management exper",
+      "created_at": "2026-04-16T07:43:54.249Z",
+      "updated_at": "2026-04-16T07:43:54.249Z"
+    },
+    {
+      "id": "OUT-033",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "DOGMA",
+        "company": "DOGMA",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Руководитель разработки ИИ-продуктов",
+        "url": "https://hh.ru/vacancy/131590048",
+        "company": "DOGMA",
+        "score": 4.3,
+        "report": "022-dogma-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.3/5. Strong match for AI Transformation Lead archetype - role directly leverages candidate's AI/ML expert",
+      "created_at": "2026-04-16T07:45:28.201Z",
+      "updated_at": "2026-04-16T07:45:28.201Z"
+    },
+    {
+      "id": "OUT-034",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "МТС",
+        "company": "МТС",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Менеджер направления «ИИ Консалтинг» (MWS AI)",
+        "url": "https://hh.ru/vacancy/131433112",
+        "company": "МТС",
+        "score": 4.1,
+        "report": "023-mts-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.1/5. Strong alignment with AI transformation experience and consulting skillset. Candidate's C-level advi",
+      "created_at": "2026-04-16T07:47:14.121Z",
+      "updated_at": "2026-04-16T07:47:14.121Z"
+    },
+    {
+      "id": "OUT-035",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "СБЕР",
+        "company": "СБЕР",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Руководитель направления по защите AI-инфраструктуры",
+        "url": "https://hh.ru/vacancy/131411465",
+        "company": "СБЕР",
+        "score": 4.2,
+        "report": "024-sber-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.2/5. Strong match for AI security leadership role at major bank. CV demonstrates end-to-end ML expertise,",
+      "created_at": "2026-04-16T07:49:35.343Z",
+      "updated_at": "2026-04-16T07:49:35.343Z"
+    },
+    {
+      "id": "OUT-036",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "IT-компания, разрабатывающая продукты и сервисы на основе искусственного интеллекта для индустрии здравоохранения",
+        "company": "IT-компания, разрабатывающая продукты и сервисы на основе искусственного интеллекта для индустрии здравоохранения",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Технический директор (CTO)",
+        "url": "https://hh.ru/vacancy/131395071",
+        "company": "IT-компания, разрабатывающая продукты и сервисы на основе искусственного интеллекта для индустрии здравоохранения",
+        "score": 2.8,
+        "report": "025-it-kompaniya-razrabatyvayushchaya-produk-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 2.8/5. Healthcare AI CTO role offers technical leadership alignment but lacks financial services domain rel",
+      "created_at": "2026-04-16T07:52:00.009Z",
+      "updated_at": "2026-04-16T07:52:00.009Z"
+    },
+    {
+      "id": "OUT-037",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "ГИС",
+        "company": "ГИС",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Коммерческий директор / Head of Sales (IT-инфраструктура, GPU-серверы, AI) / Управляющий партнёр",
+        "url": "https://hh.ru/vacancy/131167311",
+        "company": "ГИС",
+        "score": 2.3,
+        "report": "026-gis-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 2.3/5. This is a pure hardware sales role for GPU servers and AI infrastructure, not aligned with candidate",
+      "created_at": "2026-04-16T07:52:12.546Z",
+      "updated_at": "2026-04-16T07:52:12.546Z"
+    },
+    {
+      "id": "OUT-038",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "ПКО Вернём",
+        "company": "ПКО Вернём",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Операционный директор (COO)",
+        "url": "https://hh.ru/vacancy/130566907",
+        "company": "ПКО Вернём",
+        "score": 2.5,
+        "report": "027-pko-vernyom-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 2.5/5. COO role at debt collection agency has operational management overlap but lacks core finance/AI/DeFi",
+      "created_at": "2026-04-16T07:52:26.532Z",
+      "updated_at": "2026-04-16T07:52:26.532Z"
+    },
+    {
+      "id": "OUT-039",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Retail Rocket",
+        "company": "Retail Rocket",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Директор по развитию бизнеса / Sales Director (B2B SaaS, MarTech)/ Business Development Director",
+        "url": "https://hh.ru/vacancy/131993553",
+        "company": "Retail Rocket",
+        "score": 1.5,
+        "report": "028-retail-rocket-2026-04-16.md"
+      },
+      "status": "discarded",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "Other",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 1.5/5. This is a B2B SaaS sales management role in MarTech/AdTech with no relevance to the candidate's fina",
+      "created_at": "2026-04-16T07:52:37.962Z",
+      "updated_at": "2026-04-16T07:52:37.962Z"
+    },
+    {
+      "id": "OUT-040",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Платформа Сейлз Чейн",
+        "company": "Платформа Сейлз Чейн",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Senior product manager (AI)",
+        "url": "https://hh.ru/vacancy/131776585",
+        "company": "Платформа Сейлз Чейн",
+        "score": 4.2,
+        "report": "029-platforma-seylz-cheyn-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.2/5. Strong alignment with candidate's AI/ML expertise and fintech background. The role leverages end-to-",
+      "created_at": "2026-04-16T07:52:50.301Z",
+      "updated_at": "2026-04-16T07:52:50.301Z"
+    },
+    {
+      "id": "OUT-041",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "РЕДСМС",
+        "company": "РЕДСМС",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Технический директор (CTO)",
+        "url": "https://hh.ru/vacancy/131753728",
+        "company": "РЕДСМС",
+        "score": 3.8,
+        "report": "030-redsms-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "CTO FinTech",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 3.8/5. Strong technical leadership match with relevant AI/ML experience and platform architecture skills. H",
+      "created_at": "2026-04-16T07:54:59.357Z",
+      "updated_at": "2026-04-16T07:54:59.357Z"
+    },
+    {
+      "id": "OUT-042",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Крупный российский банк",
+        "company": "Крупный российский банк",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Руководитель AI Common Services",
+        "url": "https://hh.ru/vacancy/131712649",
+        "company": "Крупный российский банк",
+        "score": 4.7,
+        "report": "031-krupnyy-rossiyskiy-bank-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "AI Transformation Lead",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 4.7/5. Perfect alignment with AI transformation leadership at major Russian bank. CV shows exact combinatio",
+      "created_at": "2026-04-16T07:55:16.197Z",
+      "updated_at": "2026-04-16T07:55:16.197Z"
+    },
+    {
+      "id": "OUT-043",
+      "channel": "hh-ru",
+      "type": "vacancy-apply",
+      "recipient": {
+        "email": "",
+        "name": "Smart Tech Group",
+        "company": "Smart Tech Group",
+        "contact_person": ""
+      },
+      "vacancy": {
+        "title": "Руководитель инфраструктуры и сервисных операций",
+        "url": "https://hh.ru/vacancy/130529123",
+        "company": "Smart Tech Group",
+        "score": 3.7,
+        "report": "032-smart-tech-group-2026-04-16.md"
+      },
+      "status": "draft",
+      "delivery": {
+        "smtp_id": "",
+        "sent_at": "",
+        "bounce_reason": "",
+        "bounce_at": "",
+        "replied_at": "",
+        "reply_summary": ""
+      },
+      "follow_up": {
+        "planned_at": "",
+        "sent_at": "",
+        "count": 0
+      },
+      "linked_to": "",
+      "tags": [
+        "hh-ru",
+        "CTO FinTech",
+        "auto-eval"
+      ],
+      "notes": "Auto-eval 3.7/5. Strong technical leadership match with relevant FinTech infrastructure experience and AI expertise. ",
+      "created_at": "2026-04-16T07:58:33.832Z",
+      "updated_at": "2026-04-16T07:58:33.832Z"
+    }
+  ],
+  "updated_at": "2026-04-15T14:45:50.788Z"
+}

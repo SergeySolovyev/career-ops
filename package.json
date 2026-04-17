@@ -1,0 +1,26 @@
+{
+  "name": "careerpilot",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "jobs"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "db:generate": "turbo db:generate",
+    "db:push": "turbo db:push",
+    "db:migrate": "turbo db:migrate"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

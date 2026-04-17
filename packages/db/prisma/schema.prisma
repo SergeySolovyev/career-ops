@@ -1,0 +1,196 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ========================================
+// AUTH & PROFILE
+// ========================================
+
+model Profile {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  fullName  String   @map("full_name")
+  phone     String?
+  location  String?
+  timezone  String   @default("Europe/Moscow")
+
+  // CV
+  cvText    String?  @map("cv_text") @db.Text
+  cvFileUrl String?  @map("cv_file_url")
+
+  // Targeting
+  targetRoles      String[] @map("target_roles")
+  salaryMin        Int?     @map("salary_min")
+  salaryMax        Int?     @map("salary_max")
+  salaryCurrency   String   @default("RUB") @map("salary_currency")
+  positiveKeywords String[] @map("positive_keywords")
+  negativeKeywords String[] @map("negative_keywords")
+
+  // Automation settings
+  scanFrequencyHours Int     @default(4) @map("scan_frequency_hours")
+  autoApplyEnabled   Boolean @default(false) @map("auto_apply_enabled")
+  autoApplyThreshold Float   @default(4.0) @map("auto_apply_threshold")
+
+  // Onboarding
+  onboardingCompleted Boolean @default(false) @map("onboarding_completed")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  connectedAccounts ConnectedAccount[]
+  vacancies         Vacancy[]
+  evaluations       Evaluation[]
+  applications      Application[]
+  subscription      Subscription?
+
+  @@map("profiles")
+}
+
+model ConnectedAccount {
+  id          String   @id @default(uuid()) @db.Uuid
+  profileId   String   @map("profile_id") @db.Uuid
+  provider    String   // 'hh_ru', 'email_smtp', 'telegram'
+  credentials Json?    // encrypted tokens, passwords
+  status      String   @default("active")
+  lastSyncedAt DateTime? @map("last_synced_at")
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, provider])
+  @@map("connected_accounts")
+}
+
+// ========================================
+// VACANCIES & EVALUATIONS
+// ========================================
+
+model Vacancy {
+  id             String   @id @default(uuid()) @db.Uuid
+  profileId      String   @map("profile_id") @db.Uuid
+  externalId     String?  @map("external_id")
+  source         String   // 'hh_ru', 'linkedin', 'telegram', 'portal'
+  url            String
+  title          String
+  company        String?
+  companyUrl     String?  @map("company_url")
+  salaryFrom     Int?     @map("salary_from")
+  salaryTo       Int?     @map("salary_to")
+  salaryCurrency String?  @map("salary_currency")
+  location       String?
+  experience     String?
+  description    String?  @db.Text
+
+  discoveredAt DateTime @default(now()) @map("discovered_at")
+  isActive     Boolean  @default(true) @map("is_active")
+
+  profile     Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  evaluations Evaluation[]
+  applications Application[]
+
+  @@unique([profileId, url])
+  @@index([profileId, discoveredAt])
+  @@index([profileId, isActive])
+  @@map("vacancies")
+}
+
+model Evaluation {
+  id          String  @id @default(uuid()) @db.Uuid
+  profileId   String  @map("profile_id") @db.Uuid
+  vacancyId   String  @map("vacancy_id") @db.Uuid
+
+  // Pre-screen
+  preScore    Float?  @map("pre_score")
+
+  // AI evaluation
+  aiScore     Float?  @map("ai_score")
+  aiSummary   String? @map("ai_summary") @db.Text
+  aiStrengths String[] @map("ai_strengths")
+  aiWeaknesses String[] @map("ai_weaknesses")
+  aiVerdict   String?  @map("ai_verdict") // 'apply', 'maybe', 'skip'
+
+  // Full report
+  reportMarkdown String? @map("report_markdown") @db.Text
+  archetype      String?
+
+  evaluatedAt DateTime @default(now()) @map("evaluated_at")
+
+  profile  Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  vacancy  Vacancy  @relation(fields: [vacancyId], references: [id], onDelete: Cascade)
+  applications Application[]
+
+  @@index([profileId, evaluatedAt])
+  @@index([vacancyId])
+  @@map("evaluations")
+}
+
+// ========================================
+// APPLICATIONS & OUTREACH
+// ========================================
+
+model Application {
+  id           String  @id @default(uuid()) @db.Uuid
+  profileId    String  @map("profile_id") @db.Uuid
+  vacancyId    String  @map("vacancy_id") @db.Uuid
+  evaluationId String? @map("evaluation_id") @db.Uuid
+
+  status  String @default("draft")
+  // draft -> sent -> delivered -> replied -> interview -> offer -> rejected
+
+  channel         String?  // 'hh_ru', 'email', 'portal'
+  cvPdfUrl        String?  @map("cv_pdf_url")
+  coverLetterText String?  @map("cover_letter_text") @db.Text
+  coverLetterUrl  String?  @map("cover_letter_url")
+
+  appliedAt       DateTime? @map("applied_at")
+  repliedAt       DateTime? @map("replied_at")
+  replySummary    String?   @map("reply_summary") @db.Text
+
+  followUpCount   Int       @default(0) @map("follow_up_count")
+  followUpLastAt  DateTime? @map("follow_up_last_at")
+
+  notes String? @db.Text
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  profile    Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  vacancy    Vacancy     @relation(fields: [vacancyId], references: [id], onDelete: Cascade)
+  evaluation Evaluation? @relation(fields: [evaluationId], references: [id])
+
+  @@index([profileId, status])
+  @@index([profileId, appliedAt])
+  @@map("applications")
+}
+
+// ========================================
+// BILLING
+// ========================================
+
+model Subscription {
+  id                    String  @id @default(uuid()) @db.Uuid
+  profileId             String  @unique @map("profile_id") @db.Uuid
+  stripeCustomerId      String? @map("stripe_customer_id")
+  stripeSubscriptionId  String? @map("stripe_subscription_id")
+
+  plan   String @default("free") // 'free', 'pro', 'premium'
+  status String @default("active") // 'active', 'canceled', 'past_due'
+
+  currentPeriodEnd DateTime? @map("current_period_end")
+  evaluationsUsed  Int       @default(0) @map("evaluations_used")
+  evaluationsLimit Int       @default(3) @map("evaluations_limit")
+  // free=3, pro=30, premium=999
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}

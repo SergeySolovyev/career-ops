@@ -1,0 +1,615 @@
+{
+  "evaluated": {
+    "https://hh.ru/vacancy/131743125": {
+      "date": "2026-04-15T05:08:36.750Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131735526": {
+      "date": "2026-04-15T05:08:36.905Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/132011962": {
+      "date": "2026-04-15T05:08:37.408Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131125081": {
+      "date": "2026-04-15T05:08:44.956Z",
+      "score": 0.5,
+      "status": "skip",
+      "report": "001-togas-togas-2026-04-15.md",
+      "outreach_id": "OUT-009"
+    },
+    "https://hh.ru/vacancy/130639894": {
+      "date": "2026-04-15T05:08:46.606Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131098217": {
+      "date": "2026-04-15T05:44:19.467Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131998835": {
+      "date": "2026-04-15T05:44:19.808Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/121368532": {
+      "date": "2026-04-15T05:44:29.522Z",
+      "score": 2.3,
+      "status": "skip",
+      "report": "002-aptechnaya-set-vasha-1-kh-tabletka-ru-2026-04-15.md",
+      "outreach_id": "OUT-010"
+    },
+    "https://hh.ru/vacancy/131981971": {
+      "date": "2026-04-15T05:44:31.359Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131625015": {
+      "date": "2026-04-15T05:44:31.520Z",
+      "score": 0.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131961968": {
+      "date": "2026-04-15T05:44:55.152Z",
+      "score": 1.2,
+      "status": "skip",
+      "report": "003-tekhnologii-otraslevoy-transformatsii-2026-04-15.md",
+      "outreach_id": "OUT-011"
+    },
+    "https://hh.ru/vacancy/130576833": {
+      "date": "2026-04-15T05:44:56.912Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131945164": {
+      "date": "2026-04-15T05:44:57.070Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131882682": {
+      "date": "2026-04-15T05:45:05.724Z",
+      "score": 1.5,
+      "status": "skip",
+      "report": "004-ibc-human-resources-2026-04-15.md",
+      "outreach_id": "OUT-012"
+    },
+    "https://hh.ru/vacancy/131869932": {
+      "date": "2026-04-15T05:45:07.393Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131865624": {
+      "date": "2026-04-15T05:45:07.546Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131842821": {
+      "date": "2026-04-15T05:45:54.544Z",
+      "score": 4.2,
+      "status": "apply",
+      "report": "005-sber-2026-04-15.md",
+      "outreach_id": "OUT-013"
+    },
+    "https://hh.ru/vacancy/131830165": {
+      "date": "2026-04-15T05:46:44.144Z",
+      "score": 4.2,
+      "status": "apply",
+      "report": "006-gruppa-kompaniy-vr-2026-04-15.md",
+      "outreach_id": "OUT-014"
+    },
+    "https://hh.ru/vacancy/131829469": {
+      "date": "2026-04-15T05:46:45.896Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131810190": {
+      "date": "2026-04-15T05:46:46.100Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131793602": {
+      "date": "2026-04-15T05:47:29.470Z",
+      "score": 4.2,
+      "status": "apply",
+      "report": "007-upravlyayushchaya-kompaniya-2026-04-15.md",
+      "outreach_id": "OUT-015"
+    },
+    "https://hh.ru/vacancy/131752998": {
+      "date": "2026-04-15T05:48:14.107Z",
+      "score": 4.7,
+      "status": "apply",
+      "report": "008-cornerstone-russia-2026-04-15.md",
+      "outreach_id": "OUT-016"
+    },
+    "https://hh.ru/vacancy/131743112": {
+      "date": "2026-04-15T05:48:15.748Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131731972": {
+      "date": "2026-04-15T05:48:28.016Z",
+      "score": 3.7,
+      "status": "maybe",
+      "report": "009-mts-2026-04-15.md",
+      "outreach_id": "OUT-017"
+    },
+    "https://hh.ru/vacancy/131704151": {
+      "date": "2026-04-15T05:48:29.665Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/129948452": {
+      "date": "2026-04-15T13:36:19.614Z",
+      "score": 0,
+      "status": "skipped",
+      "reason": "hh.ru API 403"
+    },
+    "https://hh.ru/vacancy/131518123": {
+      "date": "2026-04-15T13:36:20.064Z",
+      "score": 0,
+      "status": "skipped",
+      "reason": "hh.ru API 403"
+    },
+    "https://hh.ru/vacancy/131408749": {
+      "date": "2026-04-15T13:36:20.542Z",
+      "score": 0,
+      "status": "skipped",
+      "reason": "hh.ru API 403"
+    },
+    "https://hh.ru/vacancy/131497637": {
+      "date": "2026-04-16T07:26:25.485Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131418495": {
+      "date": "2026-04-16T07:28:36.984Z",
+      "score": 1.5,
+      "status": "skip",
+      "report": "011-brayt-eydzhensi-2026-04-16.md",
+      "outreach_id": "OUT-022"
+    },
+    "https://hh.ru/vacancy/130580612": {
+      "date": "2026-04-16T07:28:38.888Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131364951": {
+      "date": "2026-04-16T07:28:39.277Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131357313": {
+      "date": "2026-04-16T07:28:39.669Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131322075": {
+      "date": "2026-04-16T07:28:40.047Z",
+      "score": 0.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131293063": {
+      "date": "2026-04-16T07:28:50.841Z",
+      "score": 3.8,
+      "status": "apply",
+      "report": "012-protalent-lab-2026-04-16.md",
+      "outreach_id": "OUT-023"
+    },
+    "https://hh.ru/vacancy/131626673": {
+      "date": "2026-04-16T07:28:52.694Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131482955": {
+      "date": "2026-04-16T07:28:53.038Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/132034209": {
+      "date": "2026-04-16T07:28:53.374Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131290140": {
+      "date": "2026-04-16T07:28:53.849Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/132005242": {
+      "date": "2026-04-16T07:28:54.226Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131998383": {
+      "date": "2026-04-16T07:28:54.617Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/123392035": {
+      "date": "2026-04-16T07:29:05.806Z",
+      "score": 2.3,
+      "status": "skip",
+      "report": "013-diamond-personnel-r-c-2026-04-16.md",
+      "outreach_id": "OUT-024"
+    },
+    "https://hh.ru/vacancy/131976694": {
+      "date": "2026-04-16T07:29:07.953Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131961987": {
+      "date": "2026-04-16T07:29:08.399Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131950007": {
+      "date": "2026-04-16T07:29:19.598Z",
+      "score": 3.2,
+      "status": "maybe",
+      "report": "014-kompaniya-bks-2026-04-16.md",
+      "outreach_id": "OUT-025"
+    },
+    "https://hh.ru/vacancy/131839839": {
+      "date": "2026-04-16T07:29:32.221Z",
+      "score": 2.8,
+      "status": "skip",
+      "report": "015-ans-group-2026-04-16.md",
+      "outreach_id": "OUT-026"
+    },
+    "https://hh.ru/vacancy/131944275": {
+      "date": "2026-04-16T07:29:34.152Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131124127": {
+      "date": "2026-04-16T07:29:44.747Z",
+      "score": 1.5,
+      "status": "skip",
+      "report": "016-get-eksperts-rekrutment-2026-04-16.md",
+      "outreach_id": "OUT-027"
+    },
+    "https://hh.ru/vacancy/131717144": {
+      "date": "2026-04-16T07:29:46.647Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131813143": {
+      "date": "2026-04-16T07:29:47.041Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131035236": {
+      "date": "2026-04-16T07:29:47.456Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131785279": {
+      "date": "2026-04-16T07:29:47.910Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131771680": {
+      "date": "2026-04-16T07:29:48.335Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131679052": {
+      "date": "2026-04-16T07:29:48.669Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131673618": {
+      "date": "2026-04-16T07:29:49.036Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/123031924": {
+      "date": "2026-04-16T07:29:49.403Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131590497": {
+      "date": "2026-04-16T07:29:49.828Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131590393": {
+      "date": "2026-04-16T07:29:50.180Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131520237": {
+      "date": "2026-04-16T07:29:50.621Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131471196": {
+      "date": "2026-04-16T07:40:43.353Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131466977": {
+      "date": "2026-04-16T07:40:43.746Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131430904": {
+      "date": "2026-04-16T07:40:44.152Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131402524": {
+      "date": "2026-04-16T07:40:45.035Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131396611": {
+      "date": "2026-04-16T07:40:45.467Z",
+      "score": 0.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131396525": {
+      "date": "2026-04-16T07:40:45.915Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/130743983": {
+      "date": "2026-04-16T07:40:47.146Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131376589": {
+      "date": "2026-04-16T07:40:47.886Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/129808626": {
+      "date": "2026-04-16T07:40:48.849Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131168711": {
+      "date": "2026-04-16T07:40:49.231Z",
+      "score": 1.3,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131128860": {
+      "date": "2026-04-16T07:40:59.727Z",
+      "score": 2.5,
+      "status": "skip",
+      "report": "017-voximplant-2026-04-16.md",
+      "outreach_id": "OUT-028"
+    },
+    "https://hh.ru/vacancy/132000042": {
+      "date": "2026-04-16T07:41:01.961Z",
+      "score": 1,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131781344": {
+      "date": "2026-04-16T07:43:11.418Z",
+      "score": 4.8,
+      "status": "apply",
+      "report": "018-mokka-2026-04-16.md",
+      "outreach_id": "OUT-029"
+    },
+    "https://hh.ru/vacancy/131694997": {
+      "date": "2026-04-16T07:43:14.376Z",
+      "score": 1.5,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131976560": {
+      "date": "2026-04-16T07:43:25.991Z",
+      "score": 3.8,
+      "status": "skip",
+      "report": "019-sber-2026-04-16.md",
+      "outreach_id": "OUT-030"
+    },
+    "https://hh.ru/vacancy/131963432": {
+      "date": "2026-04-16T07:43:29.154Z",
+      "score": 1,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/130540337": {
+      "date": "2026-04-16T07:43:29.509Z",
+      "score": 1.5,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131867372": {
+      "date": "2026-04-16T07:43:40.019Z",
+      "score": 2.8,
+      "status": "skip",
+      "report": "020-promyshlennoe-oborudovanie-s-ii-resheniy-2026-04-16.md",
+      "outreach_id": "OUT-031"
+    },
+    "https://hh.ru/vacancy/131830539": {
+      "date": "2026-04-16T07:43:41.911Z",
+      "score": 0.5,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131822395": {
+      "date": "2026-04-16T07:43:42.273Z",
+      "score": 0.5,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131384173": {
+      "date": "2026-04-16T07:43:43.009Z",
+      "score": 1.5,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131038884": {
+      "date": "2026-04-16T07:45:13.463Z",
+      "score": 4.2,
+      "status": "apply",
+      "report": "021-ags-2026-04-16.md",
+      "outreach_id": "OUT-032"
+    },
+    "https://hh.ru/vacancy/131590048": {
+      "date": "2026-04-16T07:46:58.492Z",
+      "score": 4.3,
+      "status": "apply",
+      "report": "022-dogma-2026-04-16.md",
+      "outreach_id": "OUT-033"
+    },
+    "https://hh.ru/vacancy/131535978": {
+      "date": "2026-04-16T07:47:00.858Z",
+      "score": 1.2,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131433112": {
+      "date": "2026-04-16T07:49:19.082Z",
+      "score": 4.1,
+      "status": "apply",
+      "report": "023-mts-2026-04-16.md",
+      "outreach_id": "OUT-034"
+    },
+    "https://hh.ru/vacancy/131411777": {
+      "date": "2026-04-16T07:49:22.231Z",
+      "score": 0.7,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131411465": {
+      "date": "2026-04-16T07:51:47.533Z",
+      "score": 4.2,
+      "status": "apply",
+      "report": "024-sber-2026-04-16.md",
+      "outreach_id": "OUT-035"
+    },
+    "https://hh.ru/vacancy/131395071": {
+      "date": "2026-04-16T07:52:00.013Z",
+      "score": 2.8,
+      "status": "maybe",
+      "report": "025-it-kompaniya-razrabatyvayushchaya-produk-2026-04-16.md",
+      "outreach_id": "OUT-036"
+    },
+    "https://hh.ru/vacancy/131167311": {
+      "date": "2026-04-16T07:52:12.551Z",
+      "score": 2.3,
+      "status": "skip",
+      "report": "026-gis-2026-04-16.md",
+      "outreach_id": "OUT-037"
+    },
+    "https://hh.ru/vacancy/131590774": {
+      "date": "2026-04-16T07:52:14.439Z",
+      "score": 0.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131976586": {
+      "date": "2026-04-16T07:52:14.792Z",
+      "score": 1.7,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/130566907": {
+      "date": "2026-04-16T07:52:26.536Z",
+      "score": 2.5,
+      "status": "skip",
+      "report": "027-pko-vernyom-2026-04-16.md",
+      "outreach_id": "OUT-038"
+    },
+    "https://hh.ru/vacancy/131993553": {
+      "date": "2026-04-16T07:52:37.967Z",
+      "score": 1.5,
+      "status": "skip",
+      "report": "028-retail-rocket-2026-04-16.md",
+      "outreach_id": "OUT-039"
+    },
+    "https://hh.ru/vacancy/131776585": {
+      "date": "2026-04-16T07:54:44.640Z",
+      "score": 4.2,
+      "status": "apply",
+      "report": "029-platforma-seylz-cheyn-2026-04-16.md",
+      "outreach_id": "OUT-040"
+    },
+    "https://hh.ru/vacancy/131885382": {
+      "date": "2026-04-16T07:54:47.307Z",
+      "score": 0.2,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131827080": {
+      "date": "2026-04-16T07:54:47.720Z",
+      "score": 1.2,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131812160": {
+      "date": "2026-04-16T07:54:48.321Z",
+      "score": 1.5,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131753728": {
+      "date": "2026-04-16T07:54:59.360Z",
+      "score": 3.8,
+      "status": "maybe",
+      "report": "030-redsms-2026-04-16.md",
+      "outreach_id": "OUT-041"
+    },
+    "https://hh.ru/vacancy/131717434": {
+      "date": "2026-04-16T07:55:02.608Z",
+      "score": 1.5,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131712649": {
+      "date": "2026-04-16T07:58:15.947Z",
+      "score": 4.7,
+      "status": "apply",
+      "report": "031-krupnyy-rossiyskiy-bank-2026-04-16.md",
+      "outreach_id": "OUT-042"
+    },
+    "https://hh.ru/vacancy/131696872": {
+      "date": "2026-04-16T07:58:18.449Z",
+      "score": 1.2,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131646939": {
+      "date": "2026-04-16T07:58:19.231Z",
+      "score": 1,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131521416": {
+      "date": "2026-04-16T07:58:20.562Z",
+      "score": 1.8,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131516950": {
+      "date": "2026-04-16T07:58:21.017Z",
+      "score": 0.7,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/123641314": {
+      "date": "2026-04-16T07:58:21.497Z",
+      "score": 1,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/130057696": {
+      "date": "2026-04-16T07:58:21.865Z",
+      "score": 1.7,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/130529123": {
+      "date": "2026-04-16T07:58:33.836Z",
+      "score": 3.7,
+      "status": "apply",
+      "report": "032-smart-tech-group-2026-04-16.md",
+      "outreach_id": "OUT-043"
+    },
+    "https://hh.ru/vacancy/131296461": {
+      "date": "2026-04-16T07:58:36.251Z",
+      "score": 1.2,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/131291273": {
+      "date": "2026-04-16T07:58:36.697Z",
+      "score": 1.7,
+      "status": "pre-screen-fail"
+    },
+    "https://hh.ru/vacancy/130487334": {
+      "date": "2026-04-16T07:58:37.679Z",
+      "score": 1,
+      "status": "pre-screen-fail"
+    }
+  },
+  "last_run": "2026-04-16T07:58:37.680Z"
+}
