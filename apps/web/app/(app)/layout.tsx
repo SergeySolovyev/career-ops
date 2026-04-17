@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { signOut } from '../(auth)/login/actions'
 
 export default async function AppLayout({
@@ -6,8 +6,16 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode
 }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  let user: { email?: string | null } | null = null
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = await createClient()
+      const res = await supabase.auth.getUser()
+      user = res.data.user
+    } catch {
+      user = null
+    }
+  }
 
   return (
     <div className="flex min-h-screen">
