@@ -3,11 +3,15 @@ import { createAnthropic } from '@ai-sdk/anthropic'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
-// Support ProxyAPI or direct Anthropic
-const anthropic = createAnthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-  baseURL: process.env.ANTHROPIC_BASE_URL || 'https://api.anthropic.com',
-})
+// Support ProxyAPI or direct Anthropic (SDK default baseURL includes /v1)
+const anthropic = process.env.ANTHROPIC_BASE_URL
+  ? createAnthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      baseURL: process.env.ANTHROPIC_BASE_URL,
+    })
+  : createAnthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    })
 
 function loadCV(): string {
   try {
