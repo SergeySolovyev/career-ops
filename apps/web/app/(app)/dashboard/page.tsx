@@ -14,6 +14,23 @@ async function getStats() {
   }
 }
 
+async function getUserProfile() {
+  const h = await headers()
+  const host = h.get('host') || 'localhost:3000'
+  const protocol = host.includes('localhost') ? 'http' : 'https'
+  const cookie = h.get('cookie') || ''
+  try {
+    const res = await fetch(`${protocol}://${host}/api/profile`, {
+      cache: 'no-store',
+      headers: { cookie },
+    })
+    if (!res.ok) return null
+    return res.json()
+  } catch {
+    return null
+  }
+}
+
 function loadJSON(filename: string) {
   try {
     return JSON.parse(readFileSync(join(process.cwd(), 'data', filename), 'utf-8'))
@@ -24,7 +41,11 @@ function loadJSON(filename: string) {
 
 export default async function DashboardPage() {
   const data = await getStats()
-  const profile = loadJSON('profile.json')
+  const apiProfile = await getUserProfile()
+  const isUserProfile = apiProfile?._source === 'user'
+  const isEmptyUserProfile = isUserProfile && apiProfile?._empty
+  // For logged-in users, use their profile. For anon/demo — Sergey's hardcoded profile.
+  const profile = isUserProfile ? apiProfile : loadJSON('profile.json')
   const evalLog = loadJSON('auto-eval-log.json') || { evaluated: {} }
 
   const stats = data?.funnel ? {
@@ -68,6 +89,23 @@ export default async function DashboardPage() {
           💬 Спросить AI советника
         </Link>
       </div>
+
+      {isEmptyUserProfile && (
+        <div className="mt-6 rounded-xl border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-900">
+          <span className="font-semibold">Добро пожаловать!</span>{' '}
+          Ваш профиль пока пустой.{' '}
+          <Link href="/settings" className="font-semibold underline">Заполните CV в настройках</Link>
+          {' '}— и AI-советник начнёт давать персональные рекомендации.
+        </div>
+      )}
+      {!isUserProfile && (
+        <div className="mt-6 rounded-xl border border-blue-300 bg-blue-50 p-4 text-sm text-blue-900">
+          <span className="font-semibold">Demo-режим.</span>{' '}
+          Это публичный кабинет Сергея Соловьёва с реальными данными.{' '}
+          <Link href="/signup" className="font-semibold underline">Зарегистрируйтесь</Link>
+          {' '}чтобы загрузить своё CV и получать персональные советы.
+        </div>
+      )}
 
       {/* Profile card */}
       {profile && (

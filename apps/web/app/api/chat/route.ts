@@ -2,6 +2,7 @@ import { streamText } from 'ai'
 import { createAnthropic } from '@ai-sdk/anthropic'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 
 // Support ProxyAPI or direct Anthropic (SDK default baseURL includes /v1)
 const anthropic = process.env.ANTHROPIC_BASE_URL
@@ -13,7 +14,7 @@ const anthropic = process.env.ANTHROPIC_BASE_URL
       apiKey: process.env.ANTHROPIC_API_KEY,
     })
 
-function loadCV(): string {
+function loadDemoCV(): string {
   try {
     const cvPath = join(process.cwd(), 'data', 'cv-ru.md')
     return readFileSync(cvPath, 'utf-8').slice(0, 8000)
@@ -22,7 +23,7 @@ function loadCV(): string {
   }
 }
 
-function loadProfileSummary(): string {
+function loadDemoProfileSummary(): string {
   try {
     const p = JSON.parse(readFileSync(join(process.cwd(), 'data', 'profile.json'), 'utf-8'))
     const c = p.candidate
@@ -36,10 +37,6 @@ Superpowers: ${(p.superpowers || []).slice(0, 3).join(' | ')}`
   }
 }
 
-const CV_CONTEXT = loadCV()
-const PROFILE_SUMMARY = loadProfileSummary()
-
-// Load top vacancies from seed data
 function getTopVacancies(): string {
   try {
     const filePath = join(process.cwd(), 'data', 'auto-eval-log.json')
@@ -54,6 +51,55 @@ function getTopVacancies(): string {
     return top || 'Нет оценённых вакансий'
   } catch {
     return 'Данные вакансий недоступны'
+  }
+}
+
+// Read logged-in user's CV from Supabase. Returns { cv, summary, isDemo }.
+async function loadContextForUser(): Promise<{ cv: string; summary: string; isDemo: boolean }> {
+  if (!isSupabaseConfigured()) {
+    return { cv: loadDemoCV(), summary: loadDemoProfileSummary(), isDemo: true }
+  }
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      return { cv: loadDemoCV(), summary: loadDemoProfileSummary(), isDemo: true }
+    }
+
+    const { data } = await supabase
+      .from('user_profiles')
+      .select('full_name, cv_text, target_roles, salary_min, salary_max, positive_keywords')
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    if (!data?.cv_text) {
+      // Logged in but no CV saved — still answer but note empty profile
+      return {
+        cv: `Пользователь ${data?.full_name || user.email} пока не загрузил CV.`,
+        summary: `Залогинен как ${data?.full_name || user.email}, CV ещё не загружено. Попроси пользователя заполнить профиль в /settings.`,
+        isDemo: false,
+      }
+    }
+
+    const summary = [
+      `Кандидат: ${data.full_name || user.email}`,
+      data.target_roles?.length ? `Целевые роли: ${data.target_roles.join('; ')}` : null,
+      data.salary_min || data.salary_max
+        ? `Зарплата: ${data.salary_min ?? '?'}-${data.salary_max ?? '?'} RUB`
+        : null,
+      data.positive_keywords?.length
+        ? `Ключевые интересы: ${data.positive_keywords.slice(0, 5).join(', ')}`
+        : null,
+    ].filter(Boolean).join('\n')
+
+    return {
+      cv: data.cv_text.slice(0, 8000),
+      summary,
+      isDemo: false,
+    }
+  } catch (e) {
+    console.error('[api/chat] loadContextForUser error', e)
+    return { cv: loadDemoCV(), summary: loadDemoProfileSummary(), isDemo: true }
   }
 }
 
@@ -73,27 +119,47 @@ export async function POST(req: Request) {
     .filter((m) => m.content && m.content.length > 0)
     .map((m) => ({ ...m, content: m.content.slice(0, 8000) }))
 
-  const result = streamText({
-    model: anthropic(process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929'),
-    system: `Ты — AI карьерный консультант платформы CareerPilot.
-Помогаешь кандидату с поиском работы, подготовкой к интервью, tailoring CV и стратегией.
+  const { cv, summary, isDemo } = await loadContextForUser()
+
+  const system = isDemo
+    ? `Ты — AI карьерный консультант платформы CareerPilot.
+Это демонстрационный режим: отвечай по данным Сергея Соловьёва (из CV ниже). Если пользователь явно просит ответить по своему CV — попроси его залогиниться и заполнить /settings.
 
 КРАТКИЙ ПРОФИЛЬ:
-${PROFILE_SUMMARY}
+${summary}
 
 ПОЛНОЕ CV КАНДИДАТА (markdown):
-${CV_CONTEXT}
+${cv}
 
 ТОП ВАКАНСИИ (AI-оценка ≥ 4.0):
 ${getTopVacancies()}
 
 ПРАВИЛА:
 - Отвечай на русском языке
-- Обращайся к кандидату на "вы"
+- Обращайся на "вы"
 - Опирайся на конкретные факты из CV (компании, проекты, метрики)
-- Если спрашивают про вакансию из списка — ссылайся на скор и причины
-- Будь конкретен, actionable, давай цифры и примеры из его опыта
-- Максимум 300 слов на ответ, используй Markdown`,
+- Будь конкретен, actionable
+- Максимум 300 слов, используй Markdown`
+    : `Ты — AI карьерный консультант платформы CareerPilot.
+Помогаешь залогиненному кандидату с поиском работы, подготовкой к интервью, tailoring CV и стратегией.
+
+КРАТКИЙ ПРОФИЛЬ:
+${summary}
+
+ПОЛНОЕ CV КАНДИДАТА (markdown):
+${cv}
+
+ПРАВИЛА:
+- Отвечай на русском языке
+- Обращайся к кандидату на "вы"
+- Опирайся ТОЛЬКО на факты из CV этого пользователя выше (НЕ на демо-данные Сергея Соловьёва)
+- Если CV пустое — попроси пользователя заполнить профиль в /settings
+- Будь конкретен, actionable
+- Максимум 300 слов, используй Markdown`
+
+  const result = streamText({
+    model: anthropic(process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929'),
+    system,
     messages: normalized,
   })
 
