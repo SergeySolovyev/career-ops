@@ -1,0 +1,68 @@
+# CareerPilot HH worker — runs on DO Droplet (Frankfurt 4GB)
+# Two services:
+#   - browserless: persistent Chromium with CDP endpoint, used by jobs/ to drive HH
+#   - caddy:       free auto-TLS reverse proxy, exposes browserless on https://worker.<domain>
+#
+# Setup on a fresh Ubuntu 22 droplet:
+#   apt update && apt install -y docker.io docker-compose-plugin
+#   scp this dir → /opt/cp-worker/
+#   cd /opt/cp-worker && cp .env.example .env && nano .env
+#   docker compose up -d
+#
+# Health check:  curl https://worker.<domain>/active   → "true"
+# CDP endpoint:  wss://worker.<domain>?token=<TOKEN>
+
+services:
+  browserless:
+    image: ghcr.io/browserless/chromium:latest
+    container_name: cp-browserless
+    restart: unless-stopped
+    environment:
+      # Single-token auth — used by our jobs to connect via CDP/WS.
+      # Generated in .env, never committed.
+      - TOKEN=${BROWSERLESS_TOKEN}
+      - CONCURRENT=10                  # max parallel sessions (4GB RAM safe)
+      - QUEUED=20                      # queue depth before 429
+      - TIMEOUT=120000                 # per-job hard timeout (ms)
+      - DATA_DIR=/tmp/browserless
+      - METRICS_JSON_PATH=/tmp/metrics.json
+      # Stealth defaults — try to look less like a bot
+      - STEALTH=true
+    volumes:
+      - browserless_data:/tmp/browserless
+    networks:
+      - worker-net
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/pressure"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: cp-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - WORKER_DOMAIN=${WORKER_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - worker-net
+    depends_on:
+      - browserless
+
+volumes:
+  browserless_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  worker-net:
+    driver: bridge

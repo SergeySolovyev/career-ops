@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import ScanButton from './scan-button'
+import ApplyButton from './apply-button'
 
 async function getProfile() {
   const h = await headers()
@@ -157,14 +158,17 @@ export default async function MatchesPage() {
                       </ul>
                     )}
                   </div>
-                  <a
-                    href={v.url}
-                    target="_blank"
-                    rel="noopener"
-                    className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 shrink-0"
-                  >
-                    Открыть на hh.ru →
-                  </a>
+                  <div className="flex flex-col gap-2 shrink-0">
+                    <a
+                      href={v.url}
+                      target="_blank"
+                      rel="noopener"
+                      className="rounded-md border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary text-center"
+                    >
+                      Открыть в HH →
+                    </a>
+                    <ApplyButton vacancyUrl={v.url} score={v.ai_score ?? 0} />
+                  </div>
                 </div>
               </div>
             )
