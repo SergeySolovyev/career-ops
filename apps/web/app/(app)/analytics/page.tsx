@@ -1,11 +1,34 @@
 import { headers } from 'next/headers'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 async function getStats() {
-  // Use absolute URL for server-side fetch
-  const host = (await headers()).get('host') || 'localhost:3000'
+  const h = await headers()
+  const host = h.get('host') || 'localhost:3000'
   const protocol = host.includes('localhost') ? 'http' : 'https'
+  const cookie = h.get('cookie') || ''
   try {
-    const res = await fetch(`${protocol}://${host}/api/stats`, { cache: 'no-store' })
+    const res = await fetch(`${protocol}://${host}/api/stats`, {
+      cache: 'no-store',
+      headers: { cookie },
+    })
+    return res.json()
+  } catch {
+    return null
+  }
+}
+
+async function getProfile() {
+  const h = await headers()
+  const host = h.get('host') || 'localhost:3000'
+  const protocol = host.includes('localhost') ? 'http' : 'https'
+  const cookie = h.get('cookie') || ''
+  try {
+    const res = await fetch(`${protocol}://${host}/api/profile`, {
+      cache: 'no-store',
+      headers: { cookie },
+    })
+    if (!res.ok) return null
     return res.json()
   } catch {
     return null
@@ -23,13 +46,47 @@ const FUNNEL_STAGES = [
 ]
 
 export default async function AnalyticsPage() {
-  const data = await getStats()
+  const [data, profile] = await Promise.all([getStats(), getProfile()])
+  const isUserProfile = profile?._source === 'user'
+
+  // New authenticated users without a CV: send to onboarding first
+  if (isUserProfile && profile?._empty) {
+    redirect('/onboarding')
+  }
 
   if (!data || !data.funnel) {
     return (
       <div className="p-8">
         <h1 className="text-2xl font-bold">Аналитика воронки</h1>
         <p className="mt-4 text-muted-foreground">Данные недоступны</p>
+      </div>
+    )
+  }
+
+  // Authenticated users start with empty funnel — show empty state with CTA.
+  if (isUserProfile && (data.funnel.found || 0) === 0) {
+    return (
+      <div>
+        <h1 className="text-2xl font-bold">Аналитика воронки</h1>
+        <p className="mt-1 text-muted-foreground">
+          Конверсия от обнаружения вакансии до оффера
+        </p>
+        <div className="mt-8 rounded-xl border border-dashed border-border p-10 text-center">
+          <div className="text-5xl">📊</div>
+          <h2 className="mt-4 text-lg font-semibold">Пока нет данных</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Воронка появится после первых сканов и AI-оценок вакансий.
+            Сканер запускается раз в 4 часа.
+          </p>
+          <div className="mt-6">
+            <Link
+              href="/settings"
+              className="inline-block rounded-lg border border-border px-5 py-2.5 text-sm font-semibold hover:bg-secondary"
+            >
+              ⚙️ Настроить ключевые слова
+            </Link>
+          </div>
+        </div>
       </div>
     )
   }

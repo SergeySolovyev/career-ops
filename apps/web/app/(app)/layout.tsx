@@ -28,7 +28,6 @@ export default async function AppLayout({
           {[
             { href: '/dashboard', label: 'Дашборд', icon: '📊' },
             { href: '/matches', label: 'Новые матчи', icon: '⭐' },
-            { href: '/pipeline', label: 'Pipeline', icon: '📋' },
             { href: '/chat', label: 'AI Советник', icon: '💬' },
             { href: '/analytics', label: 'Аналитика', icon: '📈' },
             { href: '/settings', label: 'Настройки', icon: '⚙️' },
