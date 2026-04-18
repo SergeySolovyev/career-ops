@@ -52,6 +52,22 @@ export async function POST() {
       perPage: 50,
     })
 
+    // Debug: also do a direct HH call to surface 403/network issues
+    const debugQuery = queries[0]
+    let debugStatus: number | string = 'unknown'
+    let debugCount = 0
+    try {
+      const url = `https://api.hh.ru/vacancies?text=${encodeURIComponent(debugQuery)}&area=1&per_page=10`
+      const r = await fetch(url, { headers: { 'User-Agent': 'CareerPilot/1.0' } })
+      debugStatus = r.status
+      if (r.ok) {
+        const j = await r.json()
+        debugCount = (j.items || []).length
+      }
+    } catch (e: any) {
+      debugStatus = `err:${e?.message}`
+    }
+
     // 2) Skip vacancies already evaluated for this user
     const { data: existing } = await supabase
       .from('user_evaluations')
@@ -139,6 +155,7 @@ export async function POST() {
       fresh: fresh.length,
       evaluated: inserted.length,
       results: inserted,
+      debug: { hhStatus: debugStatus, hhItems: debugCount, query: debugQuery, queries },
     })
   } catch (e: any) {
     console.error('[scan-now] error', e)
