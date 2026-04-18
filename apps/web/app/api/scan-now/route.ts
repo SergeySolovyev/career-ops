@@ -52,20 +52,26 @@ export async function POST() {
       perPage: 50,
     })
 
-    // Debug: also do a direct HH call to surface 403/network issues
+    // Debug: try HH with browser-like UA (HH blocks Vercel cloud IPs by default)
     const debugQuery = queries[0]
-    let debugStatus: number | string = 'unknown'
-    let debugCount = 0
-    try {
-      const url = `https://api.hh.ru/vacancies?text=${encodeURIComponent(debugQuery)}&area=1&per_page=10`
-      const r = await fetch(url, { headers: { 'User-Agent': 'CareerPilot/1.0' } })
-      debugStatus = r.status
-      if (r.ok) {
-        const j = await r.json()
-        debugCount = (j.items || []).length
+    const debugAttempts: Array<{ ua: string; status: number | string; items: number }> = []
+    const UAs = [
+      'CareerPilot/1.0 (sssolovjov@yandex.ru)',
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+    ]
+    for (const ua of UAs) {
+      try {
+        const url = `https://api.hh.ru/vacancies?text=${encodeURIComponent(debugQuery)}&per_page=10`
+        const r = await fetch(url, { headers: { 'User-Agent': ua, 'Accept': 'application/json' } })
+        let items = 0
+        if (r.ok) {
+          const j = await r.json()
+          items = (j.items || []).length
+        }
+        debugAttempts.push({ ua: ua.slice(0, 30), status: r.status, items })
+      } catch (e: any) {
+        debugAttempts.push({ ua: ua.slice(0, 30), status: `err:${e?.message}`, items: 0 })
       }
-    } catch (e: any) {
-      debugStatus = `err:${e?.message}`
     }
 
     // 2) Skip vacancies already evaluated for this user
@@ -155,7 +161,7 @@ export async function POST() {
       fresh: fresh.length,
       evaluated: inserted.length,
       results: inserted,
-      debug: { hhStatus: debugStatus, hhItems: debugCount, query: debugQuery, queries },
+      debug: { attempts: debugAttempts, query: debugQuery, queries },
     })
   } catch (e: any) {
     console.error('[scan-now] error', e)
