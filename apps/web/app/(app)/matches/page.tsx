@@ -40,6 +40,26 @@ async function getEvaluations() {
   }
 }
 
+async function getHHSession(): Promise<{ connected: boolean; hh_email?: string | null }> {
+  if (!isSupabaseConfigured()) return { connected: false }
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { connected: false }
+    const { data } = await supabase
+      .from('hh_sessions')
+      .select('status, hh_email')
+      .eq('user_id', user.id)
+      .maybeSingle()
+    return {
+      connected: data?.status === 'active',
+      hh_email: data?.hh_email,
+    }
+  } catch {
+    return { connected: false }
+  }
+}
+
 function formatSalary(from?: number | null, to?: number | null, cur?: string | null) {
   if (!from && !to) return null
   const f = from?.toLocaleString('ru-RU')
@@ -65,6 +85,7 @@ export default async function MatchesPage() {
   }
 
   const evaluations = isUserProfile ? await getEvaluations() : []
+  const hhSession = isUserProfile ? await getHHSession() : { connected: false }
 
   return (
     <div>
@@ -77,6 +98,27 @@ export default async function MatchesPage() {
         </div>
         {isUserProfile && <ScanButton />}
       </div>
+
+      {isUserProfile && !hhSession.connected && (
+        <div className="mt-4 rounded-xl border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-900 flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <span className="font-semibold">⚠️ HH-аккаунт не подключён.</span>{' '}
+            Кнопка «Откликнуться» не работает без авторизации в HH.{' '}
+            Сейчас сканер показывает анонимные результаты.
+          </div>
+          <Link
+            href="/connect-hh"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 shrink-0"
+          >
+            🔐 Подключить HH
+          </Link>
+        </div>
+      )}
+      {isUserProfile && hhSession.connected && (
+        <div className="mt-4 rounded-xl bg-green-50 border border-green-200 px-4 py-2 text-xs text-green-800">
+          ✓ HH-аккаунт подключён{hhSession.hh_email ? ` (${hhSession.hh_email})` : ''}
+        </div>
+      )}
 
       {!isUserProfile ? (
         // Anon / demo: keep one curated example for the landing demo
