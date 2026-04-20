@@ -150,7 +150,7 @@ export default async function MatchesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 antialiased">
+    <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
       <div className="mx-auto max-w-[1200px] px-6 py-10">
         {/* -------------------- Breadcrumb -------------------- */}
         <div className="mb-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
