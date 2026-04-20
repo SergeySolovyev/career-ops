@@ -1,23 +1,31 @@
-# Auto-TLS via Let's Encrypt for the worker domain.
-# Caddy provisions the cert on first request to {$WORKER_DOMAIN}.
-#
-# Critical: WebSocket support — Caddy 2 needs explicit upgrade pass-through
-# for some clients (chrome-launcher / playwright handshake).
+# Two virtual hosts, both on the same Droplet, both with auto-TLS via Let's Encrypt.
+# nip.io handles the DNS: any subdomain under the IP-dashed host resolves to that IP.
 
 {$WORKER_DOMAIN} {
-	# Match websocket upgrade requests explicitly so Caddy doesn't try
-	# to interpret them as plain HTTP.
 	@websocket {
 		header Connection *Upgrade*
 		header Upgrade websocket
 	}
 	reverse_proxy @websocket browserless:3000
-
-	# All other (HTTP) requests
 	reverse_proxy browserless:3000
 
 	header {
 		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+	}
+}
+
+{$FLOWISE_DOMAIN} {
+	# Flowise ships its own WebSocket (for streaming tokens) + REST API
+	@websocket {
+		header Connection *Upgrade*
+		header Upgrade websocket
+	}
+	reverse_proxy @websocket flowise:3100
+	reverse_proxy flowise:3100
+
+	header {
 		X-Content-Type-Options "nosniff"
 		Referrer-Policy "no-referrer"
 	}

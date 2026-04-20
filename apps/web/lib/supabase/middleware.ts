@@ -35,9 +35,12 @@ export async function updateSession(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Redirect unauthenticated users from protected routes
-  // Note: /chat is intentionally public — anonymous users get demo (Sergey) CV; logged-in users get their own.
-  const protectedPaths = ['/dashboard', '/matches', '/analytics', '/settings', '/pipeline', '/onboarding']
+  // Redirect unauthenticated users from protected routes.
+  //
+  // Public (anon) routes: /, /chat, /dashboard, /matches, /analytics, /pipeline
+  //   — anon sees Sergey demo data (promised on landing "Демо без регистрации").
+  // Protected: /settings, /onboarding, /connect-hh — personal workspace, need auth.
+  const protectedPaths = ['/settings', '/onboarding', '/connect-hh']
   const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p))
   if (!user && isProtected) {
     const url = request.nextUrl.clone()

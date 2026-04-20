@@ -66,15 +66,47 @@ export default async function PipelinePage() {
       </p>
 
       {!isUserProfile ? (
-        <div className="mt-8 rounded-xl border border-dashed border-border p-10 text-center">
-          <div className="text-5xl">🔐</div>
-          <p className="mt-4 text-sm text-muted-foreground">
-            Pipeline доступен только залогиненным пользователям.{' '}
+        <div className="mt-8">
+          <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900 mb-6">
+            <span className="font-semibold">Demo-режим.</span>{' '}
+            Это публичный pipeline Сергея с реальными данными.{' '}
             <Link href="/signup" className="font-semibold underline">
               Зарегистрируйтесь
             </Link>
-            .
-          </p>
+            {' '}чтобы видеть свой.
+          </div>
+          <div className="overflow-x-auto rounded-xl border border-border">
+            <table className="min-w-full divide-y divide-border text-sm">
+              <thead className="bg-secondary/30">
+                <tr className="text-left text-xs font-semibold uppercase text-muted-foreground">
+                  <th className="px-4 py-3">Вакансия</th>
+                  <th className="px-4 py-3">Компания</th>
+                  <th className="px-4 py-3">Статус</th>
+                  <th className="px-4 py-3">Когда</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {[
+                  { title: 'Лидер направления по AI', company: 'Сбер', status: 'sent', date: '2026-04-16' },
+                  { title: 'Head of Data Platform', company: 'Mokka', status: 'sent', date: '2026-04-15' },
+                  { title: 'Chief Digital Officer', company: 'Cornerstone Russia', status: 'viewed', date: '2026-04-14' },
+                  { title: 'Руководитель AI-трансформации', company: 'Крупный российский банк', status: 'replied', date: '2026-04-12' },
+                ].map((a, i) => {
+                  const badge = STATUS_BADGE[a.status] || { text: a.status, cls: 'bg-gray-100 text-gray-600' }
+                  return (
+                    <tr key={i} className="hover:bg-secondary/20">
+                      <td className="px-4 py-3 font-medium">{a.title}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{a.company}</td>
+                      <td className="px-4 py-3">
+                        <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${badge.cls}`}>{badge.text}</span>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">{a.date}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       ) : apps.length === 0 ? (
         <div className="mt-8 rounded-xl border border-dashed border-border p-10 text-center">
