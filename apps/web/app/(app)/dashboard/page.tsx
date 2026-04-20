@@ -3,6 +3,28 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import {
+  Sparkles,
+  MessageSquare,
+  Search,
+  Bot,
+  Star,
+  Mail,
+  Briefcase,
+  MapPin,
+  Phone,
+  GraduationCap,
+  ArrowUpRight,
+  TrendingUp,
+  Target,
+  Zap,
+} from 'lucide-react'
+
+/* ============================================================
+   CareerPilot · Dashboard
+   Server component — preserves /api/stats, /api/profile, loadJSON.
+   Visual layer refreshed — Linear/Notion/Raycast aesthetic.
+   ============================================================ */
 
 async function getStats() {
   const h = await headers()
@@ -51,27 +73,25 @@ export default async function DashboardPage() {
   const isUserProfile = apiProfile?._source === 'user'
   const isEmptyUserProfile = isUserProfile && apiProfile?._empty
 
-  // New authenticated users without a CV: force onboarding flow
+  // Auth'd users without CV → onboarding
   if (isEmptyUserProfile) {
     redirect('/onboarding')
   }
 
-  // For logged-in users, use their profile. For anon/demo — Sergey's hardcoded profile.
   const profile = isUserProfile ? apiProfile : loadJSON('profile.json')
-
-  // Only load Sergey's global eval log for the anon demo view.
-  // Authenticated users get an empty state (no leaking Sergey's matches).
   const evalLog = !isUserProfile
-    ? (loadJSON('auto-eval-log.json') || { evaluated: {} })
+    ? loadJSON('auto-eval-log.json') || { evaluated: {} }
     : { evaluated: {} }
 
-  const stats = data?.funnel ? {
-    found: data.funnel.found,
-    evaluated: data.funnel.aiEvaluated,
-    recommended: data.funnel.recommended,
-    applied: data.funnel.applied,
-    interviews: data.funnel.interviews,
-  } : { found: 0, evaluated: 0, recommended: 0, applied: 0, interviews: 0 }
+  const stats = data?.funnel
+    ? {
+        found: data.funnel.found,
+        evaluated: data.funnel.aiEvaluated,
+        recommended: data.funnel.recommended,
+        applied: data.funnel.applied,
+        interviews: data.funnel.interviews,
+      }
+    : { found: 0, evaluated: 0, recommended: 0, applied: 0, interviews: 0 }
 
   const recentEvals = Object.entries(evalLog.evaluated || {})
     .filter(([, v]) => (v as any).status === 'apply')
@@ -90,210 +110,454 @@ export default async function DashboardPage() {
   })()
 
   return (
-    <div>
-      {/* Personal greeting */}
-      <div className="flex items-start justify-between gap-6 flex-wrap">
-        <div>
-          <h1 className="text-3xl font-bold">{greeting}, {firstName}! 👋</h1>
-          <p className="mt-2 text-muted-foreground">
-            {candidate?.current_role || 'Ваш личный AI помощник по поиску работы'}
-          </p>
+    <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+      <div className="mx-auto max-w-[1200px] px-6 py-10">
+        {/* Breadcrumb */}
+        <div className="mb-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
+          <span className="text-slate-900">Workspace</span>
+          <span className="text-slate-300">/</span>
+          <span className="text-slate-900">Dashboard</span>
         </div>
-        <Link
-          href="/chat"
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
-        >
-          💬 Спросить AI советника
-        </Link>
-      </div>
 
-      {isEmptyUserProfile && (
-        <div className="mt-6 rounded-xl border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-900">
-          <span className="font-semibold">Добро пожаловать!</span>{' '}
-          Ваш профиль пока пустой.{' '}
-          <Link href="/settings" className="font-semibold underline">Заполните CV в настройках</Link>
-          {' '}— и AI-советник начнёт давать персональные рекомендации.
-        </div>
-      )}
-      {!isUserProfile && (
-        <div className="mt-6 rounded-xl border border-blue-300 bg-blue-50 p-4 text-sm text-blue-900">
-          <span className="font-semibold">Demo-режим.</span>{' '}
-          Это публичный кабинет Сергея Соловьёва с реальными данными.{' '}
-          <Link href="/signup" className="font-semibold underline">Зарегистрируйтесь</Link>
-          {' '}чтобы загрузить своё CV и получать персональные советы.
-        </div>
-      )}
-
-      {/* Profile card */}
-      {profile && (
-        <div className="mt-6 rounded-xl border border-border bg-secondary/20 p-6">
-          <div className="grid gap-6 sm:grid-cols-3">
-            <div>
-              <div className="text-xs font-semibold uppercase text-muted-foreground">Целевые роли</div>
-              <ul className="mt-2 space-y-1 text-sm">
-                {target?.roles?.slice(0, 3).map((r: string) => (
-                  <li key={r}>• {r}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <div className="text-xs font-semibold uppercase text-muted-foreground">Вилка зарплаты</div>
-              <div className="mt-2 text-lg font-semibold">
-                {target?.salary_target_min?.toLocaleString('ru-RU')}–{target?.salary_target_max?.toLocaleString('ru-RU')} ₽
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {target?.international_range} international
-              </div>
-            </div>
-            <div>
-              <div className="text-xs font-semibold uppercase text-muted-foreground">Контакты</div>
-              <div className="mt-2 space-y-1 text-sm">
-                <div>📍 {candidate?.location}</div>
-                <div>📧 {candidate?.email}</div>
-                <div>📱 {candidate?.telegram}</div>
-              </div>
-            </div>
+        {/* Header */}
+        <header className="mb-8 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <h1 className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] grad-text">
+              {greeting}, {firstName}
+            </h1>
+            <p className="mt-3 max-w-[560px] text-[15px] leading-[1.55] text-slate-500">
+              {candidate?.current_role || 'Ваш AI-советник работает в фоне. Вот что нового.'}
+            </p>
           </div>
-        </div>
-      )}
+          <div className="flex items-center gap-2">
+            <Link href="/chat" className="btn-primary h-10 px-4 text-[13px]">
+              <MessageSquare size={14} />
+              Спросить AI
+            </Link>
+            <Link href="/matches" className="btn-secondary h-10 px-4 text-[13px]">
+              <Star size={14} />
+              Матчи
+            </Link>
+          </div>
+        </header>
 
-      {/* Stats */}
-      <div className="mt-10 flex items-center gap-3">
-        <h2 className="text-lg font-semibold">Воронка поиска</h2>
-        {isUserProfile && (
-          <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-700">
-            Старт — появится после первых откликов
-          </span>
+        {/* Demo banner */}
+        {!isUserProfile && (
+          <div className="mb-6 rounded-md border border-blue-200 bg-blue-50 p-4 text-[13px] text-blue-900">
+            <span className="font-semibold">Demo-режим.</span>{' '}
+            Это публичный кабинет Сергея с реальными данными.{' '}
+            <Link href="/signup" className="font-semibold underline">
+              Зарегистрируйтесь
+            </Link>{' '}
+            — и загрузите своё CV.
+          </div>
         )}
-      </div>
-      <div className="mt-4 grid gap-4 sm:grid-cols-5">
-        {[
-          { label: 'Найдено', value: stats.found, color: 'text-blue-600', emoji: '🔍' },
-          { label: 'Оценено AI', value: stats.evaluated, color: 'text-purple-600', emoji: '🤖' },
-          { label: 'Рекомендовано', value: stats.recommended, color: 'text-green-600', emoji: '⭐' },
-          { label: 'Отклики', value: stats.applied, color: 'text-orange-600', emoji: '📧' },
-          { label: 'Интервью', value: stats.interviews, color: 'text-red-600', emoji: '💼' },
-        ].map((stat) => (
-          <div key={stat.label} className="rounded-xl border border-border p-5">
-            <div className="text-xl">{stat.emoji}</div>
-            <div className={`mt-2 text-3xl font-bold ${stat.color}`}>{stat.value}</div>
-            <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
-          </div>
-        ))}
-      </div>
 
-      {/* Two-column: recent activity + superpowers */}
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <section>
-          <h2 className="text-lg font-semibold">Топ AI-матчей</h2>
-          <div className="mt-4 space-y-2">
-            {recentEvals.length === 0 && isUserProfile && (
-              <div className="rounded-xl border border-dashed border-border p-6 text-center">
-                <div className="text-3xl">🎯</div>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Пока нет оценённых вакансий.
-                </p>
-                <Link
-                  href="/chat"
-                  className="mt-3 inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
-                >
-                  💬 Спросите AI советника
-                </Link>
-              </div>
-            )}
-            {recentEvals.length === 0 && !isUserProfile && (
-              <p className="text-sm text-muted-foreground">Пока нет оценок.</p>
-            )}
-            {recentEvals.map(([url, v]) => {
-              const slug = (v.report || '').replace('.md', '').replace(/^\d+-/, '').replace(/-\d{4}-\d{2}-\d{2}$/, '').replace(/-/g, ' ')
-              const verdict = v.status === 'apply' ? { text: 'apply', color: 'bg-green-100 text-green-700' }
-                : v.status === 'maybe' ? { text: 'maybe', color: 'bg-yellow-100 text-yellow-700' }
-                : { text: 'skip', color: 'bg-gray-100 text-gray-600' }
-              return (
-                <a key={url} href={url} target="_blank" rel="noopener" className="flex items-center gap-3 rounded-lg border border-border p-3 hover:bg-secondary/40">
-                  <span className={`rounded-md px-2 py-0.5 text-sm font-semibold ${v.score >= 4 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
-                    {v.score?.toFixed(1) || '—'}
-                  </span>
-                  <span className="flex-1 truncate text-sm">{slug || url}</span>
-                  <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${verdict.color}`}>
-                    {verdict.text}
-                  </span>
-                </a>
-              )
-            })}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-lg font-semibold">Ваши superpowers</h2>
-          <div className="mt-4 space-y-2">
-            {profile?.superpowers?.map((sp: string, i: number) => (
-              <div key={i} className="rounded-lg border border-border p-3 text-sm">
-                <span className="mr-2 text-primary font-bold">{i + 1}.</span>
-                {sp}
-              </div>
-            ))}
-          </div>
-          {profile?.education && (
-            <div className="mt-4 rounded-lg bg-secondary/30 p-4">
-              <div className="text-xs font-semibold uppercase text-muted-foreground">Образование</div>
-              <ul className="mt-2 space-y-1 text-sm">
-                {profile.education.map((e: any, i: number) => (
-                  <li key={i}>🎓 {e.degree} — <span className="text-muted-foreground">{e.status}</span></li>
+        {/* Profile summary */}
+        {profile && (
+          <section className="mb-8 grid gap-3 md:grid-cols-3">
+            <ProfileTile
+              label="Целевые роли"
+              Icon={Target}
+              tone="#2563eb"
+            >
+              <ul className="space-y-1 text-[13px] text-slate-700">
+                {target?.roles?.slice(0, 3).map((r: string) => (
+                  <li key={r} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1 w-1 flex-none rounded-full bg-blue-500" />
+                    <span>{r}</span>
+                  </li>
                 ))}
               </ul>
-            </div>
-          )}
-        </section>
-      </div>
+            </ProfileTile>
 
-      {/* Proof points */}
-      {profile?.proof_points && (
-        <section className="mt-10">
-          <h2 className="text-lg font-semibold">Ключевые достижения (proof points)</h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {profile.proof_points.map((p: any, i: number) => (
-              <div key={i} className="rounded-lg border border-border p-4">
-                <div className="font-semibold text-sm">{p.title}</div>
-                <div className="mt-1 text-xs text-muted-foreground">{p.metric}</div>
-                {p.url && (
-                  <a href={p.url} target="_blank" rel="noopener" className="mt-2 inline-block text-xs text-primary hover:underline">
-                    Открыть →
-                  </a>
+            <ProfileTile
+              label="Вилка зарплаты"
+              Icon={TrendingUp}
+              tone="#047857"
+            >
+              <div className="text-[22px] font-semibold leading-none tracking-[-0.01em]">
+                {target?.salary_target_min?.toLocaleString('ru-RU')}–
+                {target?.salary_target_max?.toLocaleString('ru-RU')} ₽
+              </div>
+              <div className="mt-2 font-mono text-[11px] text-slate-500">
+                {target?.international_range} · international
+              </div>
+            </ProfileTile>
+
+            <ProfileTile
+              label="Контакты"
+              Icon={Mail}
+              tone="#7c3aed"
+            >
+              <div className="space-y-1.5 text-[12.5px] text-slate-700">
+                {candidate?.location && (
+                  <div className="flex items-center gap-2">
+                    <MapPin size={12} className="flex-none text-slate-400" />
+                    <span>{candidate.location}</span>
+                  </div>
+                )}
+                {candidate?.email && (
+                  <div className="flex items-center gap-2">
+                    <Mail size={12} className="flex-none text-slate-400" />
+                    <span className="truncate">{candidate.email}</span>
+                  </div>
+                )}
+                {candidate?.telegram && (
+                  <div className="flex items-center gap-2">
+                    <Phone size={12} className="flex-none text-slate-400" />
+                    <span>{candidate.telegram}</span>
+                  </div>
                 )}
               </div>
-            ))}
+            </ProfileTile>
+          </section>
+        )}
+
+        {/* Funnel */}
+        <section className="mb-8">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
+                Funnel
+              </div>
+              <h2 className="mt-0.5 text-[18px] font-semibold tracking-[-0.01em]">
+                Воронка поиска
+              </h2>
+            </div>
+            {isUserProfile && (
+              <span className="pill">
+                <span className="pulse-dot" />
+                старт — появится после первых откликов
+              </span>
+            )}
+          </div>
+          <div className="grid gap-3 sm:grid-cols-5">
+            <FunnelTile label="Найдено" value={stats.found} Icon={Search} tone="#2563eb" />
+            <FunnelTile label="Оценено AI" value={stats.evaluated} Icon={Bot} tone="#7c3aed" />
+            <FunnelTile label="Рекомендовано" value={stats.recommended} Icon={Star} tone="#047857" />
+            <FunnelTile label="Отклики" value={stats.applied} Icon={Mail} tone="#ea580c" />
+            <FunnelTile label="Интервью" value={stats.interviews} Icon={Briefcase} tone="#dc2626" />
           </div>
         </section>
-      )}
 
-      {/* Quick actions */}
-      <section className="mt-10">
-        <h2 className="text-lg font-semibold">Быстрые действия</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          <Link href="/matches" className="rounded-xl border border-border p-6 hover:bg-secondary transition-colors">
-            <div className="text-2xl">⭐</div>
-            <h3 className="mt-2 font-semibold">Топ матчи</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Вакансии с AI-скором ≥ 4.0</p>
-          </Link>
-          <Link href="/analytics" className="rounded-xl border border-border p-6 hover:bg-secondary transition-colors">
-            <div className="text-2xl">📈</div>
-            <h3 className="mt-2 font-semibold">Аналитика</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Воронка + статистика</p>
-          </Link>
-          <Link href="/chat" className="rounded-xl border border-border p-6 hover:bg-secondary transition-colors">
-            <div className="text-2xl">💬</div>
-            <h3 className="mt-2 font-semibold">AI советник</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Задай вопрос голосом или текстом</p>
-          </Link>
-        </div>
-      </section>
+        {/* Two-column: matches + superpowers */}
+        <section className="mb-8 grid gap-6 lg:grid-cols-2">
+          {/* Top matches */}
+          <div>
+            <div className="mb-4">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
+                Picks
+              </div>
+              <h2 className="mt-0.5 text-[18px] font-semibold tracking-[-0.01em]">
+                Топ AI-матчей
+              </h2>
+            </div>
+            <div className="space-y-2">
+              {recentEvals.length === 0 && isUserProfile && (
+                <div className="card p-8 text-center">
+                  <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                    <Target size={18} />
+                  </div>
+                  <p className="text-[13px] text-slate-500">
+                    Пока нет оценённых вакансий.
+                  </p>
+                  <Link
+                    href="/chat"
+                    className="mt-4 inline-flex items-center gap-2 text-[13px] font-medium text-blue-600 hover:underline"
+                  >
+                    <MessageSquare size={14} />
+                    Спросите AI советника
+                  </Link>
+                </div>
+              )}
+              {recentEvals.length === 0 && !isUserProfile && (
+                <p className="text-[13px] text-slate-500">Пока нет оценок.</p>
+              )}
+              {recentEvals.map(([url, v]) => {
+                const slug = (v.report || '')
+                  .replace('.md', '')
+                  .replace(/^\d+-/, '')
+                  .replace(/-\d{4}-\d{2}-\d{2}$/, '')
+                  .replace(/-/g, ' ')
+                const verdict =
+                  v.status === 'apply'
+                    ? { text: 'apply', fg: '#047857', bg: '#ecfdf5', border: '#a7f3d0' }
+                    : v.status === 'maybe'
+                    ? { text: 'maybe', fg: '#92400e', bg: '#fffbeb', border: '#fde68a' }
+                    : { text: 'skip', fg: '#64748b', bg: '#f8fafc', border: '#e2e8f0' }
+                const strong = v.score >= 4
+                return (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noopener"
+                    className="tile flex items-center gap-3 rounded-md border border-slate-200 bg-white p-3 hover:bg-slate-50"
+                  >
+                    <span
+                      className="flex h-10 w-10 flex-none items-center justify-center rounded-md text-[13px] font-semibold tabular-nums"
+                      style={{
+                        background: strong ? '#ecfdf5' : '#f1f5f9',
+                        color: strong ? '#047857' : '#64748b',
+                        border: `1px solid ${strong ? '#a7f3d0' : '#e2e8f0'}`,
+                      }}
+                    >
+                      {v.score?.toFixed(1) || '—'}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-[13px] text-slate-700">
+                      {slug || url}
+                    </span>
+                    <span
+                      className="rounded-md px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-wider"
+                      style={{
+                        color: verdict.fg,
+                        background: verdict.bg,
+                        border: `1px solid ${verdict.border}`,
+                      }}
+                    >
+                      {verdict.text}
+                    </span>
+                    <ArrowUpRight size={14} className="flex-none text-slate-400" />
+                  </a>
+                )
+              })}
+            </div>
+          </div>
 
-      {data?.lastRun && (
-        <p className="mt-8 text-xs text-muted-foreground">
-          Последнее обновление данных: {new Date(data.lastRun).toLocaleString('ru-RU')}
-        </p>
-      )}
+          {/* Superpowers */}
+          <div>
+            <div className="mb-4">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
+                Profile
+              </div>
+              <h2 className="mt-0.5 text-[18px] font-semibold tracking-[-0.01em]">
+                Ваши superpowers
+              </h2>
+            </div>
+            <div className="space-y-2">
+              {profile?.superpowers?.map((sp: string, i: number) => (
+                <div
+                  key={i}
+                  className="flex gap-3 rounded-md border border-slate-200 bg-white p-3"
+                >
+                  <span className="flex h-6 w-6 flex-none items-center justify-center rounded-md bg-blue-50 font-mono text-[11px] font-semibold text-blue-600">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="text-[13px] leading-[1.5] text-slate-700">{sp}</span>
+                </div>
+              ))}
+            </div>
+            {profile?.education && (
+              <div className="mt-4 rounded-md border border-slate-200 bg-slate-50/50 p-4">
+                <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-slate-500">
+                  <GraduationCap size={11} />
+                  Образование
+                </div>
+                <ul className="space-y-1 text-[12.5px] text-slate-700">
+                  {profile.education.map((e: any, i: number) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="mt-1.5 h-1 w-1 flex-none rounded-full bg-slate-400" />
+                      <span>
+                        {e.degree}
+                        <span className="ml-1 text-slate-400">— {e.status}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Proof points */}
+        {profile?.proof_points && (
+          <section className="mb-8">
+            <div className="mb-4">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
+                Proof
+              </div>
+              <h2 className="mt-0.5 text-[18px] font-semibold tracking-[-0.01em]">
+                Ключевые достижения
+              </h2>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {profile.proof_points.map((p: any, i: number) => (
+                <div
+                  key={i}
+                  className="tile flex gap-3 rounded-md border border-slate-200 bg-white p-4"
+                >
+                  <span className="check mt-1">
+                    <Zap size={10} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[13px] font-medium leading-[1.3] text-slate-900">
+                      {p.title}
+                    </div>
+                    <div className="mt-1 text-[12px] leading-[1.4] text-slate-500">
+                      {p.metric}
+                    </div>
+                    {p.url && (
+                      <a
+                        href={p.url}
+                        target="_blank"
+                        rel="noopener"
+                        className="mt-2 inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-blue-600 hover:underline"
+                      >
+                        open <ArrowUpRight size={11} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Quick actions */}
+        <section className="mb-8">
+          <div className="mb-4">
+            <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
+              Shortcuts
+            </div>
+            <h2 className="mt-0.5 text-[18px] font-semibold tracking-[-0.01em]">
+              Быстрые действия
+            </h2>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <QuickLink
+              href="/matches"
+              label="Топ матчи"
+              sub="Вакансии с AI-скором ≥ 4.0"
+              Icon={Star}
+              tone="#2563eb"
+            />
+            <QuickLink
+              href="/analytics"
+              label="Аналитика"
+              sub="Воронка + статистика"
+              Icon={TrendingUp}
+              tone="#047857"
+            />
+            <QuickLink
+              href="/chat"
+              label="AI советник"
+              sub="Голосом или текстом"
+              Icon={Sparkles}
+              tone="#7c3aed"
+            />
+          </div>
+        </section>
+
+        {/* Footer timestamp */}
+        {data?.lastRun && (
+          <div className="flex items-center justify-between border-t border-slate-200 pt-6 text-[12px] text-slate-500">
+            <span>
+              Последнее обновление: {new Date(data.lastRun).toLocaleString('ru-RU')}
+            </span>
+            <span className="inline-flex items-center gap-2 font-mono uppercase tracking-wider">
+              <span className="pulse-dot" /> autopilot · live
+            </span>
+          </div>
+        )}
+      </div>
     </div>
+  )
+}
+
+/* ------------------------------------------------------------
+   Subcomponents
+   ------------------------------------------------------------ */
+
+function ProfileTile({
+  label,
+  Icon,
+  tone,
+  children,
+}: {
+  label: string
+  Icon: any
+  tone: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="card p-4">
+      <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-slate-500">
+        <Icon size={11} style={{ color: tone }} />
+        {label}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+function FunnelTile({
+  label,
+  value,
+  Icon,
+  tone,
+}: {
+  label: string
+  value: number
+  Icon: any
+  tone: string
+}) {
+  return (
+    <div className="card p-4">
+      <div className="flex items-center justify-between">
+        <span
+          className="flex h-6 w-6 items-center justify-center rounded-md"
+          style={{ background: `${tone}15`, color: tone }}
+        >
+          <Icon size={13} strokeWidth={2} />
+        </span>
+        <span className="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+          n
+        </span>
+      </div>
+      <div
+        className="mt-3 text-[26px] font-semibold leading-none tracking-[-0.02em] tabular-nums"
+        style={{ color: tone }}
+      >
+        {value}
+      </div>
+      <div className="mt-1.5 text-[12px] text-slate-500">{label}</div>
+    </div>
+  )
+}
+
+function QuickLink({
+  href,
+  label,
+  sub,
+  Icon,
+  tone,
+}: {
+  href: string
+  label: string
+  sub: string
+  Icon: any
+  tone: string
+}) {
+  return (
+    <Link
+      href={href}
+      className="tile group flex items-start gap-3 rounded-md border border-slate-200 bg-white p-4 hover:bg-slate-50"
+    >
+      <span
+        className="flex h-8 w-8 flex-none items-center justify-center rounded-md"
+        style={{ background: `${tone}15`, color: tone }}
+      >
+        <Icon size={15} strokeWidth={1.8} />
+      </span>
+      <div className="min-w-0 flex-1">
+        <div className="text-[13.5px] font-medium text-slate-900">{label}</div>
+        <div className="mt-0.5 text-[12px] text-slate-500">{sub}</div>
+      </div>
+      <ArrowUpRight
+        size={14}
+        className="flex-none text-slate-400 transition-transform group-hover:translate-x-0.5"
+      />
+    </Link>
   )
 }
