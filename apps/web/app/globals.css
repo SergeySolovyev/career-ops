@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Brand tokens — Tailwind v4 @theme
+   Consumed by Tailwind utilities like bg-primary, text-muted-foreground, etc.
+   Don't change the hex values — other colours derive from them.
+   ============================================================ */
+
 @theme {
   --color-primary: #2563eb;
   --color-primary-foreground: #ffffff;
@@ -22,8 +28,210 @@
   --radius-sm: 0.25rem;
 }
 
+/* ============================================================
+   Landing-specific tokens (used by utility classes below).
+   Kept as plain :root vars so they don't conflict with @theme.
+   ============================================================ */
+
+:root {
+  --primary: #2563eb;
+  --foreground: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --background: #ffffff;
+  --bg-subtle: #f8fafc;
+}
+
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv11", "ss01", "ss03";
+}
+
+/* ---------- Typography helpers ---------- */
+.grad-text {
+  background: linear-gradient(180deg, #0f172a 0%, #334155 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+mark.hl {
+  background: linear-gradient(180deg, transparent 60%, rgba(37, 99, 235, 0.18) 60%);
+  color: inherit;
+  padding: 0 1px;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  background: var(--foreground);
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 1px 2px rgba(15, 23, 42, 0.2);
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+.btn-primary:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--foreground);
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  transition: background 0.15s ease;
+}
+.btn-secondary:hover {
+  background: var(--bg-subtle);
+}
+
+/* ---------- Primitives ---------- */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.lift {
+  box-shadow:
+    0 1px 0 rgba(15, 23, 42, 0.02),
+    0 10px 30px -20px rgba(15, 23, 42, 0.15);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 12px;
+  color: var(--muted);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.02);
+}
+
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--muted);
+  background: #fff;
+}
+
+.check {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.bar {
+  height: 4px;
+  border-radius: 2px;
+  background: #eef2ff;
+  overflow: hidden;
+}
+.bar > span {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* ---------- Backgrounds ---------- */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.grid-fade {
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 80%);
+}
+.dot-grid {
+  background-image: radial-gradient(rgba(15, 23, 42, 0.12) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+/* ---------- Animations ---------- */
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.ticker {
+  animation: ticker 40s linear infinite;
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.floaty {
+  animation: floaty 7s ease-in-out infinite alternate;
+}
+@keyframes floaty {
+  from { transform: translate(-50%, -50%) translateY(-4px); }
+  to { transform: translate(-50%, -50%) translateY(6px); }
+}
+
+/* ---------- Focus ---------- */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
+/* ---------- Feature tile interaction ---------- */
+.tile {
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.tile:hover {
+  border-color: #cbd5e1;
 }
