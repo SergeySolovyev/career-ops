@@ -8,6 +8,9 @@ import { NextResponse } from 'next/server'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { runScanForUser } from '@/lib/tg-scan-core'
 
+// Defensive: tg-worker.ts uses node:crypto for HMAC; edge runtime would break it.
+export const runtime = 'nodejs'
+
 // Vercel limit: 60s for hobby, 300s for pro. Scan typically <30s.
 export const maxDuration = 60
 

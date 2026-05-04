@@ -64,6 +64,7 @@ services:
 
   tg-worker:
     build: ./tg
+    image: cp-tg-worker:latest
     container_name: cp-tg-worker
     restart: unless-stopped
     environment:

@@ -31,9 +31,20 @@ const CHANNEL_CONCURRENCY = 5
 const PER_CHANNEL_DELAY_MS = 200
 
 if (!SECRET || !API_ID || !API_HASH || !SESSION_STRING) {
-  console.error(
-    'Missing required env vars: TG_WORKER_SECRET, TG_MTPROTO_API_ID, TG_MTPROTO_API_HASH, TG_MTPROTO_SESSION',
-  )
+  const missing = [
+    !SECRET && 'TG_WORKER_SECRET',
+    !API_ID && 'TG_MTPROTO_API_ID',
+    !API_HASH && 'TG_MTPROTO_API_HASH',
+    !SESSION_STRING && 'TG_MTPROTO_SESSION',
+  ]
+    .filter(Boolean)
+    .join(', ')
+  console.error(`[tg-worker] Missing required env vars: ${missing}`)
+  console.error('[tg-worker] Sleeping 10s before exit to flush logs and prevent fast restart loop')
+  // Sleep prevents Docker `restart: unless-stopped` from immediately respawning
+  // on misconfiguration (which floods logs and burns CPU). Operator gets time to
+  // see the error in `docker compose logs` before the next attempt.
+  await new Promise((r) => setTimeout(r, 10_000))
   process.exit(1)
 }
 
@@ -140,7 +151,9 @@ async function validateChannel(username) {
   // Public channel/megagroup detection
   const isPublic = !!entity?.username
   // Pull last 30 messages to estimate posts/30d
-  const messages = await client.getMessages(entity, { limit: 30 })
+  // Validate only needs to know if channel is alive + when last post was.
+  // limit:10 is enough; pulling 30 wastes Telegram API budget.
+  const messages = await client.getMessages(entity, { limit: 10 })
   const now = Math.floor(Date.now() / 1000)
   const lastPostUnix = messages[0]?.date
   const cutoff30d = now - 30 * 86400

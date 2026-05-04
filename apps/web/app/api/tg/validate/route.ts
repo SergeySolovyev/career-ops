@@ -11,6 +11,8 @@ import { NextResponse } from 'next/server'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { tgWorkerValidate } from '@/lib/tg-worker'
 
+export const runtime = 'nodejs'
+
 // Telegram allows: starts with letter or digit, 5-32 chars, [a-zA-Z0-9_]
 const USERNAME_RE = /^[a-z0-9][a-z0-9_]{4,31}$/i
 

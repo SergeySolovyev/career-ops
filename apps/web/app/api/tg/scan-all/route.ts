@@ -20,9 +20,11 @@ import { NextResponse } from 'next/server'
 import { createAdminClient, isAdminConfigured } from '@/lib/supabase/admin'
 import { runScanForUser } from '@/lib/tg-scan-core'
 
+export const runtime = 'nodejs'
 export const maxDuration = 300
 
 const MAX_USERS_PER_INVOCATION = 5
+const MAX_CHANNELS_PER_USER = 25 // assume ≤25 channels/user — see NIT 22 rationale
 
 export async function GET(req: Request) {
   const url = new URL(req.url)
@@ -57,13 +59,15 @@ export async function GET(req: Request) {
 
   const admin = createAdminClient()
 
-  // Find users with at least one active channel, ordered by least-recently parsed
+  // Find users with at least one active channel, ordered by least-recently parsed.
+  // Over-fetch by MAX_CHANNELS_PER_USER to ensure we get N distinct users even
+  // if the top user has 25 channels filling the result set.
   const { data: candidateRows, error } = await admin
     .from('tg_channels')
     .select('user_id, last_parsed_at')
     .eq('status', 'active')
     .order('last_parsed_at', { ascending: true, nullsFirst: true })
-    .limit(MAX_USERS_PER_INVOCATION * 5) // over-fetch for dedup
+    .limit(MAX_USERS_PER_INVOCATION * MAX_CHANNELS_PER_USER)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })

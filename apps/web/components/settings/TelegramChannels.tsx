@@ -168,11 +168,14 @@ export default function TelegramChannels() {
         </button>
       </div>
 
-      {validateMsg && (
-        <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-[11px] text-slate-700">
-          {validateMsg}
-        </div>
-      )}
+      {/* role=status + aria-live: screen readers announce validation/error changes */}
+      <div role="status" aria-live="polite" className="contents">
+        {validateMsg && (
+          <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-[11px] text-slate-700">
+            {validateMsg}
+          </div>
+        )}
+      </div>
 
       {/* Channel list */}
       <div className="mt-4 space-y-1.5">
@@ -237,12 +240,15 @@ export default function TelegramChannels() {
         ))}
       </div>
 
-      {error && (
-        <div className="mt-4 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-[12.5px] text-red-700">
-          <AlertCircle size={13} className="mt-0.5 flex-none" />
-          {error}
-        </div>
-      )}
+      {/* role=alert: errors get higher screen-reader priority than status */}
+      <div role="alert" aria-live="assertive" className="contents">
+        {error && (
+          <div className="mt-4 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-[12.5px] text-red-700">
+            <AlertCircle size={13} className="mt-0.5 flex-none" />
+            {error}
+          </div>
+        )}
+      </div>
 
       <p className="mt-4 font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
         Парсер обходит каналы каждый час · ~$0.75/мес · cap $3

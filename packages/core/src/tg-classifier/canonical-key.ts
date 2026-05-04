@@ -18,6 +18,8 @@ const STOP_WORDS = new Set([
   // Common job-title noise
   'job', 'position', 'role', 'opening', 'вакансия', 'вакансии', 'требуется',
   'работа', 'team', 'г', 'москва', 'спб', 'удаленно', 'удалённо', 'remote',
+  // Seniority — collapses "Senior Frontend" / "Middle Frontend" to same key
+  'senior', 'middle', 'junior', 'lead', 'sr', 'jr',
 ])
 
 /**
@@ -25,16 +27,19 @@ const STOP_WORDS = new Set([
  * drop stop-words, join with single dash.
  */
 function slugify(input: string): string {
-  return input
-    .toLowerCase()
-    .normalize('NFKD')
-    // Strip punctuation + symbols, keep word chars (Latin + Cyrillic) and spaces
-    .replace(/[^\p{L}\p{N}\s-]/gu, ' ')
-    .split(/\s+/)
-    .filter((w) => w.length > 0 && !STOP_WORDS.has(w))
-    .join('-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
+  return (
+    input
+      .toLowerCase()
+      // Strip punctuation + symbols, keep word chars (Latin + Cyrillic) and spaces.
+      // NOTE: deliberately NOT using NFKD — it decomposes `й`/`ё` into combining
+      // marks that then get stripped, mangling Russian words ("Йота" → "ота").
+      .replace(/[^\p{L}\p{N}\s-]/gu, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length > 0 && !STOP_WORDS.has(w))
+      .join('-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+  )
 }
 
 /**

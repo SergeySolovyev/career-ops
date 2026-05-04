@@ -35,6 +35,16 @@ create policy "own channels delete" on public.tg_channels for delete using (auth
 
 create index if not exists tg_channels_status_idx on public.tg_channels(status, last_parsed_at);
 
+-- Defense in depth: enforce username normalization at DB level (app already
+-- normalizes, but service_role inserts could bypass). NOTE: ALTER TABLE ADD
+-- CONSTRAINT lacks IF NOT EXISTS — wrap in DO block for idempotency.
+do $$ begin
+  alter table public.tg_channels
+    add constraint tg_channels_username_lowercase_no_at
+    check (channel_username = lower(channel_username) and channel_username !~ '^@');
+exception when duplicate_object then null;
+end $$;
+
 -- ---------------------------------------------------------------------------
 -- 2. Per-user cost + activity log (one row per scan run)
 -- ---------------------------------------------------------------------------
