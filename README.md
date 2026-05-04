@@ -31,7 +31,8 @@
 | 📊 **Track** | Pipeline с real-time статусами (sent → viewed → replied) |
 | 💬 **RAG advisor** | AI-советник с контекстом вашего профиля + последних матчей |
 | 🎤 **Voice** | Голосовой ввод вопросов в чате (ru-RU) |
-| 📱 **Telegram** | Бот для уведомлений о новых матчах |
+| 📱 **Telegram bot** | Уведомления о новых матчах через @careerpilot_bot |
+| 📡 **TG-Channels Parser** ⭐ | Второй источник вакансий: 10 default-каналов + custom user-каналы. MTProto-worker + 2-pass AI (Haiku classify → Sonnet extract). USP против HH-only конкурентов |
 
 ---
 
@@ -52,19 +53,32 @@
 
 ---
 
+## 🗺 Sprint Roadmap
+
+**v2 pivot:** масс-маркет РФ/СНГ, 20–30 лет, IT/digital в городах. Цена ~₽300–500/мес.
+
+| # | Sprint | Статус | Что внутри | PR |
+|---|---|---|---|---|
+| **1** | **TG-Channels Parser** | ✅ done | MTProto worker + 2-pass AI + 10 default-каналов + custom + dedup | `da36a93..e4cb295` |
+| 2 | Pivot UX | 🟡 next | Лендинг tone junior/middle, onboarding без CV, цены в ₽ | — |
+| 3 | RU Billing | ⏳ planned | ЮKassa + договор-оферта + 54-ФЗ + checkout | — |
+| 4 | Production Hardening | ⏳ planned | Sentry + rate limit + per-user cost dashboard + 152-ФЗ | — |
+
+---
+
 ## 🎯 Критерии МагоЛего — 12 / 12
 
 | # | Критерий | Статус | Где смотреть |
 |---|---|---|---|
-| 1 | Прикладная задача | ✅ | End-to-end поиск работы для Директоров |
-| 2 | Vibe-coding | ✅ | 29 commits с `Co-Authored-By: Claude` |
+| 1 | Прикладная задача | ✅ | End-to-end поиск работы (HH + TG) |
+| 2 | Vibe-coding | ✅ | 35+ commits с `Co-Authored-By: Claude` |
 | 3 | LLM внутри | ✅ | `claude-sonnet-4-5-20250929` в 4 endpoints |
 | 4 | Telegram-бот | ✅ | [`apps/web/app/api/telegram/`](apps/web/app/api/telegram/) |
 | 5 | Лендинг | ✅ | [`apps/web/app/page.tsx`](apps/web/app/page.tsx) |
 | 6 | Веб UI | ✅ | 11 страниц в `apps/web/app/(app)/` и `(auth)/` |
 | 7 | Авторизация | ✅ | Supabase Auth + middleware |
 | 8 | RAG-ассистент | ✅ | [`/chat`](https://careerpilot-umber.vercel.app/chat) — retrieves profile + evals |
-| 9 | База данных | ✅ | Supabase PostgreSQL, 5 таблиц с RLS |
+| 9 | База данных | ✅ | Supabase PostgreSQL, **7 таблиц** с RLS (+ tg_channels, tg_scan_log) |
 | 10 | Voice input | ✅ | Web Speech API в `/chat`, `lang='ru-RU'` |
 | 11 | Дашборд | ✅ | `/dashboard` с funnel metrics |
 | 12 | Воронка | ✅ | `/analytics` — 7 stages, per-stage conversion |
@@ -82,11 +96,13 @@
 
 ### Backend
 - **Next.js Server Actions** — auth actions (`signIn`, `signUp`)
-- **Next.js API Routes** — 15 endpoints (`/api/chat`, `/api/scan-now`, `/api/apply`, …)
+- **Next.js API Routes** — 19 endpoints (4 новых для TG-парсера) (`/api/chat`, `/api/scan-now`, `/api/apply`, …)
 - **Supabase** — PostgreSQL + Auth
 - **Browserless** (DigitalOcean) — AI-логин в HH через headless Chrome
 
 ### AI
+- **Claude Sonnet 4.5** (`claude-sonnet-4-5-20250929`) — основная модель: scoring, cover-letter, RAG-чат, TG-extract
+- **Claude Haiku 4.5** (`claude-haiku-4-5`) — batch-классификация TG-сообщений (200 msgs/call за ~$0.02)
 - **`@anthropic-ai/sdk`** — прямые вызовы
 - **Vercel AI SDK** (`ai` + `@ai-sdk/anthropic`) — streaming chat
 - **Модель:** `claude-sonnet-4-5-20250929` (configurable через `ANTHROPIC_MODEL`)
@@ -118,26 +134,69 @@ career-ops/
 │       │   ├── (auth)/            # Public auth
 │       │   │   ├── login/
 │       │   │   └── signup/
-│       │   ├── api/               # 15 endpoints
+│       │   ├── api/               # 19 endpoints (4 новых для TG-парсера)
 │       │   │   ├── chat/          # RAG streaming
 │       │   │   ├── profile/       # CRUD профиля
-│       │   │   ├── scan-now/      # Сканер + AI-оценка
+│       │   │   ├── scan-now/      # HH сканер + AI-оценка
 │       │   │   ├── apply/         # Auto-apply с cover-letter
 │       │   │   ├── hh/            # HH integration
-│       │   │   └── telegram/      # Bot endpoints
+│       │   │   ├── telegram/      # Bot endpoints (notifications)
+│       │   │   └── tg/            # ⭐ TG-channels parser (Sprint 1)
+│       │   │       ├── channels/  # CRUD per-user channel list
+│       │   │       ├── scan-now/  # manual trigger
+│       │   │       ├── scan-all/  # cron daily entry
+│       │   │       └── validate/  # check channel exists
 │       │   ├── page.tsx           # Лендинг
 │       │   └── globals.css        # Design tokens
+│       ├── components/
+│       │   └── settings/
+│       │       └── TelegramChannels.tsx  # ⭐ TG channel manager UI
 │       ├── lib/
-│       │   ├── supabase/          # DB + Auth client
+│       │   ├── supabase/          # DB + Auth client (server + admin)
 │       │   ├── browserless.ts     # HH login automation
+│       │   ├── tg-worker.ts       # ⭐ MTProto worker fetch wrapper (HMAC)
+│       │   ├── tg-scan-core.ts    # ⭐ TG scan orchestration
 │       │   └── encryption.ts      # Cookie encryption
-│       └── supabase/migrations/   # DB schema
+│       └── vercel.json            # ⭐ Daily cron 06:00 UTC → /api/tg/scan-all
 ├── packages/
-│   └── core/                      # Shared types + utilities
-├── infra/                         # Deployment configs
-├── jobs/                          # Cron jobs
-└── n8n/                           # Workflow automation templates
+│   └── core/
+│       ├── src/
+│       │   ├── evaluator/         # aiEvaluate, preScreen
+│       │   ├── cover-letter/      # generateCoverLetter
+│       │   └── tg-classifier/     # ⭐ Sprint 1: Haiku batch + Sonnet extract
+│       │       ├── classify-batch.ts
+│       │       ├── extract-vacancy.ts
+│       │       ├── canonical-key.ts
+│       │       └── __tests__/     # 24 unit-tests (vitest)
+├── infra/
+│   └── do-worker/
+│       ├── docker-compose.yml     # browserless + flowise + ⭐ tg-worker
+│       ├── Caddyfile              # TLS + reverse proxy
+│       └── tg/                    # ⭐ MTProto worker (gramjs + Express + HMAC)
+│           ├── server.js
+│           ├── auth.js            # one-time StringSession generator
+│           ├── Dockerfile
+│           └── RUNBOOK.md         # ⭐ полная инструкция деплоя
+├── supabase/migrations/
+│   ├── 002_hh_sessions_apply_log.sql
+│   └── 003_tg_parser.sql          # ⭐ tg_channels + tg_scan_log + 4 columns
+└── docs/
+    └── SPRINT-1-NEXT-STEPS.md     # ⭐ user-side go-live чеклист
 ```
+
+⭐ = новое в Sprint 1
+
+---
+
+## 🧪 Tests
+
+```bash
+pnpm --filter @careerpilot/core test
+# 24 tests pass — canonical-key dedup logic + extractHhUrl normalization
+```
+
+Test infrastructure: **vitest 1.6** (Node env, glob `src/**/__tests__/**/*.test.ts`).
+Coverage focus: pure functions in `tg-classifier/`. AI calls and DB ops covered by integration testing on preview deploys.
 
 ---
 
