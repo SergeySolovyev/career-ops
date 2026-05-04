@@ -14,7 +14,9 @@ import {
   Info,
   Wallet,
   TriangleAlert,
+  Send,
 } from 'lucide-react'
+import TelegramChannels from '@/components/settings/TelegramChannels'
 
 /* ============================================================
    CareerPilot · Settings
@@ -315,6 +317,19 @@ export default function SettingsPage() {
                 </Field>
               </div>
             </SectionCard>
+
+            {/* Telegram channels (Sprint 1: TG parser) */}
+            {mode === 'server' && (
+              <SectionCard
+                label="Sources · Telegram"
+                title="Telegram-каналы"
+                hint="Парсим вакансии из выбранных каналов · ~$0.75/мес на пользователя"
+                Icon={Send}
+                tone="#0088cc"
+              >
+                <TelegramChannels />
+              </SectionCard>
+            )}
 
             {/* Actions */}
             <div className="sticky bottom-4 mt-6 flex items-center justify-between rounded-md border border-slate-200 bg-white/90 p-3 shadow-sm backdrop-blur">

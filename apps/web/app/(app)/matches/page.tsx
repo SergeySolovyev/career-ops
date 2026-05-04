@@ -14,9 +14,12 @@ import {
   MapPin,
   Wallet,
   ArrowUpRight,
+  Briefcase,
+  Copy,
 } from 'lucide-react'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import ScanButton from './scan-button'
+import ScanTgButton from './scan-tg-button'
 import ApplyButton from './apply-button'
 
 /* ============================================================
@@ -40,6 +43,10 @@ type Evaluation = {
   ai_summary?: string | null
   ai_strengths?: string[] | null
   evaluated_at?: string | null
+  source?: 'hh_ru' | 'tg' | string | null
+  tg_channel?: string | null
+  canonical_key?: string | null
+  duplicate_of_key?: string | null
 }
 
 /* ------------------------------------------------------------
@@ -71,7 +78,7 @@ async function getEvaluations(): Promise<Evaluation[]> {
     if (!user) return []
     const { data } = await supabase
       .from('user_evaluations')
-      .select('url,title,company,salary_from,salary_to,salary_currency,location,ai_score,ai_verdict,ai_summary,ai_strengths,evaluated_at')
+      .select('url,title,company,salary_from,salary_to,salary_currency,location,ai_score,ai_verdict,ai_summary,ai_strengths,evaluated_at,source,tg_channel,canonical_key,duplicate_of_key')
       .eq('user_id', user.id)
       .order('ai_score', { ascending: false })
       .limit(20)
@@ -127,6 +134,42 @@ function fmtSalary(min?: number | null, max?: number | null, cur?: string | null
   return `${c} до ${f(max!)}`
 }
 
+/**
+ * Source badge — shows where the vacancy was discovered.
+ * For Telegram: links to t.me/<channel>.
+ * For HH: just shows "hh.ru".
+ * If duplicate_of_key set — adds a "duplicate" pill so user knows it's the same job.
+ */
+function SourceBadge({ ev }: { ev: Evaluation }) {
+  const isDup = !!ev.duplicate_of_key
+  if (ev.source === 'tg' && ev.tg_channel) {
+    return (
+      <span className="inline-flex items-center gap-1.5 font-mono">
+        <a
+          href={`https://t.me/${ev.tg_channel}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-blue-700 hover:underline"
+          title="Канал-источник"
+        >
+          <Send size={11} />@{ev.tg_channel}
+        </a>
+        {isDup && (
+          <span className="inline-flex items-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-amber-700" title="Эта вакансия также найдена на hh.ru">
+            <Copy size={9} /> dup
+          </span>
+        )}
+      </span>
+    )
+  }
+  return (
+    <span className="inline-flex items-center gap-1 font-mono text-slate-500">
+      <Briefcase size={11} />
+      hh.ru
+    </span>
+  )
+}
+
 /* ------------------------------------------------------------
    Page
    ------------------------------------------------------------ */
@@ -174,6 +217,7 @@ export default async function MatchesPage() {
           </div>
           <div className="flex items-center gap-2">
             {isUserProfile && <ScanButton />}
+            {isUserProfile && <ScanTgButton />}
             <button className="btn-secondary h-10 px-4 text-[13px]">
               <Filter size={14} />
               Фильтры · 3
@@ -470,6 +514,8 @@ function MatchCard({ ev }: { ev: Evaluation }) {
                   <Wallet size={12} />
                   {fmtSalary(ev.salary_from, ev.salary_to, ev.salary_currency)}
                 </span>
+                <span className="text-slate-300">·</span>
+                <SourceBadge ev={ev} />
               </div>
             </div>
             <span

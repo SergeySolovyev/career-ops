@@ -1,0 +1,22 @@
+{
+  "name": "cp-tg-worker",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "CareerPilot Telegram MTProto reader — runs on DO droplet alongside Browserless",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "auth": "node auth.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "telegram": "^2.26.16",
+    "input": "^1.0.1",
+    "p-limit": "^6.2.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

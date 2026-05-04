@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/tg/scan-all",
+      "schedule": "0 * * * *"
+    }
+  ],
+  "functions": {
+    "app/api/tg/scan-now/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/tg/scan-all/route.ts": {
+      "maxDuration": 300
+    }
+  }
+}

@@ -30,3 +30,14 @@
 		Referrer-Policy "no-referrer"
 	}
 }
+
+{$TG_WORKER_DOMAIN} {
+	# TG MTProto worker — REST only, no WebSocket
+	reverse_proxy tg-worker:3200
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+	}
+}
