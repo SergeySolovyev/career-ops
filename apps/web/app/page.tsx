@@ -121,7 +121,7 @@ function Hero() {
         <div className="col-span-12 lg:col-span-6">
           <div className="pill mb-6">
             <span className="pulse-dot" />
-            <span>Для Director / VP · FinTech · AI/ML · Банки</span>
+            <span>Для junior / middle · IT, дизайн, маркетинг · РФ + СНГ</span>
           </div>
           <h1 className="grad-text text-[56px] font-semibold leading-[1.04] tracking-[-0.03em]">
             AI найдёт
@@ -302,10 +302,10 @@ function HeroVisual() {
   }, []);
 
   const cards = [
-    { t: "VP Engineering", c: "Т-Банк", m: "4.6", x: 12, y: 18 },
-    { t: "Director ML", c: "Яндекс", m: "4.3", x: 68, y: 30 },
-    { t: "Head of AI", c: "Сбер", m: "3.8", x: 22, y: 64 },
-    { t: "VP Product", c: "Ozon", m: "4.1", x: 60, y: 70 },
+    { t: "Frontend Junior", c: "Mokka", m: "4.6", x: 12, y: 18 },
+    { t: "Middle Backend", c: "Яндекс", m: "4.3", x: 68, y: 30 },
+    { t: "Data Analyst", c: "Сбер", m: "3.8", x: 22, y: 64 },
+    { t: "UX Designer", c: "Ozon", m: "4.1", x: 60, y: 70 },
   ];
 
   return (
@@ -483,7 +483,7 @@ function ProofTiles() {
         />
         <Tile
           icon={<Brain size={18} />}
-          badge={<span className="font-mono text-[11px] text-slate-500">/ month</span>}
+          badge={<span className="font-mono text-[11px] text-slate-500">/мес</span>}
           value="31"
           label="AI-отчётов"
           extra={
@@ -1378,7 +1378,7 @@ function Pricing() {
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           <PriceCard
             tier="Free"
-            price="$0"
+            price="₽0"
             cadence="/ навсегда"
             blurb="Попробовать платформу без рисков."
             cta={{ label: "Начать бесплатно", href: "/signup", variant: "secondary" }}
@@ -1391,7 +1391,7 @@ function Pricing() {
           <PriceCard
             tier="Pro"
             tierColor="#2563eb"
-            price="$19"
+            price="₽299"
             cadence="/ мес"
             blurb="Для активного поиска с автоматизацией."
             highlight
@@ -1406,7 +1406,7 @@ function Pricing() {
           />
           <PriceCard
             tier="Premium"
-            price="$39"
+            price="₽699"
             cadence="/ мес"
             blurb="Максимум — для executive-поиска."
             cta={{ label: "Получить Premium", href: "/signup", variant: "secondary" }}
