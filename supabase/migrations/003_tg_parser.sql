@@ -57,8 +57,12 @@ create table if not exists public.tg_scan_log (
 alter table public.tg_scan_log enable row level security;
 
 drop policy if exists "own scan log read" on public.tg_scan_log;
-create policy "own scan log read" on public.tg_scan_log for select using (auth.uid() = user_id);
--- No insert/update/delete via RLS — only service_role writes (worker / cron).
+drop policy if exists "own scan log insert" on public.tg_scan_log;
+create policy "own scan log read"   on public.tg_scan_log for select using (auth.uid() = user_id);
+-- INSERT policy lets /api/tg/scan-now (user-context) write its own cost log row.
+-- Service_role (cron) bypasses RLS anyway. Without this, manual scans would silently
+-- skip cost tracking → quota cap would never trigger.
+create policy "own scan log insert" on public.tg_scan_log for insert with check (auth.uid() = user_id);
 
 create index if not exists tg_scan_log_user_time_idx on public.tg_scan_log(user_id, ran_at desc);
 
@@ -135,3 +139,7 @@ begin
   end loop;
 end;
 $$ language plpgsql security definer;
+
+-- Explicit grant for clarity (Supabase grants execute to PUBLIC by default,
+-- but explicit is safer + makes audit trails clearer):
+grant execute on function public.tg_seed_default_channels(uuid) to authenticated;
