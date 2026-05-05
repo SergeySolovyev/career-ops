@@ -40,11 +40,37 @@ create index if not exists user_profiles_icp_idx on public.user_profiles(icp_seg
 create index if not exists user_profiles_city_idx on public.user_profiles(city) where city is not null;
 
 -- ---------------------------------------------------------------------------
--- 6. Backfill existing users
---    All existing users default to 'middle' (broadest pattern).
---    Sergey's demo account stays 'senior' to preserve Director demo behavior.
+-- 6. Backfill Sergey's demo account → 'senior' (preserves Director demo).
+--    Schema-agnostic: works whether user_profiles uses `candidate jsonb`
+--    (some envs) or `full_name text` (current prod). Skips silently if neither.
+--    Original SQL had operator-precedence bug: `A OR B AND C` parses as
+--    `A OR (B AND C)`, so `icp_segment='middle'` guard didn't apply to A.
+--    Fixed with explicit parentheses.
 -- ---------------------------------------------------------------------------
-update public.user_profiles
-set icp_segment = 'senior'
-where (candidate->>'first_name') ilike 'сергей' or (candidate->>'first_name') ilike 'sergey'
-  and icp_segment = 'middle'; -- only update if still default
+do $$
+declare
+  has_candidate boolean;
+  has_full_name boolean;
+begin
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema='public' and table_name='user_profiles' and column_name='candidate'
+  ) into has_candidate;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema='public' and table_name='user_profiles' and column_name='full_name'
+  ) into has_full_name;
+
+  if has_candidate then
+    update public.user_profiles
+    set icp_segment = 'senior'
+    where ((candidate->>'first_name') ilike 'сергей' or (candidate->>'first_name') ilike 'sergey')
+      and icp_segment = 'middle';
+  elsif has_full_name then
+    update public.user_profiles
+    set icp_segment = 'senior'
+    where (full_name ilike '%сергей%' or full_name ilike '%sergey%')
+      and icp_segment = 'middle';
+  end if;
+end $$;
