@@ -127,26 +127,26 @@ const STATUS: Record<
 
 const DEMO_APPS = [
   {
-    title: 'Лидер направления по AI',
-    company: 'Сбер',
+    title: 'Frontend Junior — React',
+    company: 'Yandex',
     status: 'sent' as StatusKey,
     date: '2026-04-16',
   },
   {
-    title: 'Head of Data Platform',
-    company: 'Mokka',
+    title: 'Middle Backend — Python',
+    company: 'Tinkoff',
     status: 'sent' as StatusKey,
     date: '2026-04-15',
   },
   {
-    title: 'Chief Digital Officer',
-    company: 'Cornerstone Russia',
+    title: 'Data Analyst — SQL/Python',
+    company: 'Ozon Tech',
     status: 'viewed' as StatusKey,
     date: '2026-04-14',
   },
   {
-    title: 'Руководитель AI-трансформации',
-    company: 'Крупный российский банк',
+    title: 'UX Designer — Figma',
+    company: 'VK',
     status: 'replied' as StatusKey,
     date: '2026-04-12',
   },

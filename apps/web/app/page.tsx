@@ -602,7 +602,7 @@ function ScreenCarousel() {
               Продукт
             </div>
             <h2 className="mt-2 max-w-[600px] text-[36px] font-semibold tracking-tight">
-              Executive-инструмент. Без лишнего.
+              Простой инструмент. Без лишнего.
             </h2>
           </div>
           <div className="hidden items-center gap-1 md:flex">
@@ -1072,7 +1072,7 @@ function FeatureGrid() {
           </h2>
         </div>
         <div className="col-span-12 text-[16px] leading-[1.65] text-slate-500 lg:col-span-6 lg:col-start-7">
-          Executive-поиск — это поиск сигнала в шуме. CareerPilot снимает с вас
+          Поиск работы — это поиск сигнала в шуме. CareerPilot снимает с вас
           80% операционной работы: сканирование, оценку, подготовку материалов,
           отклики. Остаётся только встречаться с людьми.
         </div>
@@ -1367,7 +1367,7 @@ function Pricing() {
             Тарифы
           </div>
           <h2 className="mt-2 text-[40px] font-semibold tracking-[-0.02em]">
-            Executive-grade. Доступно.
+            Профи-инструмент. Доступно.
           </h2>
           <p className="mx-auto mt-3 max-w-[520px] text-[15px] text-slate-500">
             Начните бесплатно. Обновитесь, когда увидите первый match ≥ 4.0.
@@ -1407,7 +1407,7 @@ function Pricing() {
             tier="Premium"
             price="₽699"
             cadence="/ мес"
-            blurb="Максимум — для executive-поиска."
+            blurb="Максимум — для активного поиска."
             cta={{ label: "Получить Premium", href: "/signup", variant: "secondary" }}
             features={[
               "Безлимит AI-оценок",

@@ -98,8 +98,8 @@ async function handleFreeText(text: string): Promise<string> {
         model,
         max_tokens: 600,
         system: `Ты — AI карьерный консультант CareerPilot. Отвечай кратко (до 200 слов), на русском, в Markdown для Telegram.
-Профиль кандидата: Соловьев С.С., TradFi→DeFi+AI, 20 лет финрынков, портфель $4B+.
-Целевые роли: CDO, Head of AI, Director Digital Transformation.`,
+Помогаешь с поиском работы: советы по CV, подготовка к собеседованию, анализ оффера, переговоры по зарплате.
+Стиль — дружелюбный, конкретный, без воды. Если не хватает контекста — задай 1 уточняющий вопрос.`,
         messages: [{ role: 'user', content: text }],
       }),
     })

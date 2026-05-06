@@ -197,8 +197,10 @@ export default function OnboardingPage() {
                 rows={14}
                 placeholder={`# Иван Иванов
 ## Опыт
-- 2020–2026: Senior Data Scientist в Компании X
-  • Построил ML-модель, снижение дефолтов на 15%
+- 2024 – сейчас: Junior Frontend Developer · стартап X
+  • React + TypeScript, 1.5 года
+  • 5 pet-проектов на GitHub
+- 2022–2024: студент МГТУ им. Баумана, ИТ-факультет
 …`}
                 className="w-full resize-y rounded-md border border-slate-200 bg-slate-50/40 p-4 font-mono text-[12.5px] leading-[1.55] text-slate-800 placeholder:text-slate-400 focus:border-slate-300 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-100"
               />
@@ -262,7 +264,7 @@ export default function OnboardingPage() {
                   type="text"
                   value={targetRoles}
                   onChange={(e) => setTargetRoles(e.target.value)}
-                  placeholder="Senior Data Scientist, ML Engineer, AI Product Manager"
+                  placeholder="Frontend Junior, Middle Backend, Data Analyst"
                   className={inputCls}
                 />
               </Field>
@@ -273,7 +275,7 @@ export default function OnboardingPage() {
                     type="number"
                     value={salaryMin}
                     onChange={(e) => setSalaryMin(e.target.value)}
-                    placeholder="300 000"
+                    placeholder="120 000"
                     className={inputCls + ' tabular-nums'}
                   />
                 </Field>
@@ -282,7 +284,7 @@ export default function OnboardingPage() {
                     type="number"
                     value={salaryMax}
                     onChange={(e) => setSalaryMax(e.target.value)}
-                    placeholder="800 000"
+                    placeholder="220 000"
                     className={inputCls + ' tabular-nums'}
                   />
                 </Field>

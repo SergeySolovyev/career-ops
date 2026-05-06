@@ -723,7 +723,7 @@ function DemoCard() {
                 className="font-semibold leading-none tracking-[-0.03em]"
                 style={{ fontSize: 40, color: '#047857' }}
               >
-                4.7
+                4.4
               </div>
               <div className="mt-1 font-mono text-[10px]" style={{ color: '#047857' }}>
                 / 5.0 · Strong
@@ -734,14 +734,14 @@ function DemoCard() {
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h3 className="text-[18px] font-semibold leading-tight tracking-tight">
-                  Лидер направления по AI
+                  Frontend Junior — React
                 </h3>
                 <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] text-slate-500">
-                  <span className="font-medium text-slate-900">Сбер · demo</span>
+                  <span className="font-medium text-slate-900">Yandex · demo</span>
                   <span className="text-slate-300">·</span>
-                  <span>Москва</span>
+                  <span>Москва · remote OK</span>
                   <span className="text-slate-300">·</span>
-                  <span className="font-mono">₽ 400k–600k</span>
+                  <span className="font-mono">₽ 80k–120k</span>
                 </div>
               </div>
               <span
@@ -758,8 +758,8 @@ function DemoCard() {
             >
               <Sparkles size={14} className="mt-[2px] flex-none" color="#2563eb" />
               <p className="text-[13px] leading-[1.55] text-slate-700">
-                AI + банкинг = точный профиль. 20 лет финрынков и research papers — seniority
-                match для позиции уровня Director.
+                React + TypeScript + 5 pet-проектов на GitHub = junior-профиль с уверенным
+                stack'ом. Yandex активно набирает junior'ов с собственным портфолио.
               </p>
             </div>
             <div className="mt-4 rounded-md bg-blue-50 px-3 py-2 text-xs text-blue-900">

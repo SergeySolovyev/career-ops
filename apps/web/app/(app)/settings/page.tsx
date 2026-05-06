@@ -229,8 +229,9 @@ export default function SettingsPage() {
                 rows={12}
                 placeholder={`# Иван Иванов
 ## Опыт
-- 2020–2026: Senior Data Scientist в Компании X
-  • Построил ML-модель скоринга, снижение дефолтов на 15%
+- 2024 – сейчас: Junior Frontend Developer · стартап X
+  • React + TypeScript, 1.5 года
+  • 5 pet-проектов на GitHub
 …`}
                 className="w-full resize-y rounded-md border border-slate-200 bg-slate-50/40 p-3 font-mono text-[12.5px] leading-[1.55] text-slate-800 placeholder:text-slate-400 focus:border-slate-300 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-100"
               />
@@ -255,7 +256,7 @@ export default function SettingsPage() {
                     type="text"
                     value={profile.targetRoles}
                     onChange={(e) => update('targetRoles', e.target.value)}
-                    placeholder="Senior DS, ML Engineer, AI PM"
+                    placeholder="Frontend Junior, Middle Backend, Data Analyst"
                     className={inputCls}
                   />
                 </Field>
@@ -265,7 +266,7 @@ export default function SettingsPage() {
                       type="number"
                       value={profile.salaryMin}
                       onChange={(e) => update('salaryMin', e.target.value)}
-                      placeholder="300 000"
+                      placeholder="120 000"
                       className={inputCls + ' tabular-nums'}
                     />
                   </Field>
@@ -274,7 +275,7 @@ export default function SettingsPage() {
                       type="number"
                       value={profile.salaryMax}
                       onChange={(e) => update('salaryMax', e.target.value)}
-                      placeholder="800 000"
+                      placeholder="220 000"
                       className={inputCls + ' tabular-nums'}
                     />
                   </Field>
@@ -299,7 +300,7 @@ export default function SettingsPage() {
                     value={profile.positiveKeywords}
                     onChange={(e) => update('positiveKeywords', e.target.value)}
                     rows={4}
-                    placeholder="AI, ML, LLM, blockchain, DeFi, fintech, Head of"
+                    placeholder="React, TypeScript, Python, Figma, удалёнка"
                     className={inputCls + ' resize-y'}
                   />
                 </Field>
