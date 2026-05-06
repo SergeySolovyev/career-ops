@@ -100,7 +100,7 @@ export default async function DashboardPage() {
 
   const candidate = profile?.candidate
   const target = profile?.target
-  const firstName = candidate?.first_name || 'пользователь'
+  const firstName = candidate?.first_name?.trim() || ''
   const greeting = (() => {
     const h = new Date().getHours()
     if (h < 5) return 'Доброй ночи'
@@ -108,6 +108,8 @@ export default async function DashboardPage() {
     if (h < 18) return 'Добрый день'
     return 'Добрый вечер'
   })()
+  // If no first name set, show greeting without empty placeholder ("Добрый день! 👋")
+  const greetingLine = firstName ? `${greeting}, ${firstName}` : `${greeting}! 👋`
 
   return (
     <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
@@ -123,7 +125,7 @@ export default async function DashboardPage() {
         <header className="mb-8 flex flex-wrap items-end justify-between gap-6">
           <div>
             <h1 className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] grad-text">
-              {greeting}, {firstName}
+              {greetingLine}
             </h1>
             <p className="mt-3 max-w-[560px] text-[15px] leading-[1.55] text-slate-500">
               {candidate?.current_role || 'Ваш AI-советник работает в фоне. Вот что нового.'}
