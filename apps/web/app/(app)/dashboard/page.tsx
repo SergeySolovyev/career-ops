@@ -147,7 +147,7 @@ export default async function DashboardPage() {
         {!isUserProfile && (
           <div className="mb-6 rounded-md border border-blue-200 bg-blue-50 p-4 text-[13px] text-blue-900">
             <span className="font-semibold">Demo-режим.</span>{' '}
-            Это публичный кабинет Сергея с реальными данными.{' '}
+            Это демо-кабинет с примером данных Frontend Junior.{' '}
             <Link href="/signup" className="font-semibold underline">
               Зарегистрируйтесь
             </Link>{' '}

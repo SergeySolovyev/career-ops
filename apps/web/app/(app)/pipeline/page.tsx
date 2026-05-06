@@ -212,7 +212,7 @@ export default async function PipelinePage() {
         {!isUserProfile && (
           <div className="mb-6 rounded-md border border-blue-200 bg-blue-50 p-4 text-[13px] text-blue-900">
             <span className="font-semibold">Demo-режим.</span>{' '}
-            Это публичный pipeline Сергея с реальными данными.{' '}
+            Это пример pipeline для Frontend Junior.{' '}
             <Link href="/signup" className="font-semibold underline">
               Зарегистрируйтесь
             </Link>{' '}
