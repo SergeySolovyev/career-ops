@@ -1,46 +1,43 @@
 {
   "candidate": {
-    "full_name": "Сергей Соловьев",
-    "first_name": "Сергей",
-    "email": "sssolovjov@gmail.com",
-    "phone": "+7 (916) 032-89-21",
+    "full_name": "Мария Иванова",
+    "first_name": "Мария",
+    "email": "demo@careerpilot.test",
+    "phone": "+7 (000) 000-00-00",
     "location": "Москва",
-    "telegram": "@Sergey_Solovjov",
-    "portfolio_url": "https://www.sergeisolovev.com",
-    "current_role": "Советник Президента — Председателя Правления АО Мособлбанк (Группа ПСБ)",
-    "years_experience": 20
+    "telegram": "@careerpilot_demo",
+    "portfolio_url": "https://github.com/careerpilot-demo",
+    "current_role": "Frontend Junior · React + TypeScript",
+    "years_experience": 2
   },
   "target": {
     "roles": [
-      "Директор по цифровой трансформации / CDO",
-      "Head of AI/DeFi Strategy",
-      "VP Digital Finance / Digital Transformation",
-      "CTO (FinTech/DeFi)",
-      "Советник по AI-трансформации"
+      "Frontend Junior",
+      "Middle Frontend",
+      "Middle Backend",
+      "Data Analyst",
+      "UX Designer"
     ],
-    "salary_min": 400000,
-    "salary_target_min": 500000,
-    "salary_target_max": 1500000,
+    "salary_min": 100000,
+    "salary_target_min": 120000,
+    "salary_target_max": 220000,
     "currency": "RUB",
-    "international_range": "$150K-300K/year",
-    "location": "Москва (основная), remote для международных"
+    "international_range": "$1.5K-3K/month",
+    "location": "Москва, удалёнка по РФ + СНГ"
   },
   "superpowers": [
-    "TradFi × AI × DeFi convergence — уникальная комбинация 20 лет на финансовых рынках + research-level AI + практический DeFi",
-    "End-to-end: от ML-пайплайнов и RAG-систем до трансграничных крипто-платежей",
-    "Регуляторная экспертиза ЦФА (ФЗ-259, ФЗ-34, ФЗ-221) + банковское регулирование",
-    "3 research препринта в 2026: Document AI, LOB prediction, Smart Contract vulnerability detection"
+    "React + TypeScript + 1.5 года опыта в pet-проектах — уверенный stack для junior-роли",
+    "Public GitHub: 5 проектов с 100+ stars, активный contributor в open source",
+    "Понимание архитектуры SPA: Next.js, состояние через Zustand/TanStack Query, тесты на Vitest",
+    "Дизайн-система с нуля: Figma → Tailwind compile → Storybook"
   ],
   "proof_points": [
-    { "title": "AI-трансформация Мособлбанка", "metric": "Советник Президента — Председателя Правления, формирование AI roadmap" },
-    { "title": "Портфель ценных бумаг", "metric": "Управление портфелем $4B+ и money market 100 млрд руб./день" },
-    { "title": "Document AI (препринт 2026)", "metric": "OCR vs Transformer Pipelines", "url": "https://doi.org/10.6084/m9.figshare.31430086" },
-    { "title": "LOB Mid-Price Prediction (препринт 2026)", "metric": "Domain-aware dual-branch RNN", "url": "https://doi.org/10.6084/m9.figshare.31859557" },
-    { "title": "Smart Contract Vulnerability (препринт 2026)", "metric": "ML-детекция через EVM bytecode", "url": "https://doi.org/10.6084/m9.figshare.31429971" }
+    { "title": "Pet-проект: e-commerce SPA", "metric": "Next.js 14 · 1k★ на GitHub · 8 переиспользуемых компонентов" },
+    { "title": "Open Source contributions", "metric": "4 PR в популярные UI-библиотеки (shadcn, radix-ui, react-hook-form)" },
+    { "title": "Стажировка: Frontend Engineer", "metric": "6 мес. в стартапе · 30+ компонентов · покрытие тестами 78%" }
   ],
   "education": [
-    { "degree": "MSc AI (ВШЭ)", "status": "ongoing" },
-    { "degree": "MSc AI (ВШЭ, вторая магистратура)", "status": "ongoing" },
-    { "degree": "WorldQuant University — Applied AI", "status": "2027" }
+    { "degree": "БГТУ им. Баумана — Прикладная математика и информатика", "status": "2024" },
+    { "degree": "Школа 21 — Frontend specialization", "status": "2024" }
   ]
 }
