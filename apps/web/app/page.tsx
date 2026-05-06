@@ -708,12 +708,12 @@ function DashboardScreen() {
         <div className="mt-auto border-t border-slate-200 pt-4">
           <div className="flex items-center gap-2 px-2 py-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-200 font-mono text-[10px] font-medium">
-              AK
+              МИ
             </div>
             <div className="min-w-0">
-              <div className="truncate text-[12px] font-medium">А. Коровин</div>
+              <div className="truncate text-[12px] font-medium">М. Иванова</div>
               <div className="truncate text-[10px] text-slate-500">
-                VP · Engineering
+                Frontend Junior · React
               </div>
             </div>
           </div>
@@ -811,37 +811,37 @@ function DashboardScreen() {
 function MatchesScreen() {
   const rows = [
     {
-      role: "VP of Engineering",
-      company: "Т-Банк · Москва · hybrid",
-      comp: "₽ 1.2–1.6M",
+      role: "Middle Backend · Python",
+      company: "Tinkoff · Москва · hybrid",
+      comp: "₽ 180–250K",
       score: 4.6,
       status: ["Рекомендовано", "#047857", "#a7f3d0", "#ecfdf5", "#10b981"],
     },
     {
-      role: "Director, ML Platform",
-      company: "Яндекс · Москва · remote OK",
-      comp: "₽ 1.0–1.4M",
-      score: 4.3,
+      role: "Frontend Junior · React",
+      company: "Yandex · СПб · remote OK",
+      comp: "₽ 80–120K",
+      score: 4.4,
       status: ["CV готово", "#1e3a8a", "#bfdbfe", "#eff6ff", "#2563eb"],
     },
     {
-      role: "Head of AI, FinTech",
-      company: "Сбер · Москва · onsite",
-      comp: "₽ 900k–1.3M",
-      score: 3.8,
-      status: ["В очереди", "#64748b", "#e2e8f0", "#fff", "#94a3b8"],
-    },
-    {
-      role: "VP Product, AI Tooling",
-      company: "Ozon Tech · Москва · hybrid",
-      comp: "₽ 1.1–1.5M",
+      role: "Data Analyst · SQL/Python",
+      company: "Ozon Tech · удалённо",
+      comp: "₽ 120–180K",
       score: 4.1,
       status: ["На проверке", "#92400e", "#fde68a", "#fffbeb", "#f59e0b"],
     },
     {
-      role: "Director, Data Platform",
-      company: "Альфа-Банк · Москва · hybrid",
-      comp: "₽ 950k–1.2M",
+      role: "UX Designer · Figma",
+      company: "VK · Москва · onsite",
+      comp: "₽ 130–200K",
+      score: 3.8,
+      status: ["В очереди", "#64748b", "#e2e8f0", "#fff", "#94a3b8"],
+    },
+    {
+      role: "SMM Manager · контент",
+      company: "Wildberries · Казань · удалённо",
+      comp: "₽ 70–110K",
       score: 3.6,
       status: ["Новое", "#64748b", "#e2e8f0", "#fff", "#94a3b8"],
     },
@@ -950,26 +950,26 @@ function ChatScreen() {
         <div className="flex flex-1 flex-col gap-1 p-2">
           <div className="rounded-md bg-slate-100 p-2.5">
             <div className="truncate text-[12.5px] font-medium">
-              VP of Engineering · Т-Банк
+              Frontend Junior · Yandex
             </div>
             <div className="mt-0.5 truncate text-[11px] text-slate-500">
-              Подбери упор на Platform и FinTech…
+              Подбери упор на React и Open Source…
             </div>
           </div>
           <div className="rounded-md p-2.5 hover:bg-slate-50">
             <div className="truncate text-[12.5px] font-medium">
-              Director, ML Platform
+              Middle Backend · Tinkoff
             </div>
             <div className="mt-0.5 truncate text-[11px] text-slate-500">
-              Какие риски в оффере Яндекса?
+              Какие риски в оффере Tinkoff?
             </div>
           </div>
           <div className="rounded-md p-2.5 hover:bg-slate-50">
             <div className="truncate text-[12.5px] font-medium">
-              Head of AI · Сбер
+              Data Analyst · Ozon Tech
             </div>
             <div className="mt-0.5 truncate text-[11px] text-slate-500">
-              STAR-кейс про миграцию стека
+              STAR-кейс про A/B-тесты
             </div>
           </div>
         </div>
@@ -981,16 +981,15 @@ function ChatScreen() {
               AI
             </span>
             <div className="text-[12.5px] font-medium">
-              VP of Engineering · Т-Банк
+              Frontend Junior · Yandex
             </div>
           </div>
-          <div className="pill text-[11px]">match 4.6 / 5</div>
+          <div className="pill text-[11px]">match 4.4 / 5</div>
         </div>
         <div className="flex-1 space-y-4 overflow-hidden p-6">
           <div className="flex justify-end">
             <div className="max-w-[72%] rounded-2xl rounded-br-md bg-slate-100 px-4 py-2.5 text-[13px]">
-              Подбери акцент на Platform-экспертизе и опыт с FinTech
-              регуляторикой.
+              Подбери акцент на React-экспертизе и опыт с TypeScript.
             </div>
           </div>
           <div className="flex gap-3">
@@ -1000,12 +999,12 @@ function ChatScreen() {
             <div className="max-w-[78%]">
               <div className="rounded-2xl rounded-tl-md border border-slate-200 bg-white px-4 py-3 text-[13px] leading-[1.55]">
                 Готово. Переписал bullet-points в резюме под приоритеты команды
-                Т-Банка:
+                Yandex:
                 <div className="mt-2 space-y-1.5">
                   {[
-                    "Platform-экспертиза · масштаб 200+ инженеров",
-                    "SOX / 152-ФЗ compliance опыт",
-                    "Миграция core-banking на микросервисы",
+                    "React 18 · TypeScript · 30+ переиспользуемых компонентов",
+                    "Open Source · 4 PR в популярные UI-библиотеки",
+                    "Pet-проект: e-commerce SPA на Next.js (1k★ GitHub)",
                   ].map((s) => (
                     <div key={s} className="flex items-start gap-2">
                       <span className="check">
@@ -1267,7 +1266,7 @@ function FeatureTailor() {
             <div className="h-1.5 w-[80%] rounded bg-slate-100" />
           </div>
           <div className="mt-3 font-mono text-[8px] text-slate-500">
-            CV_tbank_vp_eng.pdf
+            CV_yandex_frontend.pdf
           </div>
         </div>
         <div className="absolute left-[150px] top-4 h-[150px] w-[180px] rotate-[3deg] rounded-md border border-slate-200 bg-white p-3 shadow-sm">
@@ -1281,7 +1280,7 @@ function FeatureTailor() {
             <div className="h-1.5 w-[85%] rounded bg-slate-100" />
           </div>
           <div className="mt-3 font-mono text-[8px] text-slate-500">
-            cover_yandex_ml.pdf
+            cover_tinkoff_backend.pdf
           </div>
         </div>
       </div>
@@ -1339,12 +1338,12 @@ function FeatureApply() {
         <div className="space-y-0.5 p-3 font-mono text-[11px] leading-[1.7] text-slate-500">
           <div>
             <span className="text-slate-400">14:02:18</span> ·{" "}
-            <span className="text-slate-900">match=4.6</span> → opened Т-Банк ·
-            VP Engineering
+            <span className="text-slate-900">match=4.6</span> → opened Tinkoff ·
+            Middle Backend
           </div>
           <div>
             <span className="text-slate-400">14:02:21</span> · generating CV ·{" "}
-            <span className="text-[#2563eb]">cv_tbank_vp_eng.pdf</span>
+            <span className="text-[#2563eb]">cv_tinkoff_backend.pdf</span>
           </div>
           <div>
             <span className="text-slate-400">14:02:34</span> ·{" "}
