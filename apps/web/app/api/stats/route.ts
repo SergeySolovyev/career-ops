@@ -41,10 +41,17 @@ export async function GET() {
 
   try {
     const evalLog = loadJSON('auto-eval-log.json')
-    const outreach = loadJSON('outreach.json')
+    let records: any[] = []
+    try {
+      const outreach = loadJSON('outreach.json')
+      records = outreach.records || []
+    } catch {
+      // outreach.json is optional (removed from repo for privacy);
+      // fall back to empty records — applied/interviews/offers will be 0.
+      records = []
+    }
 
     const entries = Object.entries(evalLog.evaluated || {}) as [string, any][]
-    const records = outreach.records || []
 
     // Funnel stages
     const found = entries.length
