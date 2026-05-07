@@ -35,3 +35,15 @@ logs/
 
 # Trigger.dev
 .trigger/
+
+# PII safety: never commit personal data files into apps/web/data/.
+# Demo data MUST be synthetic (example.test domain, no real names/emails).
+# Real personal CV/profile data belongs in Supabase user_profiles row,
+# not in JSON/MD files in repo.
+apps/web/data/profile-sergey-backup.json
+apps/web/data/cv-sergey-backup.md
+apps/web/data/profile-*-backup.*
+apps/web/data/cv-*-backup.*
+apps/web/data/*.private.json
+apps/web/data/*.private.md
+apps/web/data/outreach.json
