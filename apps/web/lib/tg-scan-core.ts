@@ -70,6 +70,10 @@ interface ProfileRow {
   positive_keywords: string[] | null
   salary_target_min?: number | null
   salary_target_max?: number | null
+  // Day 2.7: ICP-aware scoring fields from migration 004
+  icp_segment?: 'junior' | 'middle' | 'senior' | null
+  skills?: string[] | null
+  experience_years?: number | null
 }
 
 interface EvalKeyRow {
@@ -155,7 +159,9 @@ export async function runScanForUser(
   // ---- Load profile ----
   const { data: profile } = await supabase
     .from('user_profiles')
-    .select('cv_text, target_roles, positive_keywords, salary_target_min, salary_target_max')
+    .select(
+      'cv_text, target_roles, positive_keywords, salary_target_min, salary_target_max, icp_segment, skills, experience_years',
+    )
     .eq('user_id', userId)
     .maybeSingle()
   if (!profile?.cv_text) {
@@ -342,6 +348,13 @@ export async function runScanForUser(
           apiKey,
           cvText: profile.cv_text as string,
           profileSummary, // ← consistency with HH path
+          // Day 2.7: ICP-aware scoring (parity with /api/scan-now HH path)
+          icpSegment: (profileTyped.icp_segment ?? 'middle') as
+            | 'junior'
+            | 'middle'
+            | 'senior',
+          skills: profileTyped.skills ?? [],
+          experienceYears: profileTyped.experience_years ?? 0,
         },
       )
 
