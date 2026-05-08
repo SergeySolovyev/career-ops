@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   FileText,
@@ -28,7 +28,38 @@ const STEPS = [
   { n: 3, label: 'AI-совет', Icon: Sparkles },
 ] as const
 
+// Outer page wrapper — provides Suspense boundary required by Next.js 15
+// when a client component reads URL search params. Without this, the
+// production build fails at prerender stage with:
+//   "useSearchParams() should be wrapped in a suspense boundary"
 export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<OnboardingFallback />}>
+      <OnboardingForm />
+    </Suspense>
+  )
+}
+
+function OnboardingFallback() {
+  return (
+    <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+      <div className="mx-auto max-w-[760px] px-6 py-10">
+        <div className="mb-6 font-mono text-[11px] uppercase tracking-wider text-slate-500">
+          Workspace / Onboarding
+        </div>
+        <div className="h-12 w-72 animate-pulse rounded-md bg-slate-100" />
+        <div className="mt-10 grid grid-cols-3 gap-3">
+          {[1, 2, 3].map((n) => (
+            <div key={n} className="h-1 animate-pulse rounded-full bg-slate-200" />
+          ))}
+        </div>
+        <div className="mt-12 h-96 animate-pulse rounded-md bg-slate-50" />
+      </div>
+    </div>
+  )
+}
+
+function OnboardingForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [step, setStep] = useState<Step>(1)
