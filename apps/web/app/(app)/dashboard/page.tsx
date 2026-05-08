@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { Suspense } from 'react'
 import {
   Sparkles,
   MessageSquare,
@@ -68,7 +69,6 @@ function loadJSON(filename: string) {
 }
 
 export default async function DashboardPage() {
-  const data = await getStats()
   const apiProfile = await getUserProfile()
   const isUserProfile = apiProfile?._source === 'user'
   const isEmptyUserProfile = isUserProfile && apiProfile?._empty
@@ -82,16 +82,6 @@ export default async function DashboardPage() {
   const evalLog = !isUserProfile
     ? loadJSON('auto-eval-log.json') || { evaluated: {} }
     : { evaluated: {} }
-
-  const stats = data?.funnel
-    ? {
-        found: data.funnel.found,
-        evaluated: data.funnel.aiEvaluated,
-        recommended: data.funnel.recommended,
-        applied: data.funnel.applied,
-        interviews: data.funnel.interviews,
-      }
-    : { found: 0, evaluated: 0, recommended: 0, applied: 0, interviews: 0 }
 
   const recentEvals = Object.entries(evalLog.evaluated || {})
     .filter(([, v]) => (v as any).status === 'apply')
@@ -234,13 +224,9 @@ export default async function DashboardPage() {
               </span>
             )}
           </div>
-          <div className="grid gap-3 sm:grid-cols-5">
-            <FunnelTile label="Найдено" value={stats.found} Icon={Search} tone="#2563eb" />
-            <FunnelTile label="Оценено AI" value={stats.evaluated} Icon={Bot} tone="#7c3aed" />
-            <FunnelTile label="Рекомендовано" value={stats.recommended} Icon={Star} tone="#047857" />
-            <FunnelTile label="Отклики" value={stats.applied} Icon={Mail} tone="#ea580c" />
-            <FunnelTile label="Интервью" value={stats.interviews} Icon={Briefcase} tone="#dc2626" />
-          </div>
+          <Suspense fallback={<FunnelSkeleton />}>
+            <FunnelStats />
+          </Suspense>
         </section>
 
         {/* Two-column: matches + superpowers */}
@@ -452,16 +438,9 @@ export default async function DashboardPage() {
         </section>
 
         {/* Footer timestamp */}
-        {data?.lastRun && (
-          <div className="flex items-center justify-between border-t border-slate-200 pt-6 text-[12px] text-slate-500">
-            <span>
-              Последнее обновление: {new Date(data.lastRun).toLocaleString('ru-RU')}
-            </span>
-            <span className="inline-flex items-center gap-2 font-mono uppercase tracking-wider">
-              <span className="pulse-dot" /> autopilot · live
-            </span>
-          </div>
-        )}
+        <Suspense fallback={null}>
+          <FooterTimestamp />
+        </Suspense>
       </div>
     </div>
   )
@@ -524,6 +503,65 @@ function FunnelTile({
         {value}
       </div>
       <div className="mt-1.5 text-[12px] text-slate-500">{label}</div>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------
+   FunnelStats — async data island; suspends with FunnelSkeleton
+   ------------------------------------------------------------ */
+
+async function FunnelStats() {
+  const data = await getStats()
+  const stats = data?.funnel
+    ? {
+        found: data.funnel.found,
+        evaluated: data.funnel.aiEvaluated,
+        recommended: data.funnel.recommended,
+        applied: data.funnel.applied,
+        interviews: data.funnel.interviews,
+      }
+    : { found: 0, evaluated: 0, recommended: 0, applied: 0, interviews: 0 }
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-5">
+      <FunnelTile label="Найдено" value={stats.found} Icon={Search} tone="#2563eb" />
+      <FunnelTile label="Оценено AI" value={stats.evaluated} Icon={Bot} tone="#7c3aed" />
+      <FunnelTile label="Рекомендовано" value={stats.recommended} Icon={Star} tone="#047857" />
+      <FunnelTile label="Отклики" value={stats.applied} Icon={Mail} tone="#ea580c" />
+      <FunnelTile label="Интервью" value={stats.interviews} Icon={Briefcase} tone="#dc2626" />
+    </div>
+  )
+}
+
+function FunnelSkeleton() {
+  return (
+    <div className="grid gap-3 sm:grid-cols-5">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="card p-4 animate-pulse">
+          <div className="flex items-center justify-between">
+            <div className="h-6 w-6 rounded-md bg-slate-100" />
+            <div className="h-3 w-3 rounded bg-slate-100" />
+          </div>
+          <div className="mt-3 h-7 w-12 rounded bg-slate-100" />
+          <div className="mt-2 h-3 w-20 rounded bg-slate-100" />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+async function FooterTimestamp() {
+  const data = await getStats()
+  if (!data?.lastRun) return null
+  return (
+    <div className="flex items-center justify-between border-t border-slate-200 pt-6 text-[12px] text-slate-500">
+      <span>
+        Последнее обновление: {new Date(data.lastRun).toLocaleString('ru-RU')}
+      </span>
+      <span className="inline-flex items-center gap-2 font-mono uppercase tracking-wider">
+        <span className="pulse-dot" /> autopilot · live
+      </span>
     </div>
   )
 }

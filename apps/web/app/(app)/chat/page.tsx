@@ -1,6 +1,7 @@
 'use client'
 
 import { useChat } from '@ai-sdk/react'
+import Link from 'next/link'
 import {
   Send,
   Mic,
@@ -32,9 +33,31 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [isListening, setIsListening] = useState(false)
   const [speechSupported, setSpeechSupported] = useState(false)
+  // hasCv: undefined = loading, false = no CV (show CTA), true = has CV
+  // Subagent D adds _has_cv to /api/profile; we code defensively: treat
+  // undefined as false (CTA shown) so users without CV see the prompt.
+  const [hasCv, setHasCv] = useState<boolean | undefined>(undefined)
   const recognitionRef = useRef<any>(null)
 
   const isLoading = status === 'streaming' || status === 'submitted'
+
+  // Fetch profile to decide whether to surface the "Загрузите CV" CTA.
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/profile', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((p) => {
+        if (cancelled) return
+        // Treat any truthy _has_cv as "has CV"; missing flag means no CV.
+        setHasCv(Boolean(p?._has_cv))
+      })
+      .catch(() => {
+        if (!cancelled) setHasCv(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -110,7 +133,23 @@ export default function ChatPage() {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto">
         <div className="mx-auto flex min-h-full max-w-[860px] flex-col px-6 py-6">
-          {messages.length === 0 && (
+          {messages.length === 0 && hasCv === false && (
+            <div className="mt-12 text-center">
+              <Sparkles size={32} className="mx-auto text-slate-400" />
+              <h2 className="mt-4 text-[20px] font-semibold">Начнём с CV</h2>
+              <p className="mt-2 text-[14px] text-slate-500">
+                AI-советник работает контекстуально по вашему резюме.
+              </p>
+              <Link
+                href="/settings"
+                className="mt-6 inline-flex items-center rounded-md bg-slate-900 px-5 py-2.5 text-[13.5px] font-medium text-white hover:bg-slate-800"
+              >
+                Загрузить CV для начала
+              </Link>
+            </div>
+          )}
+
+          {messages.length === 0 && hasCv !== false && (
             <EmptyStart
               onPick={(text) => setInput(text)}
             />
