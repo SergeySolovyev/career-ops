@@ -27,7 +27,7 @@ export async function GET() {
   if (!isSupabaseConfigured()) {
     const demo = loadDemoProfile()
     return demo
-      ? NextResponse.json({ ...demo, ...DEFAULTS, _source: 'demo' })
+      ? NextResponse.json({ ...DEFAULTS, ...demo, _source: 'demo' })
       : NextResponse.json({ error: 'Profile not found' }, { status: 404 })
   }
 
@@ -37,7 +37,7 @@ export async function GET() {
 
     if (!user) {
       const demo = loadDemoProfile()
-      return NextResponse.json({ ...demo, ...DEFAULTS, _source: 'demo' })
+      return NextResponse.json({ ...DEFAULTS, ...demo, _source: 'demo' })
     }
 
     const { data } = await supabase
