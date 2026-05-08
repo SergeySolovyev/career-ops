@@ -103,14 +103,30 @@ export async function POST() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { data: profile } = await supabase
+    const { data: profileRow } = await supabase
       .from('user_profiles')
-      .select('cv_text, target_roles, positive_keywords, negative_keywords')
+      .select(
+        'cv_text, target_roles, positive_keywords, negative_keywords, icp_segment, skills, experience_years',
+      )
       .eq('user_id', user.id)
       .maybeSingle()
 
-    if (!profile?.cv_text) {
+    if (!profileRow?.cv_text) {
       return NextResponse.json({ error: 'CV is empty — fill onboarding first' }, { status: 400 })
+    }
+
+    const profile = {
+      cv_text: profileRow.cv_text as string,
+      target_roles: profileRow.target_roles as string[] | null,
+      positive_keywords: profileRow.positive_keywords as string[] | null,
+      negative_keywords: profileRow.negative_keywords as string[] | null,
+      // NEW (Day 2 ICP-aware fields, defensive defaults if migration 004 not applied yet):
+      icp_segment: ((profileRow as any).icp_segment ?? 'middle') as
+        | 'junior'
+        | 'middle'
+        | 'senior',
+      skills: (((profileRow as any).skills as string[] | null) ?? []) as string[],
+      experience_years: ((profileRow as any).experience_years as number | null) ?? 0,
     }
 
     const queries = (profile.target_roles?.length ? profile.target_roles : []).slice(0, MAX_QUERIES)
@@ -162,6 +178,10 @@ export async function POST() {
             cvText: profile.cv_text,
             profileSummary,
             model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929',
+            // ICP-aware fields (Day 2.4):
+            icpSegment: profile.icp_segment,
+            skills: profile.skills,
+            experienceYears: profile.experience_years,
           },
         )
 
