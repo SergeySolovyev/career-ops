@@ -3,6 +3,7 @@ import { aiEvaluate } from '@careerpilot/core'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { connectBrowser, DEFAULT_CONTEXT_OPTIONS, isBrowserlessConfigured } from '@/lib/browserless'
 import { decryptJson } from '@/lib/encryption'
+import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 
 // Vercel default = 60s. Allow up to 60s for: Browserless connect (~2s) +
 // search 1–3 queries (~5s each) + AI evaluate top 6 (~5s each).
@@ -83,7 +84,7 @@ async function scanHHViaBrowserless(
   }
 }
 
-export async function POST() {
+export async function POST(req: Request) {
   if (!isSupabaseConfigured()) {
     return NextResponse.json({ error: 'Supabase not configured' }, { status: 503 })
   }
@@ -102,6 +103,11 @@ export async function POST() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    // Rate limit guard — 3/min/user. Scans are expensive (~$0.05/call),
+    // strict limit. Log mode by default until Day +2 post-launch.
+    const limited = await checkRateLimit(req, RATE_LIMITS.scanNow, user.id)
+    if (limited) return limited
 
     const { data: profileRow } = await supabase
       .from('user_profiles')

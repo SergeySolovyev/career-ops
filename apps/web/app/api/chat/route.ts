@@ -3,6 +3,7 @@ import { createAnthropic } from '@ai-sdk/anthropic'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
+import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 
 // Support ProxyAPI or direct Anthropic (SDK default baseURL includes /v1)
 const anthropic = process.env.ANTHROPIC_BASE_URL
@@ -162,6 +163,21 @@ async function loadContextForUser(): Promise<{
 }
 
 export async function POST(req: Request) {
+  // Rate limit guard — 10/min/user (or per-IP for anon). Log mode by default
+  // until Day +2 post-launch (RATE_LIMIT_MODE=enforce).
+  let userId: string | undefined
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = await createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      userId = user?.id
+    } catch {
+      /* continue with IP-based limit */
+    }
+  }
+  const limited = await checkRateLimit(req, RATE_LIMITS.chat, userId)
+  if (limited) return limited
+
   const { messages } = await req.json()
 
   // Normalize both AI SDK v6 UIMessage (parts[]) and CoreMessage (content:string) formats
