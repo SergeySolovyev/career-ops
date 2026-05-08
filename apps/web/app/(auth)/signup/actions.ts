@@ -12,7 +12,7 @@ export async function signUp(formData: FormData) {
   try {
     const supabase = await createClient()
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: formData.get('email') as string,
       password: formData.get('password') as string,
       options: {
@@ -24,6 +24,34 @@ export async function signUp(formData: FormData) {
 
     if (error) {
       redirect('/signup?error=' + encodeURIComponent(error.message))
+    }
+
+    // Side effects: create user_profiles row + seed default TG channels.
+    // Best-effort — if email-confirmation flow is on, user is not yet authenticated
+    // and RLS will reject the insert. /api/profile POST is idempotent and will
+    // lazy-create the row on first onboarding save, so we don't fail signup.
+    const user = data?.user
+    if (user) {
+      try {
+        await supabase
+          .from('user_profiles')
+          .insert({
+            user_id: user.id,
+            full_name: (formData.get('name') as string) || null,
+            icp_segment: 'middle',
+            skills: [],
+            remote_ok: true,
+            experience_years: 0,
+          })
+        // ignore unique-violation / RLS errors; row may already exist or auth not yet active
+      } catch {
+        /* swallow */
+      }
+      try {
+        await supabase.rpc('tg_seed_default_channels', { p_user_id: user.id })
+      } catch {
+        /* swallow */
+      }
     }
   } catch (e: any) {
     // redirect() throws NEXT_REDIRECT — rethrow to let Next.js handle it

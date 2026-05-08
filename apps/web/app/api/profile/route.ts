@@ -12,12 +12,22 @@ function loadDemoProfile() {
   }
 }
 
+// Canonical defaults for migration 004 fields. Used both for empty user rows
+// and for the demo profile (profile.json predates these fields).
+const DEFAULTS = {
+  icp_segment: 'middle' as const,
+  skills: [] as string[],
+  experience_years: 0,
+  city: null as string | null,
+  remote_ok: true,
+}
+
 // Return the logged-in user's profile if present; otherwise Sergey demo profile.
 export async function GET() {
   if (!isSupabaseConfigured()) {
     const demo = loadDemoProfile()
     return demo
-      ? NextResponse.json({ ...demo, _source: 'demo' })
+      ? NextResponse.json({ ...demo, ...DEFAULTS, _source: 'demo' })
       : NextResponse.json({ error: 'Profile not found' }, { status: 404 })
   }
 
@@ -27,7 +37,7 @@ export async function GET() {
 
     if (!user) {
       const demo = loadDemoProfile()
-      return NextResponse.json({ ...demo, _source: 'demo' })
+      return NextResponse.json({ ...demo, ...DEFAULTS, _source: 'demo' })
     }
 
     const { data } = await supabase
@@ -37,7 +47,7 @@ export async function GET() {
       .maybeSingle()
 
     if (!data) {
-      // Authenticated but no profile yet — return minimal stub, NOT Sergey's data
+      // Authenticated but no profile yet — return minimal stub with defaults
       return NextResponse.json({
         _source: 'user',
         _empty: true,
@@ -46,6 +56,8 @@ export async function GET() {
           first_name: (user.user_metadata?.full_name || '').split(' ')[0] || 'Пользователь',
           email: user.email,
         },
+        ...DEFAULTS,
+        cv_text: '',
       })
     }
 
@@ -64,6 +76,12 @@ export async function GET() {
         salary_target_max: data.salary_max,
         currency: 'RUB',
       },
+      // Migration 004 fields — surfaced at top level (locked contract for Subagent C)
+      icp_segment: data.icp_segment ?? DEFAULTS.icp_segment,
+      skills: Array.isArray(data.skills) ? data.skills : DEFAULTS.skills,
+      experience_years: typeof data.experience_years === 'number' ? data.experience_years : DEFAULTS.experience_years,
+      city: data.city ?? DEFAULTS.city,
+      remote_ok: typeof data.remote_ok === 'boolean' ? data.remote_ok : DEFAULTS.remote_ok,
       cv_text: data.cv_text || '',
       positive_keywords: data.positive_keywords || [],
       negative_keywords: data.negative_keywords || [],
@@ -129,6 +147,26 @@ export async function POST(req: Request) {
         ? body.negative_keywords.map(String).slice(0, 50)
         : null
     }
+    // Migration 004 fields
+    if ('icp_segment' in body) {
+      const v = body.icp_segment
+      row.icp_segment = v === 'junior' || v === 'middle' || v === 'senior' ? v : 'middle'
+    }
+    if ('skills' in body) {
+      row.skills = Array.isArray(body.skills)
+        ? body.skills.map(String).slice(0, 50)
+        : []
+    }
+    if ('experience_years' in body) {
+      const n = Number(body.experience_years)
+      row.experience_years = Number.isFinite(n) && n >= 0 ? Math.floor(n) : 0
+    }
+    if ('city' in body) {
+      row.city = typeof body.city === 'string' ? body.city.slice(0, 120) : null
+    }
+    if ('remote_ok' in body) {
+      row.remote_ok = typeof body.remote_ok === 'boolean' ? body.remote_ok : true
+    }
 
     const { error } = await supabase.from('user_profiles').upsert(row, { onConflict: 'user_id' })
     if (error) {
@@ -141,3 +179,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: e?.message || 'Internal error' }, { status: 500 })
   }
 }
+
+// PATCH is an alias for POST — both perform a partial upsert. The locked
+// API contract for Subagent C uses PATCH semantically; keeping POST for
+// backward compat with existing onboarding flow.
+export const PATCH = POST

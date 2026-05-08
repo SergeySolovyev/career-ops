@@ -42,6 +42,10 @@ export default function OnboardingPage() {
   const [targetRoles, setTargetRoles] = useState('')
   const [salaryMin, setSalaryMin] = useState('')
   const [salaryMax, setSalaryMax] = useState('')
+  const [icpSegment, setIcpSegment] = useState<'junior' | 'middle' | 'senior'>('middle')
+  const [city, setCity] = useState('')
+  const [remoteOk, setRemoteOk] = useState(true)
+  const [experienceYears, setExperienceYears] = useState('')
 
   // Step 3
   const [firstMessage, setFirstMessage] = useState<string | null>(null)
@@ -87,6 +91,10 @@ export default function OnboardingPage() {
           .filter(Boolean),
         salary_min: salaryMin ? Number(salaryMin) : null,
         salary_max: salaryMax ? Number(salaryMax) : null,
+        icp_segment: icpSegment,
+        city: city.trim() || null,
+        remote_ok: remoteOk,
+        experience_years: experienceYears ? Number(experienceYears) : 0,
       })
       setStep(3)
     } catch (e: any) {
@@ -267,6 +275,91 @@ export default function OnboardingPage() {
                   placeholder="Frontend Junior, Middle Backend, Data Analyst"
                   className={inputCls}
                 />
+              </Field>
+
+              <Field
+                label="Уровень опыта"
+                hint="подскажет AI, как оценивать вакансии под вас"
+              >
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  {([
+                    { value: 'junior', label: 'Junior', sub: 'до 2 лет' },
+                    { value: 'middle', label: 'Middle', sub: '2–5 лет' },
+                    { value: 'senior', label: 'Senior', sub: '5+ лет' },
+                  ] as const).map((opt) => {
+                    const active = icpSegment === opt.value
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setIcpSegment(opt.value)}
+                        className={`rounded-md border px-3 py-2.5 text-left transition-colors ${
+                          active
+                            ? 'border-slate-900 bg-slate-900 text-white'
+                            : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="text-[13px] font-medium">{opt.label}</div>
+                        <div
+                          className={`mt-0.5 font-mono text-[10px] ${
+                            active ? 'text-slate-300' : 'text-slate-500'
+                          }`}
+                        >
+                          {opt.sub}
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+              </Field>
+
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Город" hint="Москва, СПб, удалёнка">
+                  <input
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    placeholder="Москва"
+                    className={inputCls}
+                  />
+                </Field>
+                <Field label="Стаж, лет">
+                  <input
+                    type="number"
+                    value={experienceYears}
+                    onChange={(e) => setExperienceYears(e.target.value)}
+                    placeholder="3"
+                    min={0}
+                    max={50}
+                    className={inputCls + ' tabular-nums'}
+                  />
+                </Field>
+              </div>
+
+              <Field label="Готов к удалёнке?">
+                <button
+                  type="button"
+                  onClick={() => setRemoteOk(!remoteOk)}
+                  className={`mt-2 inline-flex items-center gap-2 rounded-md border px-3 py-2 text-[13px] transition-colors ${
+                    remoteOk
+                      ? 'border-emerald-300 bg-emerald-50 text-emerald-800'
+                      : 'border-slate-200 bg-white text-slate-600'
+                  }`}
+                  aria-pressed={remoteOk}
+                >
+                  <span
+                    className={`relative inline-block h-4 w-7 rounded-full transition-colors ${
+                      remoteOk ? 'bg-emerald-500' : 'bg-slate-300'
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 h-3 w-3 rounded-full bg-white transition-all ${
+                        remoteOk ? 'left-3.5' : 'left-0.5'
+                      }`}
+                    />
+                  </span>
+                  {remoteOk ? 'Да, готов' : 'Только офис / гибрид'}
+                </button>
               </Field>
 
               <div className="grid grid-cols-2 gap-3">
