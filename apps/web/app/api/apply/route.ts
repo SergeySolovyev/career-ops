@@ -13,6 +13,7 @@ import { generateCoverLetter } from '@careerpilot/core'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { connectBrowser, DEFAULT_CONTEXT_OPTIONS, isBrowserlessConfigured } from '@/lib/browserless'
 import { decryptJson } from '@/lib/encryption'
+import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 
 export const maxDuration = 60
 
@@ -28,6 +29,11 @@ export async function POST(req: Request) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    // Rate limit guard — 30/min/user. Higher than scan because each apply is
+    // a single user action (not auto-fired). Logged only in default mode.
+    const limited = await checkRateLimit(req, RATE_LIMITS.apply, user.id)
+    if (limited) return limited
 
     const { vacancy_url } = await req.json()
     if (typeof vacancy_url !== 'string' || !vacancy_url.includes('hh.ru')) {
