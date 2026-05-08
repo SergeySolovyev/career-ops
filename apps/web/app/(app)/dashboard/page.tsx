@@ -172,9 +172,19 @@ export default async function DashboardPage() {
                 {target?.salary_target_min?.toLocaleString('ru-RU')}–
                 {target?.salary_target_max?.toLocaleString('ru-RU')} ₽
               </div>
-              <div className="mt-2 font-mono text-[11px] text-slate-500">
-                {target?.international_range} · international
-              </div>
+              {/* International range only for middle/senior with explicit international target. */}
+              {/* Junior persona never shows this — junior salary fluency is RU-domestic. */}
+              {profile?.icp_segment !== 'junior' && target?.international_range && (
+                <div className="mt-2 font-mono text-[11px] text-slate-500">
+                  {target.international_range} · international
+                </div>
+              )}
+              {/* For junior with remote_ok — show "удалёнка по РФ + СНГ" instead. */}
+              {profile?.icp_segment === 'junior' && profile?.remote_ok && (
+                <div className="mt-2 font-mono text-[11px] text-slate-500">
+                  удалёнка по РФ + СНГ
+                </div>
+              )}
             </ProfileTile>
 
             <ProfileTile

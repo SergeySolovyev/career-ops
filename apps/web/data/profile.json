@@ -1,4 +1,9 @@
 {
+  "icp_segment": "junior",
+  "skills": ["React", "TypeScript", "Next.js", "Tailwind", "Vitest", "GitHub"],
+  "experience_years": 2,
+  "city": "Москва",
+  "remote_ok": true,
   "candidate": {
     "full_name": "Мария Иванова",
     "first_name": "Мария",
