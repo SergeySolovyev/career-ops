@@ -26,6 +26,9 @@ const EMPTY_FUNNEL = {
 
 export async function GET() {
   // Authenticated users get their own (empty) funnel, not Sergey's demo data.
+  // Anonymous callers fall through to the demo branch below but with
+  // topVacancies stripped (defense-in-depth: even if a future regression puts
+  // real URLs back into auto-eval-log.json, anon will not see them).
   if (isSupabaseConfigured()) {
     try {
       const supabase = await createClient()
@@ -71,17 +74,12 @@ export async function GET() {
       ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)
       : '0'
 
-    // Top companies
-    const topVacancies = entries
-      .filter(([, v]) => v.status === 'apply')
-      .sort((a, b) => b[1].score - a[1].score)
-      .slice(0, 5)
-      .map(([url, v]) => ({
-        url,
-        score: v.score,
-        report: v.report,
-        date: v.date,
-      }))
+    // Top companies are intentionally NOT exposed to anonymous demo callers.
+    // Authenticated users already returned EMPTY_FUNNEL above; the only path
+    // that reaches here is anon. Defense-in-depth: even if a future
+    // regression puts real URLs back into auto-eval-log.json, anon will not
+    // see them. Returned as [] to preserve the response shape.
+    const topVacancies: Array<{ url: string; score: number; report: string; date: string }> = []
 
     return NextResponse.json({
       funnel: {

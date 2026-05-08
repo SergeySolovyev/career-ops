@@ -54,21 +54,57 @@ function getTopVacancies(): string {
   }
 }
 
-// Read logged-in user's CV from Supabase. Returns { cv, summary, isDemo }.
-async function loadContextForUser(): Promise<{ cv: string; summary: string; isDemo: boolean }> {
+/**
+ * Segment-specific tone instructions for the AI advisor system prompt.
+ * Mirrors packages/core/src/evaluator/ai-evaluate.ts buildIcpGuidance() so
+ * advisor and evaluator surfaces stay consistent.
+ *
+ * - junior: portfolio/mentorship focus, NO $200K/equity talk
+ * - senior: ownership, technical leadership, equity-negotiation
+ * - middle (default): balanced growth-path advice, market rates
+ */
+function buildChatIcpGuidance(seg: string | null | undefined): string {
+  if (seg === 'junior') {
+    return `Кандидат — JUNIOR. Давай советы под junior-level: portfolio, pet-проекты, mentorship, базовый stack, onboarding-программы. НЕ советуй "ты должен договориться о $200K" или "запроси equity" — это не для junior уровня. Норма зарплата: 80-150K ₽.`
+  }
+  if (seg === 'senior') {
+    return `Кандидат — SENIOR. Советы под senior-level: ownership, technical leadership, equity-negotiation, стратегические решения, architecture decisions. Норма зарплата: 300K-1M ₽.`
+  }
+  return `Кандидат — MIDDLE. Балансные советы: growth path, ownership feature/team, рыночные ставки, переход на senior-track. Норма зарплата: 150-300K ₽.`
+}
+
+// Read logged-in user's CV from Supabase. Returns { cv, summary, isDemo, icpSegment }.
+async function loadContextForUser(): Promise<{
+  cv: string
+  summary: string
+  isDemo: boolean
+  icpSegment: string | null
+}> {
   if (!isSupabaseConfigured()) {
-    return { cv: loadDemoCV(), summary: loadDemoProfileSummary(), isDemo: true }
+    return {
+      cv: loadDemoCV(),
+      summary: loadDemoProfileSummary(),
+      isDemo: true,
+      icpSegment: null,
+    }
   }
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
-      return { cv: loadDemoCV(), summary: loadDemoProfileSummary(), isDemo: true }
+      return {
+        cv: loadDemoCV(),
+        summary: loadDemoProfileSummary(),
+        isDemo: true,
+        icpSegment: null,
+      }
     }
 
     const { data } = await supabase
       .from('user_profiles')
-      .select('full_name, cv_text, target_roles, salary_min, salary_max, positive_keywords')
+      .select(
+        'full_name, cv_text, target_roles, salary_min, salary_max, positive_keywords, icp_segment, skills, experience_years, city, remote_ok',
+      )
       .eq('user_id', user.id)
       .maybeSingle()
 
@@ -78,28 +114,50 @@ async function loadContextForUser(): Promise<{ cv: string; summary: string; isDe
         cv: `Пользователь ${data?.full_name || user.email} пока не загрузил CV.`,
         summary: `Залогинен как ${data?.full_name || user.email}, CV ещё не загружено. Попроси пользователя заполнить профиль в /settings.`,
         isDemo: false,
+        icpSegment: data?.icp_segment ?? null,
       }
     }
 
+    const icpBlock = data.icp_segment
+      ? `Уровень: ${String(data.icp_segment).toUpperCase()} (${data.experience_years ?? 0} лет опыта)`
+      : null
+    const cityBlock = data.city
+      ? `Город: ${data.city}${data.remote_ok ? ' · открыт к удалёнке' : ' · только onsite'}`
+      : null
+    const skillsBlock = data.skills?.length
+      ? `Skills: ${data.skills.slice(0, 10).join(', ')}`
+      : null
+
     const summary = [
       `Кандидат: ${data.full_name || user.email}`,
+      icpBlock,
       data.target_roles?.length ? `Целевые роли: ${data.target_roles.join('; ')}` : null,
+      cityBlock,
+      skillsBlock,
       data.salary_min || data.salary_max
         ? `Зарплата: ${data.salary_min ?? '?'}-${data.salary_max ?? '?'} RUB`
         : null,
       data.positive_keywords?.length
         ? `Ключевые интересы: ${data.positive_keywords.slice(0, 5).join(', ')}`
         : null,
-    ].filter(Boolean).join('\n')
+    ]
+      .filter(Boolean)
+      .join('\n')
 
     return {
       cv: data.cv_text.slice(0, 8000),
       summary,
       isDemo: false,
+      icpSegment: data.icp_segment ?? null,
     }
   } catch (e) {
     console.error('[api/chat] loadContextForUser error', e)
-    return { cv: loadDemoCV(), summary: loadDemoProfileSummary(), isDemo: true }
+    return {
+      cv: loadDemoCV(),
+      summary: loadDemoProfileSummary(),
+      isDemo: true,
+      icpSegment: null,
+    }
   }
 }
 
@@ -119,7 +177,15 @@ export async function POST(req: Request) {
     .filter((m) => m.content && m.content.length > 0)
     .map((m) => ({ ...m, content: m.content.slice(0, 8000) }))
 
-  const { cv, summary, isDemo } = await loadContextForUser()
+  const { cv, summary, isDemo, icpSegment } = await loadContextForUser()
+
+  // ICP-aware tone instructions. Demo mode (Sergey) is treated as senior;
+  // otherwise we honor the candidate's icp_segment from user_profiles. This
+  // prevents Maria-the-junior from receiving "ask for $200K + equity"
+  // playbooks tuned for Director-level execs.
+  const icpGuidance = isDemo
+    ? buildChatIcpGuidance('senior')
+    : buildChatIcpGuidance(icpSegment)
 
   const system = isDemo
     ? `Ты — AI карьерный консультант платформы CareerPilot.
@@ -127,6 +193,9 @@ export async function POST(req: Request) {
 
 КРАТКИЙ ПРОФИЛЬ:
 ${summary}
+
+ICP-КОНТЕКСТ (тон ответов):
+${icpGuidance}
 
 ПОЛНОЕ CV КАНДИДАТА (markdown):
 ${cv}
@@ -146,6 +215,9 @@ ${getTopVacancies()}
 КРАТКИЙ ПРОФИЛЬ:
 ${summary}
 
+ICP-КОНТЕКСТ (тон ответов):
+${icpGuidance}
+
 ПОЛНОЕ CV КАНДИДАТА (markdown):
 ${cv}
 
@@ -154,6 +226,7 @@ ${cv}
 - Обращайся к кандидату на "вы"
 - Опирайся ТОЛЬКО на факты из CV этого пользователя выше (НЕ на демо-данные Сергея Соловьёва)
 - Если CV пустое — попроси пользователя заполнить профиль в /settings
+- Учитывай ICP-уровень кандидата (см. блок выше): советы под junior отличаются от советов под senior
 - Будь конкретен, actionable
 - Максимум 300 слов, используй Markdown`
 
