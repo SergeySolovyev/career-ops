@@ -51,6 +51,9 @@ export async function GET() {
       return NextResponse.json({
         _source: 'user',
         _empty: true,
+        _has_cv: false,
+        _has_goals: false,
+        _onboarding_complete: false,
         candidate: {
           full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Новый пользователь',
           first_name: (user.user_metadata?.full_name || '').split(' ')[0] || 'Пользователь',
@@ -61,16 +64,29 @@ export async function GET() {
       })
     }
 
+    // Stage-specific completion flags — let consumers (matches/dashboard/onboarding)
+    // route the user precisely instead of guessing from the legacy _empty bit.
+    // _has_cv mirrors Step 1 validation (cv.trim().length >= 100)
+    // _has_goals mirrors Step 2 save (target_roles non-empty array)
+    const cvText = typeof data.cv_text === 'string' ? data.cv_text : ''
+    const targetRolesArr = Array.isArray(data.target_roles) ? data.target_roles : []
+    const hasCv = cvText.trim().length >= 100
+    const hasGoals = targetRolesArr.length > 0
+
     // Map DB row → same shape as demo profile (so frontend doesn't care)
     return NextResponse.json({
       _source: 'user',
+      _empty: false,
+      _has_cv: hasCv,
+      _has_goals: hasGoals,
+      _onboarding_complete: hasCv && hasGoals,
       candidate: {
         full_name: data.full_name || user.email?.split('@')[0],
         first_name: (data.full_name || '').split(' ')[0] || 'Пользователь',
         email: user.email,
       },
       target: {
-        roles: data.target_roles || [],
+        roles: targetRolesArr,
         salary_min: data.salary_min,
         salary_target_min: data.salary_min,
         salary_target_max: data.salary_max,
@@ -82,7 +98,7 @@ export async function GET() {
       experience_years: typeof data.experience_years === 'number' ? data.experience_years : DEFAULTS.experience_years,
       city: data.city ?? DEFAULTS.city,
       remote_ok: typeof data.remote_ok === 'boolean' ? data.remote_ok : DEFAULTS.remote_ok,
-      cv_text: data.cv_text || '',
+      cv_text: cvText,
       positive_keywords: data.positive_keywords || [],
       negative_keywords: data.negative_keywords || [],
     })

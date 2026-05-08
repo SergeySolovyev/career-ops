@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   FileText,
   Target,
@@ -30,6 +30,7 @@ const STEPS = [
 
 export default function OnboardingPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [step, setStep] = useState<Step>(1)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -49,6 +50,45 @@ export default function OnboardingPage() {
 
   // Step 3
   const [firstMessage, setFirstMessage] = useState<string | null>(null)
+
+  // On mount: read ?step=N query param and validate against actual saved progress
+  // from /api/profile. Auto-skips to first incomplete step when the requested
+  // step is invalid (e.g., ?step=3 without saved goals).
+  // Defensive: never lets the user skip ahead beyond what they've actually saved.
+  useEffect(() => {
+    let cancelled = false
+    async function syncStepFromProfile() {
+      const requested = Number(searchParams.get('step'))
+      try {
+        const res = await fetch('/api/profile', { cache: 'no-store' })
+        if (!res.ok) return
+        const profile = await res.json()
+        if (cancelled) return
+        const hasCv = !!profile?._has_cv
+        const hasGoals = !!profile?._has_goals
+        // First incomplete step — fallback when no/invalid ?step= param
+        const firstIncomplete: Step = !hasCv ? 1 : !hasGoals ? 2 : 3
+        let target: Step = firstIncomplete
+        if (requested === 2 && hasCv) target = 2
+        else if (requested === 3 && hasCv && hasGoals) target = 3
+        else if (requested === 1) target = 1
+        // Pre-fill cv state if user already saved it (so Step 1 isn't blank
+        // when navigating back via ?step=1)
+        if (typeof profile?.cv_text === 'string' && profile.cv_text) {
+          setCv(profile.cv_text)
+        }
+        setStep(target)
+      } catch {
+        // Network error — default to Step 1, no harm done
+      }
+    }
+    syncStepFromProfile()
+    return () => {
+      cancelled = true
+    }
+    // Run once on mount; searchParams is stable for the page lifetime here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function saveProfile(partial: Record<string, unknown>) {
     const res = await fetch('/api/profile', {

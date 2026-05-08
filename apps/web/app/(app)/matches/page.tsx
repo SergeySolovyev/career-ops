@@ -178,8 +178,11 @@ export default async function MatchesPage() {
   const profile = await getProfile()
   const isUserProfile = profile?._source === 'user'
 
-  if (isUserProfile && profile?._empty) {
-    redirect('/onboarding')
+  // /matches requires goals (target_roles) — without them no scoring is possible.
+  // CV alone (Step 1) is NOT enough; redirect to first incomplete step instead of
+  // bouncing back to Step 1, which the user has already filled out.
+  if (isUserProfile && !profile?._has_goals) {
+    redirect('/onboarding?step=2')
   }
 
   const evaluations = isUserProfile ? await getEvaluations() : []
