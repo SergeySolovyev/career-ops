@@ -103,14 +103,38 @@ async function handleFreeText(text: string): Promise<string> {
         messages: [{ role: 'user', content: text }],
       }),
     })
+    if (!res.ok) {
+      // Don't echo upstream error body — may leak headers/keys/internals
+      console.error('[telegram/webhook] anthropic call failed', { status: res.status })
+      return 'AI-советник временно недоступен. Попробуйте позже.'
+    }
     const data = await res.json()
     return data.content?.[0]?.text || 'Не удалось получить ответ.'
-  } catch (e: any) {
-    return `Ошибка: ${e.message}`
+  } catch (e) {
+    // Generic message — never echo error.message (may contain config/secrets)
+    console.error('[telegram/webhook] handleFreeText error', e)
+    return 'AI-советник временно недоступен. Попробуйте позже.'
   }
 }
 
 export async function POST(req: Request) {
+  // --- Signature verification (anti-spoofing) ---
+  // Telegram sends X-Telegram-Bot-Api-Secret-Token header when configured
+  // via setWebhook(secret_token=...). Verify it matches our server-side env.
+  const expectedSecret = process.env.TELEGRAM_WEBHOOK_SECRET
+  const providedSecret = req.headers.get('x-telegram-bot-api-secret-token')
+
+  if (expectedSecret) {
+    if (providedSecret !== expectedSecret) {
+      console.warn('[telegram/webhook] signature mismatch — possible spoofed request')
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+  } else if (process.env.NODE_ENV === 'production') {
+    // Hardening: production must have a secret configured to avoid open webhook
+    console.error('[telegram/webhook] TELEGRAM_WEBHOOK_SECRET not set in prod — refusing all requests')
+    return NextResponse.json({ error: 'Webhook misconfigured' }, { status: 503 })
+  }
+
   try {
     const update = await req.json()
     const message = update.message
@@ -154,8 +178,10 @@ export async function POST(req: Request) {
 
     await sendMessage(chatId, reply)
     return NextResponse.json({ ok: true })
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  } catch (error) {
+    // Never echo error.message — may leak request body, headers, or internals
+    console.error('[telegram/webhook] handler error', error)
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }
 }
 

@@ -170,21 +170,27 @@ export async function POST(req: Request) {
     }
 
     // 6) Log to application_log
-    await supabase.from('application_log').upsert(
-      {
-        user_id: user.id,
-        vacancy_url,
-        vacancy_title: evalRow?.title || null,
-        vacancy_company: evalRow?.company || null,
-        cover_letter: coverLetter,
-        status,
-        hh_response_id: hhResponseId,
-        error_msg: errorMsg,
-        applied_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'user_id,vacancy_url' },
-    )
+    // RLS guard (defense-in-depth): re-confirm session user before write and
+    // force user_id from session — never trust any client-provided user_id.
+    // RLS policies on application_log already block cross-user writes at the
+    // DB layer, but this prevents us from ever sending such a request.
+    const { data: { user: sessionUser } } = await supabase.auth.getUser()
+    if (!sessionUser || sessionUser.id !== user.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const safeRow = {
+      user_id: sessionUser.id, // forced from session, ignore any other source
+      vacancy_url,
+      vacancy_title: evalRow?.title || null,
+      vacancy_company: evalRow?.company || null,
+      cover_letter: coverLetter,
+      status,
+      hh_response_id: hhResponseId,
+      error_msg: errorMsg,
+      applied_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }
+    await supabase.from('application_log').upsert(safeRow, { onConflict: 'user_id,vacancy_url' })
 
     return NextResponse.json({ ok: status !== 'failed', status, error: errorMsg, hhResponseId })
   } catch (e: any) {
