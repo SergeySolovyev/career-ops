@@ -3,10 +3,18 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
+import { isEmailWhitelisted, WHITELIST_REJECT_MESSAGE } from '@/lib/whitelist'
 
 export async function signUp(formData: FormData) {
   if (!isSupabaseConfigured()) {
     redirect('/signup?error=supabase_disabled')
+  }
+
+  // Beta whitelist gate — BEFORE auth.signUp so we don't pollute auth.users
+  // with rejected emails. Empty WHITELIST_EMAILS env (or '*') = open signup.
+  const emailInput = (formData.get('email') as string) || ''
+  if (!isEmailWhitelisted(emailInput)) {
+    redirect('/signup?error=' + encodeURIComponent(WHITELIST_REJECT_MESSAGE))
   }
 
   try {
