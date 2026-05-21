@@ -49,12 +49,14 @@ export default function Page() {
 function AnnouncementBar() {
   return (
     <div className="w-full border-b border-slate-200 bg-white">
-      <div className="mx-auto flex h-9 max-w-[1200px] items-center justify-center gap-2 px-6 text-[12px] text-slate-500">
+      <div className="mx-auto flex h-9 max-w-[1200px] items-center justify-center gap-2 px-4 sm:px-6 text-[11px] sm:text-[12px] text-slate-500 whitespace-nowrap overflow-hidden">
         <span className="pulse-dot" />
-        <span>
-          Сканируем вакансии прямо сейчас —{" "}
-          <span className="font-medium text-slate-900">109</span> открытых ролей
-          за последние 24 часа
+        <span className="truncate">
+          <span className="hidden sm:inline">Сканируем вакансии прямо сейчас — </span>
+          <span className="sm:hidden">Сканируем — </span>
+          <span className="font-medium text-slate-900">109</span>{" "}
+          <span className="hidden sm:inline">открытых ролей за последние 24 часа</span>
+          <span className="sm:hidden">ролей · 24ч</span>
         </span>
         <span className="text-slate-300">·</span>
         <Link
@@ -123,7 +125,7 @@ function Hero() {
             <span className="pulse-dot" />
             <span>Для junior / middle · IT, дизайн, маркетинг · РФ + СНГ</span>
           </div>
-          <h1 className="grad-text text-[56px] font-semibold leading-[1.04] tracking-[-0.03em]">
+          <h1 className="grad-text text-[36px] sm:text-[56px] font-semibold leading-[1.04] tracking-[-0.03em]">
             AI найдёт
             <br />
             работу <mark className="hl">за вас</mark>
@@ -569,7 +571,7 @@ function Tile({
         {badge}
       </div>
       <div className="mt-6">
-        <div className="text-[44px] font-semibold leading-none tracking-[-0.03em]">
+        <div className="text-[32px] sm:text-[44px] font-semibold leading-none tracking-[-0.03em]">
           {value}
         </div>
         <div className="mt-2 text-[13px] text-slate-500">{label}</div>
@@ -601,19 +603,21 @@ function ScreenCarousel() {
             <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
               Продукт
             </div>
-            <h2 className="mt-2 max-w-[600px] text-[36px] font-semibold tracking-tight">
+            <h2 className="mt-2 max-w-[600px] text-[28px] sm:text-[36px] font-semibold tracking-tight">
               Простой инструмент. Без лишнего.
             </h2>
           </div>
           <div className="hidden items-center gap-1 md:flex">
             <button
               onClick={() => setI((v) => (v - 1 + N) % N)}
+              aria-label="Предыдущий слайд"
               className="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 bg-white hover:bg-slate-50"
             >
               <ChevronLeft size={16} />
             </button>
             <button
               onClick={() => setI((v) => (v + 1) % N)}
+              aria-label="Следующий слайд"
               className="flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 bg-white hover:bg-slate-50"
             >
               <ChevronRight size={16} />
@@ -626,6 +630,8 @@ function ScreenCarousel() {
             <button
               key={t}
               onClick={() => setI(idx)}
+              aria-label={`Показать экран: ${t}`}
+              aria-pressed={i === idx}
               className="h-9 rounded-md px-4 text-[13px] font-medium transition"
               style={{
                 background: i === idx ? "#0f172a" : "transparent",
@@ -1065,7 +1071,7 @@ function FeatureGrid() {
           <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
             Полный автопилот
           </div>
-          <h2 className="mt-2 text-[40px] font-semibold leading-[1.1] tracking-[-0.02em]">
+          <h2 className="mt-2 text-[28px] sm:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em]">
             Нажали кнопку —
             <br />
             ходите на собеседования.
@@ -1366,7 +1372,7 @@ function Pricing() {
           <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
             Тарифы
           </div>
-          <h2 className="mt-2 text-[40px] font-semibold tracking-[-0.02em]">
+          <h2 className="mt-2 text-[28px] sm:text-[40px] font-semibold tracking-[-0.02em]">
             Профи-инструмент. Доступно.
           </h2>
           <p className="mx-auto mt-3 max-w-[520px] text-[15px] text-slate-500">
@@ -1494,7 +1500,7 @@ function FinalCTA() {
       <div className="card lift relative overflow-hidden p-12 text-center md:p-16">
         <div className="dot-grid pointer-events-none absolute inset-0 opacity-60" />
         <div className="relative">
-          <h2 className="mx-auto max-w-[720px] text-[44px] font-semibold leading-[1.05] tracking-[-0.02em]">
+          <h2 className="mx-auto max-w-[720px] text-[30px] sm:text-[44px] font-semibold leading-[1.05] tracking-[-0.02em]">
             Загрузите резюме.
             <br />
             Остальное — наше.

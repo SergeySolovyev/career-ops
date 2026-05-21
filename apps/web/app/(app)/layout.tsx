@@ -51,9 +51,9 @@ export default async function AppLayout({
     'flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900'
 
   return (
-    <div className="flex min-h-screen bg-white text-slate-900">
+    <div className="flex min-h-screen flex-col bg-white text-slate-900 md:flex-row">
       {/* Sidebar */}
-      <aside className="sticky top-0 flex h-screen w-[240px] flex-none flex-col border-r border-slate-200 bg-slate-50/50 p-3">
+      <aside className="hidden md:sticky md:top-0 md:flex h-screen w-[240px] flex-none flex-col border-r border-slate-200 bg-slate-50/50 p-3">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 px-3 py-3">
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-slate-900 text-white">
@@ -141,7 +141,7 @@ export default async function AppLayout({
       </aside>
 
       {/* Main content */}
-      <main className="min-w-0 flex-1 p-8">{children}</main>
+      <main className="min-w-0 flex-1 p-4 md:p-8">{children}</main>
     </div>
   )
 }

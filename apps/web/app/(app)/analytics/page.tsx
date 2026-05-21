@@ -75,7 +75,7 @@ export default async function AnalyticsPage() {
 
   if (!data || !data.funnel) {
     return (
-      <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+      <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
         <div className="mx-auto max-w-[1200px] px-6 py-10">
           <PageHeader />
           <div className="mt-8 rounded-md border border-slate-200 bg-slate-50 p-6 text-[13px] text-slate-500">
@@ -89,7 +89,7 @@ export default async function AnalyticsPage() {
   // Empty funnel for auth'd users — show friendly empty state
   if (isUserProfile && (data.funnel.found || 0) === 0) {
     return (
-      <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+      <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
         <div className="mx-auto max-w-[1200px] px-6 py-10">
           <PageHeader />
           <div className="card mt-8 flex flex-col items-center py-16 px-6 text-center">
@@ -138,7 +138,7 @@ export default async function AnalyticsPage() {
   })
 
   return (
-    <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+    <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
       <div className="mx-auto max-w-[1200px] px-6 py-10">
         <PageHeader />
 

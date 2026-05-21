@@ -102,7 +102,7 @@ export default async function DashboardPage() {
   const greetingLine = firstName ? `${greeting}, ${firstName}` : `${greeting}! 👋`
 
   return (
-    <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+    <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
       <div className="mx-auto max-w-[1200px] px-6 py-10">
         {/* Breadcrumb */}
         <div className="mb-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
@@ -114,7 +114,7 @@ export default async function DashboardPage() {
         {/* Header */}
         <header className="mb-8 flex flex-wrap items-end justify-between gap-6">
           <div>
-            <h1 className="text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] grad-text">
+            <h1 className="text-[28px] sm:text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] grad-text">
               {greetingLine}
             </h1>
             <p className="mt-3 max-w-[560px] text-[15px] leading-[1.55] text-slate-500">

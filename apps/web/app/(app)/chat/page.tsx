@@ -106,7 +106,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="-m-8 flex h-screen flex-col bg-white text-slate-900 antialiased">
+    <div className="-m-4 md:-m-8 flex h-screen flex-col bg-white text-slate-900 antialiased">
       {/* Top bar */}
       <header className="flex-none border-b border-slate-200 bg-white/80 px-6 py-4 backdrop-blur">
         <div className="mx-auto flex max-w-[860px] items-center justify-between gap-4">
@@ -244,6 +244,8 @@ export default function ChatPage() {
                     : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
                 }`}
                 title={isListening ? 'Остановить запись' : 'Голосовой ввод'}
+                aria-label={isListening ? 'Остановить голосовой ввод' : 'Включить голосовой ввод'}
+                aria-pressed={isListening}
               >
                 {isListening ? <MicOff size={15} /> : <Mic size={15} />}
               </button>

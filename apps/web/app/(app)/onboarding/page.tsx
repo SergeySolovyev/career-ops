@@ -42,7 +42,7 @@ export default function OnboardingPage() {
 
 function OnboardingFallback() {
   return (
-    <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+    <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
       <div className="mx-auto max-w-[760px] px-6 py-10">
         <div className="mb-6 font-mono text-[11px] uppercase tracking-wider text-slate-500">
           Workspace / Onboarding
@@ -196,7 +196,7 @@ function OnboardingForm() {
   }
 
   return (
-    <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+    <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
       <div className="mx-auto max-w-[760px] px-6 py-10">
         {/* Breadcrumb */}
         <div className="mb-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
@@ -210,7 +210,7 @@ function OnboardingForm() {
           <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
             Setup · 3 steps · ~2 min
           </div>
-          <h1 className="mt-1 text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] grad-text">
+          <h1 className="mt-1 text-[26px] sm:text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] grad-text">
             Настроим AI-советник
           </h1>
         </div>

@@ -17,7 +17,7 @@ export default function MatchesError({
   }, [error])
 
   return (
-    <div className="-m-8 min-h-screen bg-white text-slate-900 antialiased">
+    <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
       <div className="mx-auto max-w-[600px] px-6 py-20 text-center">
         <AlertTriangle size={48} className="mx-auto text-amber-500" />
         <h1 className="mt-6 text-[28px] font-semibold tracking-tight">
