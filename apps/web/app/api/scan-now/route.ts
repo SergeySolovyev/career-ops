@@ -4,6 +4,7 @@ import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { connectBrowser, DEFAULT_CONTEXT_OPTIONS, isBrowserlessConfigured } from '@/lib/browserless'
 import { decryptJson } from '@/lib/encryption'
 import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
+import { getCached, setCached } from '@/lib/anthropic-cache'
 
 // Vercel default = 60s. Allow up to 60s for: Browserless connect (~2s) +
 // search 1–3 queries (~5s each) + AI evaluate top 6 (~5s each).
@@ -173,7 +174,15 @@ export async function POST(req: Request) {
     const profileSummary = `Целевые роли: ${queries.join('; ')}`
     const inserted: Array<{ url: string; ai_score: number; ai_verdict: string }> = []
 
+    // Day 5: Anthropic graceful degradation.
+    // Track consecutive Anthropic failures — if ≥2 in a row, treat as outage,
+    // abort scan + return 503 (or cached fallback if available).
+    const cacheKey = `scan-now:${user.id}`
+    let consecutiveAnthropicFails = 0
+    let anthropicOutage = false
+
     for (const vacancy of toEval) {
+      if (anthropicOutage) break
       try {
         const evalResult = await aiEvaluate(
           vacancy.title,
@@ -190,6 +199,9 @@ export async function POST(req: Request) {
             experienceYears: profile.experience_years,
           },
         )
+
+        // Reset consecutive-fail counter on success
+        consecutiveAnthropicFails = 0
 
         const row = {
           user_id: user.id,
@@ -219,9 +231,48 @@ export async function POST(req: Request) {
         } else {
           console.error('[scan-now] upsert error', upErr)
         }
-      } catch (e) {
+      } catch (e: any) {
         console.error('[scan-now] eval error for', vacancy.url, e)
+        // Treat any aiEvaluate exception as an Anthropic failure for backoff
+        consecutiveAnthropicFails++
+        if (consecutiveAnthropicFails >= 2) {
+          anthropicOutage = true
+          console.warn(
+            '[scan-now] Anthropic outage detected (>=2 consecutive fails), aborting scan',
+          )
+        }
       }
+    }
+
+    // If outage detected AND nothing got through, attempt cached fallback or 503.
+    if (anthropicOutage && inserted.length === 0) {
+      const cached = getCached<typeof inserted>(cacheKey)
+      if (cached && cached.length > 0) {
+        return NextResponse.json({
+          ok: true,
+          degraded: true,
+          message:
+            'AI временно недоступен — показываем результаты последнего сканирования.',
+          scanned: scanned.length,
+          fresh: fresh.length,
+          evaluated: cached.length,
+          results: cached,
+          usedSession: !!hhSession,
+        })
+      }
+      return NextResponse.json(
+        {
+          error:
+            'AI-сервис временно недоступен. Попробуйте через минуту.',
+          retryAfter: 60,
+        },
+        { status: 503, headers: { 'Retry-After': '60' } },
+      )
+    }
+
+    // On success, cache the inserted results for next-time fallback
+    if (inserted.length > 0) {
+      setCached(cacheKey, inserted)
     }
 
     return NextResponse.json({

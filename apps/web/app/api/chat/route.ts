@@ -4,6 +4,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
+import { getCached, setCached } from '@/lib/anthropic-cache'
 
 // Support ProxyAPI or direct Anthropic (SDK default baseURL includes /v1)
 const anthropic = process.env.ANTHROPIC_BASE_URL
@@ -246,11 +247,51 @@ ${cv}
 - Будь конкретен, actionable
 - Максимум 300 слов, используй Markdown`
 
-  const result = streamText({
-    model: anthropic(process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929'),
-    system,
-    messages: normalized,
-  })
+  // Day 5: Anthropic graceful degradation.
+  // Wrap streamText in try/catch. On error, serve cached last-good message
+  // for this user (if any), else return 503 with Retry-After:60.
+  const cacheKey = `chat:${userId ?? 'anon'}`
 
-  return result.toUIMessageStreamResponse()
+  try {
+    const result = streamText({
+      model: anthropic(process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929'),
+      system,
+      messages: normalized,
+      onFinish: ({ text }) => {
+        if (text && text.length > 0) {
+          setCached(cacheKey, text)
+        }
+      },
+      onError: (err) => {
+        console.error('[api/chat] streamText error', err)
+      },
+    })
+
+    return result.toUIMessageStreamResponse()
+  } catch (e: any) {
+    console.error('[api/chat] Anthropic call failed', e)
+    const cached = getCached<string>(cacheKey)
+    if (cached) {
+      // Stream the cached fallback as a plain text response with banner
+      const body =
+        'AI временно недоступен — показываю последний релевантный ответ:\n\n' +
+        cached
+      return new Response(body, {
+        status: 200,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      })
+    }
+    return new Response(
+      JSON.stringify({
+        error: 'AI-советник временно недоступен. Попробуйте через минуту.',
+      }),
+      {
+        status: 503,
+        headers: {
+          'Content-Type': 'application/json',
+          'Retry-After': '60',
+        },
+      },
+    )
+  }
 }

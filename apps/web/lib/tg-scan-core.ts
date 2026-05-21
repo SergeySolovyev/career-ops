@@ -123,21 +123,42 @@ export async function runScanForUser(
   }
 
   // ---- Cost guard (initial check) ----
-  const since = new Date(Date.now() - 30 * 86400_000).toISOString()
-  const { data: spendRows } = await supabase
-    .from('tg_scan_log')
-    .select('cost_usd')
-    .eq('user_id', userId)
-    .gte('ran_at', since)
+  // Day 5: Try atomic per-user ledger (migration 005) first; fall through to
+  // legacy tg_scan_log aggregation if RPC fails (migration not applied yet).
+  let monthSpend = 0
+  let ledgerAvailable = false
+  try {
+    const { data: ledgerCurrent, error: ledgerErr } = await supabase.rpc(
+      'cost_ledger_current',
+      { p_user_id: userId },
+    )
+    if (!ledgerErr && ledgerCurrent !== null && ledgerCurrent !== undefined) {
+      monthSpend = Number(ledgerCurrent) || 0
+      ledgerAvailable = true
+    }
+  } catch {
+    // RPC missing (migration 005 not applied) — fall through to legacy aggregator
+  }
 
-  const monthSpend = (spendRows ?? []).reduce(
-    (s: number, r: any) => s + Number(r.cost_usd || 0),
-    0,
-  )
+  if (!ledgerAvailable) {
+    const since = new Date(Date.now() - 30 * 86400_000).toISOString()
+    const { data: spendRows } = await supabase
+      .from('tg_scan_log')
+      .select('cost_usd')
+      .eq('user_id', userId)
+      .gte('ran_at', since)
+
+    monthSpend = (spendRows ?? []).reduce(
+      (s: number, r: any) => s + Number(r.cost_usd || 0),
+      0,
+    )
+  }
+
   if (monthSpend >= MONTHLY_COST_CAP_USD) {
     const r = emptyReport()
     r.blockedByQuota = true
     r.monthSpend = monthSpend
+    r.errors.push('monthly_cost_cap_exceeded')
     return r
   }
   // Remaining budget for this run
@@ -328,6 +349,7 @@ export async function runScanForUser(
     }
 
     try {
+      const beforeExtractCost = runCost()
       const { vacancy, usage: extUsage } = await extractVacancy(msg, { apiKey })
       sonnetIn += extUsage.inputTokens
       sonnetOut += extUsage.outputTokens
@@ -389,6 +411,28 @@ export async function runScanForUser(
         if (duplicateOfKey) report.duplicates++
         // Update local set so the same message in the same batch isn't re-counted
         existingUrls.add(url)
+      }
+
+      // ---- Day 5: atomic per-eval ledger increment ----
+      // Concurrent scans both call cost_ledger_add; DB-level atomicity prevents
+      // double-spend. If post-increment total crosses cap, break mid-scan.
+      if (ledgerAvailable) {
+        try {
+          const evalCost = runCost() - beforeExtractCost
+          const { data: newTotal, error: ledgerAddErr } = await supabase.rpc(
+            'cost_ledger_add',
+            { p_user_id: userId, p_amount: Number(evalCost.toFixed(5)) },
+          )
+          if (!ledgerAddErr && newTotal !== null && newTotal !== undefined) {
+            const total = Number(newTotal)
+            if (total >= MONTHLY_COST_CAP_USD) {
+              report.errors.push('monthly_cost_cap_exceeded_mid_scan')
+              break
+            }
+          }
+        } catch {
+          // Ledger RPC transiently unavailable — fall back to in-run guard above
+        }
       }
     } catch (e: any) {
       report.errors.push(
