@@ -15,6 +15,7 @@
     "@careerpilot/config": "workspace:*",
     "@careerpilot/core": "workspace:*",
     "@careerpilot/db": "workspace:*",
+    "@sentry/nextjs": "^10.53.1",
     "@stripe/stripe-js": "^5.6.0",
     "@supabase/ssr": "^0.6.0",
     "@supabase/supabase-js": "^2.49.0",

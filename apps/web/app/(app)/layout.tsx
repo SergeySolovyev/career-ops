@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { signOut } from '../(auth)/login/actions'
+import { Toaster } from '@/components/Toaster'
 
 export default async function AppLayout({
   children,
@@ -142,6 +143,7 @@ export default async function AppLayout({
 
       {/* Main content */}
       <main className="min-w-0 flex-1 p-4 md:p-8">{children}</main>
+      <Toaster />
     </div>
   )
 }
