@@ -4,12 +4,13 @@ export const metadata = {
   title: 'Подписка активирована · CareerPilot',
 }
 
-export default function BillingSuccessPage({
+// Next.js 15: searchParams is async (Promise<>). Must await it.
+export default async function BillingSuccessPage({
   searchParams,
 }: {
-  searchParams: { order?: string }
+  searchParams: Promise<{ order?: string }>
 }) {
-  const orderId = searchParams?.order
+  const { order: orderId } = await searchParams
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-[640px] flex-col items-center justify-center px-6 py-20 text-center">
       <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
