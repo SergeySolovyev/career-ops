@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Send, Loader2 } from 'lucide-react'
+import { showToast } from '@/lib/toast'
 
 interface ScanReport {
   channelsScanned: number
@@ -27,6 +28,11 @@ export default function ScanTgButton() {
     setError(null)
     setReport(null)
     setLoading(true)
+    showToast({
+      kind: 'info',
+      message: 'Сканируем TG-каналы… обычно 20–40 секунд.',
+      durationMs: 4000,
+    })
     try {
       const res = await fetch('/api/tg/scan-now', { method: 'POST' })
       const body = await res.json()
@@ -34,15 +40,27 @@ export default function ScanTgButton() {
         throw new Error(body?.error || `HTTP ${res.status}`)
       }
       if (body.blockedByQuota) {
-        setError(
-          `Месячный лимит на AI исчерпан ($${(body.monthSpend ?? 0).toFixed(2)} / $3). Сбросится через 30 дней.`,
-        )
+        const msg = `Месячный лимит на AI исчерпан ($${(body.monthSpend ?? 0).toFixed(2)} / $3). Сбросится через 30 дней.`
+        setError(msg)
+        showToast({ kind: 'error', message: msg, durationMs: 6000 })
       } else {
         setReport(body.report)
+        const n = body.report?.newRows ?? 0
+        const dup = body.report?.duplicates ?? 0
+        showToast({
+          kind: 'success',
+          message:
+            n > 0
+              ? `Найдено ${n} новых вакансий (дублей: ${dup}).`
+              : `Новых вакансий не найдено (дублей: ${dup}).`,
+          durationMs: 5000,
+        })
         router.refresh()
       }
     } catch (e: any) {
-      setError(e?.message ?? 'Не удалось запустить сканер')
+      const msg = e?.message ?? 'Не удалось запустить сканер'
+      setError(msg)
+      showToast({ kind: 'error', message: msg, durationMs: 6000 })
     } finally {
       setLoading(false)
     }

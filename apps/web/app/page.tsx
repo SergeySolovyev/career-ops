@@ -1400,6 +1400,7 @@ function Pricing() {
             cadence="/ мес"
             blurb="Для активного поиска с автоматизацией."
             highlight
+            comingSoon
             cta={{ label: "Попробовать Pro", href: "/signup", variant: "primary" }}
             features={[
               "30 AI-оценок / месяц",
@@ -1414,6 +1415,7 @@ function Pricing() {
             price="₽699"
             cadence="/ мес"
             blurb="Максимум — для активного поиска."
+            comingSoon
             cta={{ label: "Получить Premium", href: "/signup", variant: "secondary" }}
             features={[
               "Безлимит AI-оценок",
@@ -1442,6 +1444,7 @@ function PriceCard({
   features,
   cta,
   highlight,
+  comingSoon,
 }: {
   tier: string;
   tierColor?: string;
@@ -1451,6 +1454,7 @@ function PriceCard({
   features: string[];
   cta: { label: string; href: string; variant: "primary" | "secondary" };
   highlight?: boolean;
+  comingSoon?: boolean;
 }) {
   return (
     <div
@@ -1460,6 +1464,11 @@ function PriceCard({
       {highlight && (
         <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white">
           Популярный
+        </div>
+      )}
+      {comingSoon && (
+        <div className="absolute right-3 top-3 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-amber-700">
+          Скоро
         </div>
       )}
       <div className="font-mono text-[12px] uppercase tracking-wider" style={{ color: tierColor }}>

@@ -712,69 +712,134 @@ function EmptyState() {
    DemoCard — shown to anonymous visitors
    ------------------------------------------------------------ */
 
+const DEMO_VACANCIES: Array<{
+  score: number
+  scoreLabel: string
+  scoreBg: string
+  scoreBorder: string
+  scoreFg: string
+  title: string
+  company: string
+  location: string
+  salary: string
+  hint: string
+}> = [
+  {
+    score: 4.6,
+    scoreLabel: 'Excellent',
+    scoreBg: '#ecfdf5',
+    scoreBorder: '#a7f3d0',
+    scoreFg: '#047857',
+    title: 'Frontend Junior — React + TypeScript',
+    company: 'Yandex · demo',
+    location: 'Москва · remote OK',
+    salary: '₽ 80k–120k',
+    hint:
+      'React + TypeScript + 5 pet-проектов на GitHub = junior-профиль с уверенным stack\'ом. Yandex активно набирает junior\'ов с собственным портфолио.',
+  },
+  {
+    score: 4.3,
+    scoreLabel: 'Strong',
+    scoreBg: '#ecfdf5',
+    scoreBorder: '#a7f3d0',
+    scoreFg: '#047857',
+    title: 'Middle Backend — Python / FastAPI',
+    company: 'Tinkoff · demo',
+    location: 'Москва · гибрид',
+    salary: '₽ 220k–280k',
+    hint:
+      'Python + PostgreSQL + опыт с финтех-доменом подойдёт под их core-команду. Tinkoff ценит чистый код и тесты, а не годы выслуги.',
+  },
+  {
+    score: 4.1,
+    scoreLabel: 'Good',
+    scoreBg: '#eff6ff',
+    scoreBorder: '#bfdbfe',
+    scoreFg: '#1d4ed8',
+    title: 'Data Analyst — SQL / Python',
+    company: 'Ozon Tech · demo',
+    location: 'Москва · remote OK',
+    salary: '₽ 150k–200k',
+    hint:
+      'SQL + Tableau + A/B-тесты для e-com — твой профиль закрывает 80% требований. Не хватает Airflow, но это учится за пару недель.',
+  },
+  {
+    score: 3.8,
+    scoreLabel: 'Fair',
+    scoreBg: '#fef3c7',
+    scoreBorder: '#fde68a',
+    scoreFg: '#92400e',
+    title: 'UX Designer — Figma + product',
+    company: 'VK · demo',
+    location: 'Москва · офис',
+    salary: '₽ 140k–180k',
+    hint:
+      'Figma + 3 кейса в портфолио = базовый match. Минус — VK ждёт опыт с дизайн-системами B2C, а у тебя пока B2B. Стоит подсветить research-навыки.',
+  },
+]
+
 function DemoCard() {
   return (
     <div className="mt-6 space-y-3">
-      <article className="card tile relative overflow-hidden p-5">
-        <div className="grid grid-cols-12 gap-5">
-          <div className="col-span-12 md:col-span-2">
-            <div
-              className="relative flex h-[104px] w-full flex-col items-center justify-center rounded-lg border"
-              style={{ background: '#ecfdf5', borderColor: '#a7f3d0' }}
-            >
+      {DEMO_VACANCIES.map((v) => (
+        <article key={v.title} className="card tile relative overflow-hidden p-5">
+          <div className="grid grid-cols-12 gap-5">
+            <div className="col-span-12 md:col-span-2">
               <div
-                className="font-semibold leading-none tracking-[-0.03em]"
-                style={{ fontSize: 40, color: '#047857' }}
+                className="relative flex h-[104px] w-full flex-col items-center justify-center rounded-lg border"
+                style={{ background: v.scoreBg, borderColor: v.scoreBorder }}
               >
-                4.4
-              </div>
-              <div className="mt-1 font-mono text-[10px]" style={{ color: '#047857' }}>
-                / 5.0 · Strong
-              </div>
-            </div>
-          </div>
-          <div className="col-span-12 md:col-span-10">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <h3 className="text-[18px] font-semibold leading-tight tracking-tight">
-                  Frontend Junior — React
-                </h3>
-                <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] text-slate-500">
-                  <span className="font-medium text-slate-900">Yandex · demo</span>
-                  <span className="text-slate-300">·</span>
-                  <span>Москва · remote OK</span>
-                  <span className="text-slate-300">·</span>
-                  <span className="font-mono">₽ 80k–120k</span>
+                <div
+                  className="font-semibold leading-none tracking-[-0.03em]"
+                  style={{ fontSize: 40, color: v.scoreFg }}
+                >
+                  {v.score.toFixed(1)}
+                </div>
+                <div className="mt-1 font-mono text-[10px]" style={{ color: v.scoreFg }}>
+                  / 5.0 · {v.scoreLabel}
                 </div>
               </div>
-              <span
-                className="inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[11.5px] font-medium"
-                style={{ color: '#047857', background: '#ecfdf5', borderColor: '#a7f3d0' }}
+            </div>
+            <div className="col-span-12 md:col-span-10">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-[18px] font-semibold leading-tight tracking-tight">
+                    {v.title}
+                  </h3>
+                  <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12.5px] text-slate-500">
+                    <span className="font-medium text-slate-900">{v.company}</span>
+                    <span className="text-slate-300">·</span>
+                    <span>{v.location}</span>
+                    <span className="text-slate-300">·</span>
+                    <span className="font-mono">{v.salary}</span>
+                  </div>
+                </div>
+                <span
+                  className="inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[11.5px] font-medium"
+                  style={{ color: v.scoreFg, background: v.scoreBg, borderColor: v.scoreBorder }}
+                >
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: v.scoreFg }} />
+                  Откликнуться
+                </span>
+              </div>
+              <div
+                className="mt-4 flex gap-3 rounded-md border-l-2 bg-slate-50 p-3"
+                style={{ borderColor: '#2563eb' }}
               >
-                <span className="h-1.5 w-1.5 rounded-full" style={{ background: '#10b981' }} />
-                Откликнуться
-              </span>
-            </div>
-            <div
-              className="mt-4 flex gap-3 rounded-md border-l-2 bg-slate-50 p-3"
-              style={{ borderColor: '#2563eb' }}
-            >
-              <Sparkles size={14} className="mt-[2px] flex-none" color="#2563eb" />
-              <p className="text-[13px] leading-[1.55] text-slate-700">
-                React + TypeScript + 5 pet-проектов на GitHub = junior-профиль с уверенным
-                stack'ом. Yandex активно набирает junior'ов с собственным портфолио.
-              </p>
-            </div>
-            <div className="mt-4 rounded-md bg-blue-50 px-3 py-2 text-xs text-blue-900">
-              Это пример из demo-кабинета.{' '}
-              <Link href="/signup" className="font-semibold underline">
-                Зарегистрируйтесь
-              </Link>
-              , чтобы видеть собственные AI-матчи.
+                <Sparkles size={14} className="mt-[2px] flex-none" color="#2563eb" />
+                <p className="text-[13px] leading-[1.55] text-slate-700">{v.hint}</p>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
+      ))}
+      <div className="rounded-md bg-blue-50 px-4 py-3 text-[13px] text-blue-900">
+        Это пример из demo-кабинета.{' '}
+        <Link href="/signup" className="font-semibold underline">
+          Зарегистрируйтесь
+        </Link>
+        , чтобы видеть собственные AI-матчи под ваш профиль.
+      </div>
     </div>
   )
 }
