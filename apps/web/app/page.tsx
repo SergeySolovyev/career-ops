@@ -1396,12 +1396,11 @@ function Pricing() {
           <PriceCard
             tier="Pro"
             tierColor="#2563eb"
-            price="₽299"
-            cadence="/ мес"
-            blurb="Для активного поиска с автоматизацией."
+            price="₽99"
+            cadence="первый месяц, далее ₽299 / мес"
+            blurb="Для активного поиска с автоматизацией. Промо BETA99 — ₽99 первый месяц."
             highlight
-            comingSoon
-            cta={{ label: "Попробовать Pro", href: "/signup", variant: "primary" }}
+            cta={{ label: "Попробовать Pro · ₽99 первый месяц", href: "/signup?intent=pro&promo=BETA99", variant: "primary" }}
             features={[
               "30 AI-оценок / месяц",
               "Tailored CV в PDF",
@@ -1415,8 +1414,7 @@ function Pricing() {
             price="₽699"
             cadence="/ мес"
             blurb="Максимум — для активного поиска."
-            comingSoon
-            cta={{ label: "Получить Premium", href: "/signup", variant: "secondary" }}
+            cta={{ label: "Получить Premium · ₽699/мес", href: "/signup?intent=premium", variant: "secondary" }}
             features={[
               "Безлимит AI-оценок",
               "Interview prep + STAR-кейсы",
