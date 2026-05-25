@@ -56,10 +56,12 @@ export async function GET() {
 
     const entries = Object.entries(evalLog.evaluated || {}) as [string, any][]
 
-    // Funnel stages
+    // Funnel stages — maintains invariant: found ≥ preScreened ≥ aiEvaluated ≥ recommended.
+    // aiEvaluated means "ran through AI evaluator" (anything that passed pre-screen),
+    // not "has a .md report file" — those are only generated for apply verdicts.
     const found = entries.length
     const preScreened = entries.filter(([, v]) => v.status !== 'pre-screen-fail').length
-    const aiEvaluated = entries.filter(([, v]) => v.report).length
+    const aiEvaluated = preScreened  // everything that passes pre-screen goes to AI
     const recommended = entries.filter(([, v]) => ['apply', 'maybe'].includes(v.status)).length
     const applied = records.filter((r: any) => ['sent', 'delivered', 'replied'].includes(r.status)).length
     const interviews = records.filter((r: any) => r.status === 'interview').length
