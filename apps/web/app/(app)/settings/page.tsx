@@ -312,7 +312,7 @@ export default function SettingsPage() {
                     value={profile.negativeKeywords}
                     onChange={(e) => update('negativeKeywords', e.target.value)}
                     rows={4}
-                    placeholder="стажёр, junior, 1С, SAP"
+                    placeholder="стажёр, 1С, SAP, переезд, на месте 5 дней/нед"
                     className={inputCls + ' resize-y'}
                   />
                 </Field>

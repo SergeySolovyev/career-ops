@@ -273,11 +273,21 @@ export default async function DashboardPage() {
                 <p className="text-[13px] text-slate-500">Пока нет оценок.</p>
               )}
               {recentEvals.map(([url, v]) => {
-                const slug = (v.report || '')
+                // Pretty-print synthetic report slug: "001-acme-frontend-junior-2026-04-30.md"
+                // → "Acme · Frontend Junior" (capitalized company + " · " separator)
+                const rawSlug = (v.report || '')
                   .replace('.md', '')
                   .replace(/^\d+-/, '')
                   .replace(/-\d{4}-\d{2}-\d{2}$/, '')
-                  .replace(/-/g, ' ')
+                const slugParts: string[] = rawSlug.split('-')
+                const company: string = (slugParts[0] || '')
+                  .split('-')
+                  .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+                  .join(' ')
+                const role: string = slugParts.slice(1)
+                  .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+                  .join(' ')
+                const slug = company && role ? `${company} · ${role}` : rawSlug.replace(/-/g, ' ')
                 const verdict =
                   v.status === 'apply'
                     ? { text: 'apply', fg: '#047857', bg: '#ecfdf5', border: '#a7f3d0' }

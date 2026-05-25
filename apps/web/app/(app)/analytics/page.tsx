@@ -110,8 +110,8 @@ export default async function AnalyticsPage() {
               Пока нет данных
             </h2>
             <p className="mt-2 max-w-[400px] text-[13px] text-slate-500">
-              Воронка появится после первых сканов и AI-оценок вакансий. Сканер
-              запускается раз в 4 часа.
+              Воронка появится после первых сканов и AI-оценок вакансий. Автосканер
+              запускается раз в сутки (06:00 UTC), либо запустите вручную из вкладки «Новые матчи».
             </p>
             <Link href="/settings" className="btn-secondary mt-6 h-10 px-5 text-[13px]">
               <Settings size={14} />

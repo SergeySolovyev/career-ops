@@ -37,6 +37,10 @@ export default function ChatPage() {
   // Subagent D adds _has_cv to /api/profile; we code defensively: treat
   // undefined as false (CTA shown) so users without CV see the prompt.
   const [hasCv, setHasCv] = useState<boolean | undefined>(undefined)
+  // isAnon: true for unauthenticated visitor (demo source). Used to route
+  // the empty-state CTA correctly — anon goes to /signup, not /settings
+  // (which would just redirect them back to /login → confusion loop).
+  const [isAnon, setIsAnon] = useState<boolean>(false)
   const recognitionRef = useRef<any>(null)
 
   const isLoading = status === 'streaming' || status === 'submitted'
@@ -50,6 +54,7 @@ export default function ChatPage() {
         if (cancelled) return
         // Treat any truthy _has_cv as "has CV"; missing flag means no CV.
         setHasCv(Boolean(p?._has_cv))
+        setIsAnon(p?._source === 'demo')
       })
       .catch(() => {
         if (!cancelled) setHasCv(false)
@@ -136,15 +141,19 @@ export default function ChatPage() {
           {messages.length === 0 && hasCv === false && (
             <div className="mt-12 text-center">
               <Sparkles size={32} className="mx-auto text-slate-400" />
-              <h2 className="mt-4 text-[20px] font-semibold">Начнём с CV</h2>
+              <h2 className="mt-4 text-[20px] font-semibold">
+                {isAnon ? 'Зарегистрируйтесь, чтобы получить персональные советы' : 'Начнём с CV'}
+              </h2>
               <p className="mt-2 text-[14px] text-slate-500">
-                AI-советник работает контекстуально по вашему резюме.
+                {isAnon
+                  ? 'AI-советник работает контекстуально по вашему резюме. Создайте аккаунт за 30 секунд — без банковской карты.'
+                  : 'AI-советник работает контекстуально по вашему резюме.'}
               </p>
               <Link
-                href="/settings"
+                href={isAnon ? '/signup' : '/settings'}
                 className="mt-6 inline-flex items-center rounded-md bg-slate-900 px-5 py-2.5 text-[13.5px] font-medium text-white hover:bg-slate-800"
               >
-                Загрузить CV для начала
+                {isAnon ? 'Создать аккаунт' : 'Загрузить CV для начала'}
               </Link>
             </div>
           )}
