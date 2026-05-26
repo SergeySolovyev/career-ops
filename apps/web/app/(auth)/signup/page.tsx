@@ -32,8 +32,10 @@ export default async function SignupPage({
   // Whitelist mirror of actions.ts — invalid values are ignored, not echoed.
   const intent =
     params.intent === 'pro' || params.intent === 'premium' ? params.intent : null
-  const promo = params.promo === 'BETA99' ? params.promo : null
+  // BETA99 only attaches to Pro; ignored on Premium (Premium has no discount)
+  const promo = params.promo === 'BETA99' && intent === 'pro' ? params.promo : null
   const isProIntent = intent === 'pro'
+  const isPremiumIntent = intent === 'premium'
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-white px-4 py-10 text-slate-900 antialiased">
@@ -117,14 +119,24 @@ export default async function SignupPage({
             {/* Header */}
             <div className="mb-6">
               <div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">
-                {isProIntent ? 'Sign up · pro plan' : 'Sign up · free plan'}
+                {isProIntent
+                  ? 'Sign up · pro plan'
+                  : isPremiumIntent
+                  ? 'Sign up · premium plan'
+                  : 'Sign up · free plan'}
               </div>
               <h2 className="mt-1 text-[24px] font-semibold tracking-[-0.015em] grad-text">
-                {isProIntent ? 'Аккаунт + Pro за ₽99' : 'Создать аккаунт'}
+                {isProIntent
+                  ? 'Аккаунт + Pro за ₽99'
+                  : isPremiumIntent
+                  ? 'Аккаунт + Premium'
+                  : 'Создать аккаунт'}
               </h2>
               <p className="mt-2 text-[13px] leading-[1.5] text-slate-500">
                 {isProIntent
                   ? 'Заполните CV, затем оформите Pro за ₽99 (первый месяц).'
+                  : isPremiumIntent
+                  ? 'Заполните CV, затем оформите Premium за ₽699/мес.'
                   : 'Бесплатно · 3 AI-оценки в месяц · без карты.'}
               </p>
             </div>

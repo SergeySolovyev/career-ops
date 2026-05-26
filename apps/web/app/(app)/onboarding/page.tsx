@@ -74,9 +74,30 @@ function OnboardingForm() {
   const promoRaw = searchParams.get('promo')
   const intent: 'pro' | 'premium' | null =
     intentRaw === 'pro' || intentRaw === 'premium' ? intentRaw : null
-  const promo: 'BETA99' | null = promoRaw === 'BETA99' ? promoRaw : null
+  // BETA99 only applies to Pro (Premium gets no promo discount)
+  const promo: 'BETA99' | null =
+    promoRaw === 'BETA99' && intent === 'pro' ? promoRaw : null
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
+
+  // Pricing copy lives next to the UI that uses it — single source of truth
+  // for the onboarding-side checkout CTA. Server-side prices are in
+  // /api/billing/checkout/route.ts PRICES — keep these in sync.
+  const tierCopy = intent === 'premium'
+    ? {
+        bannerName: 'Premium план',
+        bannerHint: 'после CV — оформление за ₽699/мес',
+        ctaTitle: 'Готово — оформим Premium?',
+        ctaPrice: '₽699/мес с приоритетной поддержкой и custom outreach.',
+        ctaButton: 'Оформить за ₽699 →',
+      }
+    : {
+        bannerName: 'Pro план',
+        bannerHint: 'после CV — оформление за ₽99 первый месяц',
+        ctaTitle: 'Готово — оформим Pro?',
+        ctaPrice: '₽99 за первый месяц по промо BETA99. Дальше ₽299/мес, отмена в один клик в кабинете.',
+        ctaButton: 'Оформить за ₽99 →',
+      }
 
   async function handleCheckout() {
     if (!intent) return
@@ -232,12 +253,11 @@ function OnboardingForm() {
   return (
     <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
       <div className="mx-auto max-w-[760px] px-6 py-10">
-        {/* Intent banner — shown when user came from Pro CTA on landing */}
-        {intent === 'pro' && (
+        {/* Intent banner — shown when user came from a paid-tier CTA on landing */}
+        {intent && (
           <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-[13px] text-emerald-900">
-            <span className="font-semibold">Pro план выбран.</span>{' '}
-            Заполните CV и цели (~2 мин) — после этого предложу оформить за{' '}
-            <span className="font-semibold">₽99</span> первый месяц.
+            <span className="font-semibold">{tierCopy.bannerName} выбран.</span>{' '}
+            Заполните CV и цели (~2 мин) — {tierCopy.bannerHint}.
           </div>
         )}
 
@@ -609,14 +629,13 @@ function OnboardingForm() {
 
             {firstMessage && (
               <div className="mt-6 border-t border-slate-100 pt-5">
-                {/* Pro-intent path — primary CTA is checkout */}
-                {intent === 'pro' && (
+                {/* Paid-intent path — primary CTA is checkout (Pro or Premium) */}
+                {intent && (
                   <div className="mb-4 flex flex-col gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="text-[13px] text-emerald-900">
-                      <div className="font-semibold">Готово — оформим Pro?</div>
+                      <div className="font-semibold">{tierCopy.ctaTitle}</div>
                       <div className="mt-0.5 text-[12px] text-emerald-800">
-                        ₽99 за первый месяц по промо BETA99. Дальше ₽299/мес,
-                        отмена в один клик в кабинете.
+                        {tierCopy.ctaPrice}
                       </div>
                     </div>
                     <button
@@ -624,7 +643,7 @@ function OnboardingForm() {
                       disabled={checkoutLoading}
                       className="shrink-0 rounded-lg bg-emerald-700 px-4 py-2 text-[13px] font-semibold text-white hover:bg-emerald-800 disabled:opacity-60"
                     >
-                      {checkoutLoading ? 'Создаём платёж…' : 'Оформить за ₽99 →'}
+                      {checkoutLoading ? 'Создаём платёж…' : tierCopy.ctaButton}
                     </button>
                   </div>
                 )}
@@ -636,14 +655,14 @@ function OnboardingForm() {
 
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
-                    {intent === 'pro'
+                    {intent
                       ? 'или продолжить на free плане'
                       : 'setup complete · entering workspace'}
                   </span>
                   <button
                     onClick={() => router.push('/dashboard')}
                     className={
-                      intent === 'pro'
+                      intent
                         ? 'btn-secondary h-10 px-5 text-[13px]'
                         : 'btn-primary h-10 px-5 text-[13px]'
                     }
