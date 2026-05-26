@@ -13,6 +13,7 @@ import {
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { signOut } from '../(auth)/login/actions'
 import { Toaster } from '@/components/Toaster'
+import TierPill from '@/components/TierPill'
 
 export default async function AppLayout({
   children,
@@ -127,6 +128,7 @@ export default async function AppLayout({
               Войти →
             </Link>
           )}
+          {user && <TierPill />}
           {user && (
             <form action={signOut}>
               <button
