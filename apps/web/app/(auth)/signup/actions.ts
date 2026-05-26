@@ -5,6 +5,19 @@ import { redirect } from 'next/navigation'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { isEmailWhitelisted, WHITELIST_REJECT_MESSAGE } from '@/lib/whitelist'
 
+// Whitelist intent/promo to prevent open-redirect — never let user-provided
+// strings build URLs we redirect to. Only known values pass through.
+const VALID_INTENTS = new Set(['pro', 'premium'])
+const VALID_PROMOS = new Set(['BETA99'])
+
+function buildOnboardingRedirect(intent?: string | null, promo?: string | null): string {
+  const params = new URLSearchParams()
+  if (intent && VALID_INTENTS.has(intent)) params.set('intent', intent)
+  if (promo && VALID_PROMOS.has(promo)) params.set('promo', promo)
+  const qs = params.toString()
+  return qs ? `/onboarding?${qs}` : '/onboarding'
+}
+
 export async function signUp(formData: FormData) {
   if (!isSupabaseConfigured()) {
     redirect('/signup?error=supabase_disabled')
@@ -68,6 +81,10 @@ export async function signUp(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  // New signups always start onboarding — they haven't loaded a CV yet
-  redirect('/onboarding')
+  // New signups always start onboarding — they haven't loaded a CV yet.
+  // If they came from a pricing CTA (?intent=pro), preserve it so /onboarding
+  // can render an "Оформить Pro за ₽99" sticky CTA after CV save.
+  const intent = (formData.get('intent') as string) || null
+  const promo = (formData.get('promo') as string) || null
+  redirect(buildOnboardingRedirect(intent, promo))
 }

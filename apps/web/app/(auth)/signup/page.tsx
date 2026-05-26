@@ -26,9 +26,14 @@ const PERKS = [
 export default async function SignupPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>
+  searchParams: Promise<{ error?: string; intent?: string; promo?: string }>
 }) {
   const params = await searchParams
+  // Whitelist mirror of actions.ts — invalid values are ignored, not echoed.
+  const intent =
+    params.intent === 'pro' || params.intent === 'premium' ? params.intent : null
+  const promo = params.promo === 'BETA99' ? params.promo : null
+  const isProIntent = intent === 'pro'
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-white px-4 py-10 text-slate-900 antialiased">
@@ -112,13 +117,15 @@ export default async function SignupPage({
             {/* Header */}
             <div className="mb-6">
               <div className="font-mono text-[10px] uppercase tracking-wider text-slate-500">
-                Sign up · free plan
+                {isProIntent ? 'Sign up · pro plan' : 'Sign up · free plan'}
               </div>
               <h2 className="mt-1 text-[24px] font-semibold tracking-[-0.015em] grad-text">
-                Создать аккаунт
+                {isProIntent ? 'Аккаунт + Pro за ₽99' : 'Создать аккаунт'}
               </h2>
               <p className="mt-2 text-[13px] leading-[1.5] text-slate-500">
-                Бесплатно · 3 AI-оценки в месяц · без карты.
+                {isProIntent
+                  ? 'Заполните CV, затем оформите Pro за ₽99 (первый месяц).'
+                  : 'Бесплатно · 3 AI-оценки в месяц · без карты.'}
               </p>
             </div>
 
@@ -142,6 +149,9 @@ export default async function SignupPage({
 
             {/* Form */}
             <form action={signUp} className="space-y-4">
+              {/* Intent passthrough — only whitelisted values render */}
+              {intent && <input type="hidden" name="intent" value={intent} />}
+              {promo && <input type="hidden" name="promo" value={promo} />}
               <Field label="Имя" Icon={User}>
                 <input
                   id="name"

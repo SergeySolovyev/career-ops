@@ -66,6 +66,40 @@ function OnboardingForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Intent passthrough from landing → signup → onboarding.
+  // Mirrors the whitelist in (auth)/signup/actions.ts. After CV+goals are
+  // saved, Step 3 shows an "Оформить Pro за ₽99" CTA that hits
+  // /api/billing/checkout and redirects to Tinkoff PaymentURL.
+  const intentRaw = searchParams.get('intent')
+  const promoRaw = searchParams.get('promo')
+  const intent: 'pro' | 'premium' | null =
+    intentRaw === 'pro' || intentRaw === 'premium' ? intentRaw : null
+  const promo: 'BETA99' | null = promoRaw === 'BETA99' ? promoRaw : null
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
+
+  async function handleCheckout() {
+    if (!intent) return
+    setCheckoutLoading(true)
+    setCheckoutError(null)
+    try {
+      const res = await fetch('/api/billing/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tier: intent, promo: promo ?? undefined }),
+      })
+      const body = await res.json()
+      if (!res.ok || !body.paymentUrl) {
+        throw new Error(body?.error || `HTTP ${res.status}`)
+      }
+      // Hard navigate — Tinkoff hosts the form on their domain
+      window.location.href = body.paymentUrl
+    } catch (e: any) {
+      setCheckoutError(e.message || 'Не удалось создать платёж')
+      setCheckoutLoading(false)
+    }
+  }
+
   // Step 1
   const [cv, setCv] = useState('')
 
@@ -198,6 +232,15 @@ function OnboardingForm() {
   return (
     <div className="-m-4 md:-m-8 min-h-screen bg-white text-slate-900 antialiased">
       <div className="mx-auto max-w-[760px] px-6 py-10">
+        {/* Intent banner — shown when user came from Pro CTA on landing */}
+        {intent === 'pro' && (
+          <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-[13px] text-emerald-900">
+            <span className="font-semibold">Pro план выбран.</span>{' '}
+            Заполните CV и цели (~2 мин) — после этого предложу оформить за{' '}
+            <span className="font-semibold">₽99</span> первый месяц.
+          </div>
+        )}
+
         {/* Breadcrumb */}
         <div className="mb-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
           <span>Workspace</span>
@@ -565,17 +608,50 @@ function OnboardingForm() {
             {error && <ErrorLine message={error} />}
 
             {firstMessage && (
-              <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-5">
-                <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
-                  setup complete · entering workspace
-                </span>
-                <button
-                  onClick={() => router.push('/dashboard')}
-                  className="btn-primary h-10 px-5 text-[13px]"
-                >
-                  В кабинет
-                  <ArrowRight size={14} />
-                </button>
+              <div className="mt-6 border-t border-slate-100 pt-5">
+                {/* Pro-intent path — primary CTA is checkout */}
+                {intent === 'pro' && (
+                  <div className="mb-4 flex flex-col gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="text-[13px] text-emerald-900">
+                      <div className="font-semibold">Готово — оформим Pro?</div>
+                      <div className="mt-0.5 text-[12px] text-emerald-800">
+                        ₽99 за первый месяц по промо BETA99. Дальше ₽299/мес,
+                        отмена в один клик в кабинете.
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleCheckout}
+                      disabled={checkoutLoading}
+                      className="shrink-0 rounded-lg bg-emerald-700 px-4 py-2 text-[13px] font-semibold text-white hover:bg-emerald-800 disabled:opacity-60"
+                    >
+                      {checkoutLoading ? 'Создаём платёж…' : 'Оформить за ₽99 →'}
+                    </button>
+                  </div>
+                )}
+                {checkoutError && (
+                  <ErrorLine
+                    message={`Не удалось перейти к оплате: ${checkoutError}. Можно повторить или войти в кабинет.`}
+                  />
+                )}
+
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
+                    {intent === 'pro'
+                      ? 'или продолжить на free плане'
+                      : 'setup complete · entering workspace'}
+                  </span>
+                  <button
+                    onClick={() => router.push('/dashboard')}
+                    className={
+                      intent === 'pro'
+                        ? 'btn-secondary h-10 px-5 text-[13px]'
+                        : 'btn-primary h-10 px-5 text-[13px]'
+                    }
+                  >
+                    В кабинет
+                    <ArrowRight size={14} />
+                  </button>
+                </div>
               </div>
             )}
           </section>
