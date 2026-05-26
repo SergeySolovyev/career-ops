@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import ScanButton from './scan-button'
+import QuotaBanner from './quota-banner'
 import ScanTgButton from './scan-tg-button'
 import ApplyButton from './apply-button'
 
@@ -227,6 +228,9 @@ export default async function MatchesPage() {
             </button>
           </div>
         </header>
+
+        {/* -------------------- Tier / quota banner -------------------- */}
+        {isUserProfile && <QuotaBanner />}
 
         {/* -------------------- Anon demo banner -------------------- */}
         {!isUserProfile && (

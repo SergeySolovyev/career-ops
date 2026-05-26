@@ -4,6 +4,7 @@ import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { connectBrowser, DEFAULT_CONTEXT_OPTIONS, isBrowserlessConfigured } from '@/lib/browserless'
 import { decryptJson } from '@/lib/encryption'
 import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
+import { resolveTierState, checkQuota } from '@/lib/tier'
 import { getCached, setCached } from '@/lib/anthropic-cache'
 
 // Vercel default = 60s. Allow up to 60s for: Browserless connect (~2s) +
@@ -109,6 +110,23 @@ export async function POST(req: Request) {
     // strict limit. Log mode by default until Day +2 post-launch.
     const limited = await checkRateLimit(req, RATE_LIMITS.scanNow, user.id)
     if (limited) return limited
+
+    // Tier quota gate — Free = 3 AI-evaluations / 30 days, Pro/Premium unlimited.
+    // 402 Payment Required is the conventional code for "upgrade to continue".
+    const tierState = await resolveTierState(supabase, user.id)
+    const quota = checkQuota(tierState)
+    if (quota.blocked) {
+      return NextResponse.json(
+        {
+          error: quota.message,
+          reason: quota.reason,
+          used: quota.used,
+          limit: quota.limit,
+          upgradeUrl: '/?intent=pro&promo=BETA99',
+        },
+        { status: 402 },
+      )
+    }
 
     const { data: profileRow } = await supabase
       .from('user_profiles')
