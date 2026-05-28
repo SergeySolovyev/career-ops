@@ -68,8 +68,8 @@ interface ProfileRow {
   cv_text: string | null
   target_roles: string[] | null
   positive_keywords: string[] | null
-  salary_target_min?: number | null
-  salary_target_max?: number | null
+  salary_min?: number | null
+  salary_max?: number | null
   // Day 2.7: ICP-aware scoring fields from migration 004
   icp_segment?: 'junior' | 'middle' | 'senior' | null
   skills?: string[] | null
@@ -91,9 +91,9 @@ function buildProfileSummary(profile: ProfileRow): string {
   if (profile.target_roles?.length) {
     parts.push(`Целевые роли: ${profile.target_roles.slice(0, 5).join(', ')}`)
   }
-  if (profile.salary_target_min || profile.salary_target_max) {
+  if (profile.salary_min || profile.salary_max) {
     parts.push(
-      `Зарплата: ${profile.salary_target_min ?? '?'}–${profile.salary_target_max ?? '?'} ₽`,
+      `Зарплата: ${profile.salary_min ?? '?'}–${profile.salary_max ?? '?'} ₽`,
     )
   }
   if (profile.positive_keywords?.length) {
@@ -181,7 +181,7 @@ export async function runScanForUser(
   const { data: profile } = await supabase
     .from('user_profiles')
     .select(
-      'cv_text, target_roles, positive_keywords, salary_target_min, salary_target_max, icp_segment, skills, experience_years',
+      'cv_text, target_roles, positive_keywords, salary_min, salary_max, icp_segment, skills, experience_years',
     )
     .eq('user_id', userId)
     .maybeSingle()
