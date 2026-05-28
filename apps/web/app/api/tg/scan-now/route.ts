@@ -7,6 +7,13 @@
 import { NextResponse } from 'next/server'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { runScanForUser } from '@/lib/tg-scan-core'
+import { tgWorkerHealth } from '@/lib/tg-worker'
+
+const UNAVAILABLE_RESPONSE = {
+  ok: false,
+  reason: 'tg_worker_unavailable',
+  message: 'Поиск по Telegram-каналам скоро будет включён. Пока сканируем только hh.ru.',
+}
 
 // Defensive: tg-worker.ts uses node:crypto for HMAC; edge runtime would break it.
 export const runtime = 'nodejs'
@@ -26,17 +33,17 @@ export async function POST() {
 
   // Graceful gate: TG worker is a separate process on a DigitalOcean droplet
   // (uses MTProto user-account session — can't run inside Vercel function).
-  // Until WORKER_BASE_URL + WORKER_SHARED_SECRET are set, return a friendly
-  // 503 so the UI can show "Telegram-каналы скоро" instead of crashing.
+  // Two-stage check:
+  //   1. env vars missing → never deployed → 503 "coming soon"
+  //   2. env vars set but worker /health fails → deployed-but-down (Caddy
+  //      provisioning TLS, droplet rebooted, DNS not resolved, etc.) → same
+  //      503 instead of leaking "WORKER_BASE_URL not set" to the user.
   if (!process.env.WORKER_BASE_URL || !process.env.WORKER_SHARED_SECRET) {
-    return NextResponse.json(
-      {
-        ok: false,
-        reason: 'tg_worker_unavailable',
-        message: 'Поиск по Telegram-каналам скоро будет включён. Пока сканируем только hh.ru.',
-      },
-      { status: 503 },
-    )
+    return NextResponse.json(UNAVAILABLE_RESPONSE, { status: 503 })
+  }
+  const health = await tgWorkerHealth()
+  if (!health.ok) {
+    return NextResponse.json(UNAVAILABLE_RESPONSE, { status: 503 })
   }
 
   try {
