@@ -1549,8 +1549,9 @@ function Footer() {
         <div className="flex items-center gap-6 text-[12.5px] text-slate-500">
           <a href="#features" className="hover:text-slate-900">Возможности</a>
           <a href="#pricing" className="hover:text-slate-900">Тарифы</a>
-          <a href="#" className="hover:text-slate-900">Безопасность</a>
-          <a href="#" className="hover:text-slate-900">Контакты</a>
+          <a href="/offer" className="hover:text-slate-900">Оферта</a>
+          <a href="/privacy" className="hover:text-slate-900">Конфиденциальность</a>
+          <a href="mailto:hello@careerpilot.app" className="hover:text-slate-900">Контакты</a>
         </div>
         <div className="font-mono text-[12px] text-slate-500">
           © 2026 · v4.2.0 · Made in Moscow
