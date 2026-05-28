@@ -54,11 +54,14 @@ export async function resolveTierState(
   // 3) Quota usage (only matters for free tier; Pro/Premium = unlimited)
   if (tier === 'free') {
     const since = new Date(Date.now() - QUOTA_WINDOW_DAYS * 86_400_000).toISOString()
+    // user_evaluations uses `evaluated_at` (not created_at) as the insert timestamp —
+    // discovered via real customer E2E walkthrough on 2026-05-28. Without this
+    // fix, any Free user gets unlimited scans because the filter excludes all rows.
     const { count } = await supabase
       .from('user_evaluations')
       .select('url', { count: 'exact', head: true })
       .eq('user_id', userId)
-      .gte('created_at', since)
+      .gte('evaluated_at', since)
 
     const used = count ?? 0
     return {
