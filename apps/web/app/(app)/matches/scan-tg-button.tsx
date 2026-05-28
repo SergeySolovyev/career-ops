@@ -36,6 +36,15 @@ export default function ScanTgButton() {
     try {
       const res = await fetch('/api/tg/scan-now', { method: 'POST' })
       const body = await res.json()
+      // 503 + reason 'tg_worker_unavailable' = friendly "coming soon"
+      if (res.status === 503 && body?.reason === 'tg_worker_unavailable') {
+        showToast({
+          kind: 'info',
+          message: body.message || 'Telegram-сканер скоро будет включён.',
+          durationMs: 5000,
+        })
+        return
+      }
       if (!res.ok) {
         throw new Error(body?.error || `HTTP ${res.status}`)
       }

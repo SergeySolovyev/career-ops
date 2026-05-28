@@ -24,6 +24,21 @@ export async function POST() {
     return NextResponse.json({ error: 'no_anthropic_key' }, { status: 503 })
   }
 
+  // Graceful gate: TG worker is a separate process on a DigitalOcean droplet
+  // (uses MTProto user-account session — can't run inside Vercel function).
+  // Until WORKER_BASE_URL + WORKER_SHARED_SECRET are set, return a friendly
+  // 503 so the UI can show "Telegram-каналы скоро" instead of crashing.
+  if (!process.env.WORKER_BASE_URL || !process.env.WORKER_SHARED_SECRET) {
+    return NextResponse.json(
+      {
+        ok: false,
+        reason: 'tg_worker_unavailable',
+        message: 'Поиск по Telegram-каналам скоро будет включён. Пока сканируем только hh.ru.',
+      },
+      { status: 503 },
+    )
+  }
+
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
