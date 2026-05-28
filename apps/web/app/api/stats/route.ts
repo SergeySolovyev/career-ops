@@ -34,8 +34,69 @@ export async function GET() {
       const supabase = await createClient()
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        // TODO: query per-user evaluation/outreach tables once they exist.
-        return NextResponse.json(EMPTY_FUNNEL)
+        // Real per-user funnel from user_evaluations + application_log.
+        // Discovered 2026-05-28 — old TODO returned EMPTY_FUNNEL even when
+        // the user had scanned vacancies, so /analytics was dead for everyone.
+        const { data: evals } = await supabase
+          .from('user_evaluations')
+          .select('url, title, company, ai_score, ai_verdict, evaluated_at')
+          .eq('user_id', user.id)
+          .order('evaluated_at', { ascending: false })
+
+        const { data: applies } = await supabase
+          .from('application_log')
+          .select('status')
+          .eq('user_id', user.id)
+
+        const rows = evals ?? []
+        const appRows = applies ?? []
+
+        const found = rows.length
+        // For now hh scans don't expose a pre-screen vs AI-evaluate distinction;
+        // every row in user_evaluations went through the full AI pipeline.
+        const preScreened = found
+        const aiEvaluated = found
+        const recommended = rows.filter(
+          (r: any) => r.ai_verdict === 'apply' || r.ai_verdict === 'maybe',
+        ).length
+        const applied = appRows.filter((a: any) =>
+          ['sent', 'delivered', 'replied'].includes(a.status),
+        ).length
+        const interviews = appRows.filter((a: any) => a.status === 'interview').length
+        const offers = appRows.filter((a: any) => a.status === 'offer').length
+
+        const scores = rows
+          .map((r: any) => Number(r.ai_score) || 0)
+          .filter((s: number) => s > 0)
+        const avgScore =
+          scores.length > 0
+            ? (scores.reduce((a: number, b: number) => a + b, 0) / scores.length).toFixed(1)
+            : '0'
+        const topScore = scores.length > 0 ? Math.max(...scores) : 0
+        const applyRate =
+          found > 0 ? ((applied / found) * 100).toFixed(0) : '0'
+
+        // Top 5 by score — privacy-safe: only owner sees their own URLs.
+        const topVacancies = rows
+          .slice()
+          .sort((a: any, b: any) => (b.ai_score ?? 0) - (a.ai_score ?? 0))
+          .slice(0, 5)
+          .map((r: any) => ({
+            url: r.url,
+            score: r.ai_score,
+            report: `${r.title}${r.company ? ` · ${r.company}` : ''}`,
+            date: r.evaluated_at,
+          }))
+
+        const lastRun = rows[0]?.evaluated_at ?? null
+
+        return NextResponse.json({
+          funnel: { found, preScreened, aiEvaluated, recommended, applied, interviews, offers },
+          stats: { totalEvaluated: aiEvaluated, avgScore, topScore, applyRate },
+          topVacancies,
+          lastRun,
+          _source: 'user' as const,
+        })
       }
     } catch {
       // fall through to demo
