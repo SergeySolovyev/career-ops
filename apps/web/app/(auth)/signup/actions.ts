@@ -23,6 +23,16 @@ export async function signUp(formData: FormData) {
     redirect('/signup?error=supabase_disabled')
   }
 
+  // 152-ФЗ defense-in-depth: HTML `required` on the checkbox blocks form
+  // submit client-side, but a crafted POST could bypass it. Validate server-side
+  // so we don't accidentally create accounts without consent on record.
+  const consent = formData.get('consent')
+  if (consent !== 'yes') {
+    redirect('/signup?error=' + encodeURIComponent(
+      'Для регистрации необходимо принять условия Оферты, Политики конфиденциальности и Политики возврата.'
+    ))
+  }
+
   // Beta whitelist gate — BEFORE auth.signUp so we don't pollute auth.users
   // with rejected emails. Empty WHITELIST_EMAILS env (or '*') = open signup.
   const emailInput = (formData.get('email') as string) || ''
@@ -67,6 +77,18 @@ export async function signUp(formData: FormData) {
         // ignore unique-violation / RLS errors; row may already exist or auth not yet active
       } catch {
         /* swallow */
+      }
+
+      // 152-ФЗ audit: separate UPDATE so if migration 008 (consent_accepted_at
+      // column) isn't applied yet, signup still works — we just don't get the
+      // audit timestamp. The column WILL exist on prod after migration applied.
+      try {
+        await supabase
+          .from('user_profiles')
+          .update({ consent_accepted_at: new Date().toISOString() })
+          .eq('user_id', user.id)
+      } catch {
+        /* swallow — pre-migration deployments tolerate missing column */
       }
       try {
         await supabase.rpc('tg_seed_default_channels', { p_user_id: user.id })

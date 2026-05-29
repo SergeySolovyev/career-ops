@@ -1537,26 +1537,70 @@ function FinalCTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-slate-200">
-      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-6 px-6 py-10">
-        <div className="flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-900 text-white">
-            <Sparkles size={12} />
-          </span>
-          <span className="text-[13.5px] font-semibold">CareerPilot</span>
-          <span className="ml-2 text-[12.5px] text-slate-500">
-            — AI-платформа поиска работы
-          </span>
+    <footer className="border-t border-slate-200 bg-slate-50/50">
+      <div className="mx-auto max-w-[1200px] px-6 py-10">
+        {/* Top row — brand + nav links */}
+        <div className="flex flex-wrap items-center justify-between gap-6 border-b border-slate-200 pb-6">
+          <div className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-900 text-white">
+              <Sparkles size={12} />
+            </span>
+            <span className="text-[13.5px] font-semibold">CareerPilot</span>
+            <span className="ml-2 text-[12.5px] text-slate-500">
+              — AI-платформа поиска работы
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] text-slate-500">
+            <a href="#features" className="hover:text-slate-900">Возможности</a>
+            <a href="#pricing" className="hover:text-slate-900">Тарифы</a>
+            <a href="/offer" className="hover:text-slate-900">Оферта</a>
+            <a href="/privacy" className="hover:text-slate-900">Конфиденциальность</a>
+            <a href="/refund" className="hover:text-slate-900">Возврат</a>
+            <a href="mailto:support@careerpilot.app" className="hover:text-slate-900">Контакты</a>
+          </div>
         </div>
-        <div className="flex items-center gap-6 text-[12.5px] text-slate-500">
-          <a href="#features" className="hover:text-slate-900">Возможности</a>
-          <a href="#pricing" className="hover:text-slate-900">Тарифы</a>
-          <a href="/offer" className="hover:text-slate-900">Оферта</a>
-          <a href="/privacy" className="hover:text-slate-900">Конфиденциальность</a>
-          <a href="mailto:hello@careerpilot.app" className="hover:text-slate-900">Контакты</a>
+
+        {/*
+          Полные реквизиты ИП — требование CloudPayments к мерчантам
+          (видны на каждой странице, не только в оферте). Также рекомендация
+          152-ФЗ для размещения данных оператора ПДн на сайте.
+        */}
+        <div className="mt-5 grid gap-y-2 text-[11.5px] leading-[1.55] text-slate-500 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <div className="font-semibold uppercase tracking-wider text-slate-400">Исполнитель</div>
+            <div className="mt-1">ИП Бирюкова Я.В.</div>
+            <div>ИНН 010510099667</div>
+            <div>ОГРНИП 326774600321772</div>
+          </div>
+          <div>
+            <div className="font-semibold uppercase tracking-wider text-slate-400">Адрес</div>
+            <div className="mt-1">109316, г. Москва,</div>
+            <div>Волгоградский пр-т,</div>
+            <div>д. 32/5, к. 4, кв. 1407А</div>
+          </div>
+          <div>
+            <div className="font-semibold uppercase tracking-wider text-slate-400">Связь</div>
+            <div className="mt-1">
+              <a href="mailto:support@careerpilot.app" className="hover:text-slate-900">
+                support@careerpilot.app
+              </a>
+            </div>
+            <div>Поддержка: пн–пт, 10:00–19:00 МСК</div>
+            <div>Ответ в течение 1 рабочего дня</div>
+          </div>
+          <div>
+            <div className="font-semibold uppercase tracking-wider text-slate-400">Платежи</div>
+            <div className="mt-1">Эквайринг — ООО «КЛАУДПЭЙМЕНТС»</div>
+            <div>Безопасность — PCI DSS Level 1</div>
+            <div>Возврат — см.{' '}
+              <a href="/refund" className="underline hover:text-slate-900">политику возврата</a>
+            </div>
+          </div>
         </div>
-        <div className="font-mono text-[12px] text-slate-500">
-          © 2026 · v4.2.0 · Made in Moscow
+
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-4 font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
+          <span>© 2026 ИП Бирюкова Я.В. · Все права защищены</span>
+          <span>v4.2.0 · Made in Moscow</span>
         </div>
       </div>
     </footer>

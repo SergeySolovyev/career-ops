@@ -264,6 +264,10 @@ export default function PrivacyPage() {
         <Link href="/offer" className="hover:text-slate-900">
           Публичная оферта
         </Link>
+        <span className="mx-2">·</span>
+        <Link href="/refund" className="hover:text-slate-900">
+          Политика возврата
+        </Link>
       </footer>
     </main>
   )

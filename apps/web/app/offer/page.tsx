@@ -271,6 +271,10 @@ export default function OfferPage() {
         <Link href="/privacy" className="hover:text-slate-900">
           Политика конфиденциальности
         </Link>
+        <span className="mx-2">·</span>
+        <Link href="/refund" className="hover:text-slate-900">
+          Политика возврата
+        </Link>
       </footer>
     </main>
   )

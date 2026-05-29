@@ -201,6 +201,39 @@ export default async function SignupPage({
                 />
               </Field>
 
+              {/*
+                152-ФЗ consent — НЕ pre-checked (требование Роскомнадзора 2025).
+                Single combined checkbox covers offer + privacy + refund + ПДн.
+                Native HTML `required` attribute prevents form submit until checked,
+                which means the Server Action signUp() never sees an unchecked state
+                — no extra server-side validation needed.
+              */}
+              <label className="flex items-start gap-2 pt-1 text-[12px] leading-[1.5] text-slate-600">
+                <input
+                  type="checkbox"
+                  name="consent"
+                  value="yes"
+                  required
+                  className="mt-0.5 h-4 w-4 flex-none rounded border-slate-300 text-slate-900 focus:ring-2 focus:ring-slate-300"
+                />
+                <span>
+                  Принимаю условия{' '}
+                  <Link href="/offer" target="_blank" className="underline hover:text-slate-900">
+                    Публичной оферты
+                  </Link>
+                  ,{' '}
+                  <Link href="/privacy" target="_blank" className="underline hover:text-slate-900">
+                    Политики конфиденциальности
+                  </Link>{' '}
+                  и{' '}
+                  <Link href="/refund" target="_blank" className="underline hover:text-slate-900">
+                    Политики возврата
+                  </Link>
+                  . Даю согласие на обработку персональных данных согласно
+                  152-ФЗ.
+                </span>
+              </label>
+
               <button
                 type="submit"
                 className="btn-primary h-11 w-full justify-center text-[13.5px]"
