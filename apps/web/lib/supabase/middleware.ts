@@ -48,10 +48,23 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Redirect authenticated users from auth pages
+  // Redirect authenticated users from auth pages.
+  // If they arrived with intent=pro|premium (clicked a paid CTA from landing
+  // while already signed in), route them to /onboarding so the existing CV →
+  // checkout flow picks up. Without this branch, intent silently dies on
+  // /dashboard — a conversion blocker for returning visitors.
   if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
     const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
+    const intent = request.nextUrl.searchParams.get('intent')
+    if (intent === 'pro' || intent === 'premium') {
+      url.pathname = '/onboarding'
+      // searchParams (intent, promo) are preserved automatically by clone()
+    } else {
+      url.pathname = '/dashboard'
+      // strip any stray intent/promo from the URL (would clutter dashboard)
+      url.searchParams.delete('intent')
+      url.searchParams.delete('promo')
+    }
     return NextResponse.redirect(url)
   }
 

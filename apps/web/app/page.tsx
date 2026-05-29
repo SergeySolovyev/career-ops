@@ -393,16 +393,16 @@ function HeroVisual() {
       <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-slate-200 bg-white/80 px-4 py-2.5 backdrop-blur">
         <div className="flex items-center gap-4 font-mono text-[11.5px] text-slate-500">
           <span>
-            <span className="text-slate-900">hh.ru</span> · 42
+            <span className="text-slate-900">hh.ru</span> · 89
           </span>
           <span>
-            <span className="text-slate-900">linkedin</span> · 31
+            <span className="text-slate-900">10-dim</span> · AI
           </span>
           <span>
-            <span className="text-slate-900">tg channels</span> · 28
+            <span className="text-slate-900">сонет</span> · 4.5
           </span>
           <span>
-            <span className="text-slate-900">corporate</span> · 8
+            <span className="text-slate-900">match</span> · 4.6
           </span>
         </div>
         <div className="flex items-center gap-2 font-mono text-[11.5px] text-slate-900">
@@ -416,24 +416,28 @@ function HeroVisual() {
 /* ---------------- logo ticker ---------------- */
 
 function LogoTicker() {
+  // Honest list — companies whose HH-vacancies our scanner indexes.
+  // We don't pretend to scrape LinkedIn / Habr / Telegram directly (that
+  // would mislead CloudPayments moderation and customers). hh.ru is the
+  // upstream source; the listed companies are what shows up in its feed.
   const items = [
-    "hh.ru",
-    "LinkedIn",
-    "Habr Career",
-    "Telegram Jobs",
-    "getmatch",
     "Tinkoff",
-    "Sber AI",
+    "Сбер",
     "Yandex",
-    "Ozon Tech",
+    "Ozon",
     "Wildberries",
-    "Alfa-Bank",
+    "Альфа-Банк",
     "VK",
+    "Авито",
+    "Mokka",
+    "Lamoda",
+    "Циан",
+    "X5 Tech",
   ];
   return (
     <div className="mx-auto max-w-[1200px] px-6 pb-16">
       <div className="mb-4 font-mono text-[11px] uppercase tracking-wider text-slate-500">
-        Сканируем вакансии из
+        Сканируем вакансии работодателей с hh.ru
       </div>
       <div className="overflow-hidden border-y border-slate-200">
         <div className="ticker flex gap-7 py-5 text-[14px] text-slate-500 whitespace-nowrap">
@@ -456,19 +460,25 @@ function LogoTicker() {
 /* ---------------- proof tiles ---------------- */
 
 function ProofTiles() {
+  // Honest LIVE timestamp — page is server-rendered, so this re-evaluates on
+  // each build/revalidate. Replaces a hardcoded "04.20.2026" placeholder that
+  // made the site look six weeks stale to a returning visitor.
+  const today = new Date()
+  const ddmm = today.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' })
+  const yy = String(today.getFullYear())
   return (
     <section className="mx-auto max-w-[1200px] px-6 pb-24">
       <div className="mb-6 flex items-end justify-between">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
-            Live · 04.20.2026
+            Live · {ddmm}.{yy}
           </div>
           <h2 className="mt-1 text-[28px] font-semibold tracking-tight">
             Результаты за последние 24 часа
           </h2>
         </div>
         <div className="hidden text-[12.5px] text-slate-500 md:block">
-          Данные демо-кабинета · обновляется каждые 5 минут
+          Пример из демо-кабинета · реальные цифры после первого скана
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">

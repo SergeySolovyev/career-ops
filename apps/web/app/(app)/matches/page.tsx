@@ -221,7 +221,11 @@ export default async function MatchesPage() {
           </div>
           <div className="flex items-center gap-2">
             {isUserProfile && <ScanButton />}
-            {isUserProfile && <ScanTgButton />}
+            {/* TG worker is on a separate droplet (see infra/do-worker/tg/RUNBOOK.md).
+                We only render the trigger when WORKER_BASE_URL is set — otherwise
+                clicking the button just produces a "coming soon" toast (wasted click).
+                When worker is deployed, env var lands → button reappears, no code change. */}
+            {isUserProfile && process.env.WORKER_BASE_URL && <ScanTgButton />}
             <button className="btn-secondary h-10 px-4 text-[13px]">
               <Filter size={14} />
               Фильтры · 3
@@ -639,7 +643,7 @@ function EmptyState() {
           </h2>
           <p className="mt-3 max-w-[440px] text-[14.5px] leading-[1.6] text-slate-500">
             Запустите сканирование — AI пройдёт по hh.ru, оценит новые вакансии
-            по 10 критериям и покажет подходящие для вашего уровня роли. Скан
+            по 10 критериям и покажет подходящие под ваш CV и цели. Скан
             занимает 30–60 секунд.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-2">

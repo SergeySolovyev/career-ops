@@ -251,8 +251,8 @@ export default async function PipelinePage() {
             </h2>
             <p className="mt-2 max-w-[400px] text-[13px] text-slate-500">
               Перейдите в «Новые матчи» и нажмите «Откликнуться» на интересную
-              вакансию. AI сгенерирует персональное cover-letter и отправит через
-              HH.
+              вакансию. AI подготовит персональное cover-letter — отклик отправится
+              после вашего подтверждения.
             </p>
             <Link href="/matches" className="btn-primary mt-6 h-10 px-5 text-[13px]">
               ⭐ Перейти к матчам
