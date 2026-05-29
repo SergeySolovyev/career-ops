@@ -186,8 +186,13 @@ export async function POST(req: Request) {
     const seenUrls = new Set((existing || []).map((r) => r.url))
     const fresh = scanned.filter((v) => !seenUrls.has(v.url))
 
-    // 3) Take top N for AI eval (no pre-screen — Browserless results are already filtered by HH)
-    const toEval = fresh.slice(0, MAX_EVALS)
+    // 3) Take top N for AI eval. Cap by per-scan limit AND by remaining quota.
+    //    Without the quota cap, a Free user with quota.remaining=3 would still
+    //    get 5 evaluations because MAX_EVALS=5 is hardcoded — they'd consume
+    //    more than they paid for. Caught in PM E2E walkthrough 2026-05-30.
+    const remainingQuota = tierState.remaining ?? Infinity
+    const evalsBudget = Math.min(MAX_EVALS, remainingQuota)
+    const toEval = fresh.slice(0, evalsBudget)
 
     const profileSummary = `Целевые роли: ${queries.join('; ')}`
     const inserted: Array<{ url: string; ai_score: number; ai_verdict: string }> = []

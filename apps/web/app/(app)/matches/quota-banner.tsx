@@ -65,7 +65,12 @@ export default function QuotaBanner() {
       <div className="mb-4 flex flex-col gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="text-sm font-semibold text-amber-900">
-            Использовано {state.used} из {state.limit} AI-оценок
+            {/* Clamp displayed `used` to the limit. Without clamping, an in-flight
+                scan that ate the last quota slot could read "5 из 3" (we cap
+                per-scan evaluations to `remaining`, but a race against the
+                refetch can momentarily show used > limit). Honest cap looks
+                cleaner: "3 из 3" instead of "5 из 3". */}
+            Использовано {state.limit ? Math.min(state.used, state.limit) : state.used} из {state.limit} AI-оценок
           </div>
           <div className="mt-0.5 text-xs text-amber-800">
             Лимит обновится через 30 дней с момента первой оценки. Или подключите Pro — безлимит и приоритетный сканер.

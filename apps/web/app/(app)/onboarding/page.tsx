@@ -111,12 +111,19 @@ function OnboardingForm() {
       })
       const body = await res.json()
       if (!res.ok || !body.paymentUrl) {
-        throw new Error(body?.error || `HTTP ${res.status}`)
+        // Friendly customer-facing copy — server `error: "Internal error"` is a
+        // technical leak (means CloudPayments creds missing during pre-launch).
+        // Hide the technical detail; offer retry + fallback to /dashboard.
+        throw new Error('payment_unavailable')
       }
-      // Hard navigate — Tinkoff hosts the form on their domain
+      // Hard navigate — CloudPayments hosts the form on their domain
       window.location.href = body.paymentUrl
     } catch (e: any) {
-      setCheckoutError(e.message || 'Не удалось создать платёж')
+      const friendly =
+        e?.message === 'payment_unavailable'
+          ? 'Платёжная система временно недоступна. Попробуйте ещё раз или войдите в кабинет — оформить Pro можно из «Настроек».'
+          : 'Не удалось создать платёж. Попробуйте ещё раз через минуту.'
+      setCheckoutError(friendly)
       setCheckoutLoading(false)
     }
   }
@@ -163,6 +170,29 @@ function OnboardingForm() {
         if (typeof profile?.cv_text === 'string' && profile.cv_text) {
           setCv(profile.cv_text)
         }
+        // Pre-fill Step 2 fields from prior saves OR from signup metadata.
+        // Without this, a returning user arrives at Step 2 with empty "Имя"
+        // even though they typed it during signup — felt sloppy in PM E2E.
+        // /api/profile contract: full_name under .candidate, roles+salary
+        // under .target, the rest at top level (see route.ts shape).
+        const cand = (profile as any)?.candidate
+        const target_ = (profile as any)?.target
+        if (typeof cand?.full_name === 'string' && cand.full_name) {
+          setFullName(cand.full_name)
+        }
+        if (Array.isArray(target_?.roles) && target_.roles.length > 0) {
+          setTargetRoles(target_.roles.join(', '))
+        }
+        if (typeof target_?.salary_min === 'number') setSalaryMin(String(target_.salary_min))
+        if (typeof target_?.salary_target_max === 'number') setSalaryMax(String(target_.salary_target_max))
+        if (profile?.icp_segment && ['junior', 'middle', 'senior'].includes(profile.icp_segment)) {
+          setIcpSegment(profile.icp_segment)
+        }
+        if (typeof profile?.city === 'string' && profile.city) setCity(profile.city)
+        if (typeof profile?.experience_years === 'number') {
+          setExperienceYears(String(profile.experience_years))
+        }
+        if (typeof profile?.remote_ok === 'boolean') setRemoteOk(profile.remote_ok)
         setStep(target)
       } catch {
         // Network error — default to Step 1, no harm done
@@ -649,7 +679,7 @@ function OnboardingForm() {
                 )}
                 {checkoutError && (
                   <ErrorLine
-                    message={`Не удалось перейти к оплате: ${checkoutError}. Можно повторить или войти в кабинет.`}
+                    message={checkoutError}
                   />
                 )}
 

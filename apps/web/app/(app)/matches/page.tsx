@@ -222,10 +222,12 @@ export default async function MatchesPage() {
           <div className="flex items-center gap-2">
             {isUserProfile && <ScanButton />}
             {/* TG worker is on a separate droplet (see infra/do-worker/tg/RUNBOOK.md).
-                We only render the trigger when WORKER_BASE_URL is set — otherwise
-                clicking the button just produces a "coming soon" toast (wasted click).
-                When worker is deployed, env var lands → button reappears, no code change. */}
-            {isUserProfile && process.env.WORKER_BASE_URL && <ScanTgButton />}
+                We only render the trigger when WORKER_BASE_URL is a valid http(s) URL
+                — otherwise clicking the button just produces a "coming soon" toast
+                (wasted click). Placeholder strings like "todo" or "_" filter out via
+                the startsWith('http') check. When worker is deployed, env var lands
+                → button reappears, no code change. */}
+            {isUserProfile && process.env.WORKER_BASE_URL?.startsWith('http') && <ScanTgButton />}
             <button className="btn-secondary h-10 px-4 text-[13px]">
               <Filter size={14} />
               Фильтры · 3
