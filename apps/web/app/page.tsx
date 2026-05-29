@@ -132,8 +132,8 @@ function Hero() {
           </h1>
           <p className="mt-6 max-w-[520px] text-[17px] leading-[1.6] text-slate-500">
             Загрузите резюме — остальное сделаем мы. Сканирование вакансий,
-            AI-оценка по 10 критериям, генерация CV и авто-отклик — всё на
-            автопилоте.
+            AI-оценка по 10 критериям, генерация CV и сопроводительных писем
+            под каждую вакансию — всё на автопилоте.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link href="/signup" className="btn-primary">
@@ -1069,18 +1069,19 @@ function FeatureGrid() {
       <div className="mb-12 grid grid-cols-12 gap-10">
         <div className="col-span-12 lg:col-span-5">
           <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
-            Полный автопилот
+            AI-помощник
           </div>
           <h2 className="mt-2 text-[28px] sm:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em]">
-            Нажали кнопку —
+            Меньше рутины —
             <br />
-            ходите на собеседования.
+            больше собеседований.
           </h2>
         </div>
         <div className="col-span-12 text-[16px] leading-[1.65] text-slate-500 lg:col-span-6 lg:col-start-7">
           Поиск работы — это поиск сигнала в шуме. CareerPilot снимает с вас
-          80% операционной работы: сканирование, оценку, подготовку материалов,
-          отклики. Остаётся только встречаться с людьми.
+          80% подготовительной работы: сканирование вакансий, оценку
+          релевантности, подготовку материалов под каждую роль. Остаётся
+          только нажать «отправить» и встречаться с людьми.
         </div>
       </div>
 
@@ -1301,14 +1302,15 @@ function FeatureApply() {
       style={{ minHeight: 320 }}
     >
       <div className="inline-flex items-center gap-2 font-mono text-[11px] text-[#2563eb]">
-        <Rocket size={12} /> 04 · AUTO-APPLY
+        <Rocket size={12} /> 04 · PIPELINE
       </div>
       <h3 className="mt-2 text-[22px] font-semibold tracking-tight">
-        Авто-отклик
+        Трекинг откликов
       </h3>
       <p className="mt-2 max-w-[480px] text-[14px] leading-[1.6] text-slate-500">
-        Включите автопилот — система откликается, отправляет follow-up, трекает
-        статусы и сообщает, когда ждёт ваш ответ.
+        Все ваши заявки в одном месте — статус, дата, follow-up. Система
+        напоминает, когда HR молчит дольше недели, и подсказывает, когда лучше
+        написать ещё раз.
       </p>
 
       <div className="mt-7 grid grid-cols-5 items-center gap-2">
@@ -1336,7 +1338,7 @@ function FeatureApply() {
 
       <div className="mt-5 overflow-hidden rounded-md border border-slate-200">
         <div className="flex h-9 items-center justify-between border-b border-slate-200 px-3 font-mono text-[11px] text-slate-500">
-          <span>autopilot.log</span>
+          <span>pipeline.log</span>
           <span className="inline-flex items-center gap-1">
             <span className="pulse-dot" /> live
           </span>
@@ -1344,17 +1346,17 @@ function FeatureApply() {
         <div className="space-y-0.5 p-3 font-mono text-[11px] leading-[1.7] text-slate-500">
           <div>
             <span className="text-slate-400">14:02:18</span> ·{" "}
-            <span className="text-slate-900">match=4.6</span> → opened Tinkoff ·
-            Middle Backend
+            <span className="text-slate-900">match=4.6</span> · Middle Backend
+            — рекомендовано
           </div>
           <div>
-            <span className="text-slate-400">14:02:21</span> · generating CV ·{" "}
+            <span className="text-slate-400">14:02:21</span> · CV сгенерирован ·{" "}
             <span className="text-[#2563eb]">cv_tinkoff_backend.pdf</span>
           </div>
           <div>
             <span className="text-slate-400">14:02:34</span> ·{" "}
-            <span className="text-emerald-600">sent</span> → follow-up scheduled
-            +3d
+            <span className="text-emerald-600">готово к отправке</span> ·
+            ждёт вашего клика
           </div>
         </div>
       </div>
@@ -1398,14 +1400,14 @@ function Pricing() {
             tierColor="#2563eb"
             price="₽99"
             cadence="первый месяц, далее ₽299 / мес"
-            blurb="Для активного поиска с автоматизацией. Промо BETA99 — ₽99 первый месяц."
+            blurb="Для активного поиска с AI-помощником. Промо BETA99 — ₽99 первый месяц."
             highlight
             cta={{ label: "Попробовать Pro · ₽99 первый месяц", href: "/signup?intent=pro&promo=BETA99", variant: "primary" }}
             features={[
               "30 AI-оценок / месяц",
               "Tailored CV в PDF",
-              "Авто-отклик",
               "Cover letter генерация",
+              "Pipeline-трекер откликов",
               "Email-уведомления",
             ]}
           />

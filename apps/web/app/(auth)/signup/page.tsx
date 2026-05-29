@@ -19,7 +19,7 @@ import { signUp } from './actions'
 const PERKS = [
   'AI оценивает вакансии по 10 критериям',
   'Персональный cover-letter под каждую вакансию',
-  'Авто-отклик через HH (одним кликом)',
+  'Pipeline-трекер откликов с напоминаниями',
   'AI-советник знает ваш CV и матчи',
 ] as const
 
@@ -73,7 +73,7 @@ export default async function SignupPage({
           </h1>
           <p className="mt-4 max-w-[420px] text-[14px] leading-[1.55] text-slate-500">
             Загрузите CV — система 24/7 сканирует вакансии, оценивает AI,
-            генерирует tailored cover-letter и откликается автоматически.
+            генерирует tailored cover-letter под каждую вакансию.
           </p>
 
           <ul className="mt-6 space-y-2">
