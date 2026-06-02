@@ -1538,6 +1538,12 @@ function FinalCTA() {
             >
               Открыть демо-кабинет
             </Link>
+            <Link
+              href="/waitlist?source=landing_final_cta&intent=pro&promo=BETA99"
+              className="text-[13px] text-slate-500 underline-offset-2 hover:text-slate-900 hover:underline"
+            >
+              Pro ₽99 не открыт — встать в waitlist →
+            </Link>
           </div>
         </div>
       </div>

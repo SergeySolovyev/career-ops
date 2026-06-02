@@ -119,11 +119,17 @@ function OnboardingForm() {
       // Hard navigate — CloudPayments hosts the form on their domain
       window.location.href = body.paymentUrl
     } catch (e: any) {
-      const friendly =
-        e?.message === 'payment_unavailable'
-          ? 'Платёжная система временно недоступна. Попробуйте ещё раз или войдите в кабинет — оформить Pro можно из «Настроек».'
-          : 'Не удалось создать платёж. Попробуйте ещё раз через минуту.'
-      setCheckoutError(friendly)
+      // CP-ключи ещё не одобрены — мягко уводим в waitlist с сохранением
+      // intent+promo. Bulk-email в день одобрения вернёт пользователя сюда же.
+      if (e?.message === 'payment_unavailable') {
+        const url = new URL('/waitlist', window.location.origin)
+        url.searchParams.set('source', 'checkout_blocked')
+        url.searchParams.set('intent', 'pro')
+        url.searchParams.set('promo', 'BETA99')
+        window.location.href = url.toString()
+        return
+      }
+      setCheckoutError('Не удалось создать платёж. Попробуйте ещё раз через минуту.')
       setCheckoutLoading(false)
     }
   }
