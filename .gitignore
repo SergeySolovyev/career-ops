@@ -47,3 +47,9 @@ apps/web/data/cv-*-backup.*
 apps/web/data/*.private.json
 apps/web/data/*.private.md
 apps/web/data/outreach.json
+.vercel
+
+# Personal outreach data — содержит реальные имена/handles
+docs/outreach-list.json
+docs/OUTREACH-DRAFTS.md
+

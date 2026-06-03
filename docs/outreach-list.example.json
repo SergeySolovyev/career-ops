@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Алексей",
+    "profession": "junior frontend dev, 1 год опыта (React, TypeScript), ищет работу с осени",
+    "relationship": "одногруппник по МАИ, вместе делали diplom по веб-аналитике",
+    "handle": "@alexei_dev",
+    "channel": "tg"
+  },
+  {
+    "name": "Мария",
+    "profession": "junior UX designer, портфолио на Behance, переход из визажа в продуктовый дизайн",
+    "relationship": "познакомились на DesignProsmotr 2025, переписывались про карьерный shift",
+    "handle": "maria@example.com",
+    "channel": "email"
+  },
+  {
+    "name": "Дима",
+    "profession": "middle backend python, 2 года в небольшом b2b, хочет сменить",
+    "relationship": "бывший коллега по pet-проекту во время хакатона Тинькофф",
+    "handle": "@dimanchik",
+    "channel": "tg"
+  }
+]
