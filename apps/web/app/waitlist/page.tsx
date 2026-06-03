@@ -3,7 +3,7 @@ import { Sparkles, Mail, Check, ArrowLeft } from 'lucide-react'
 import WaitlistForm from './waitlist-form'
 
 /* ============================================================
-   CareerPilot · Waitlist
+   VibeOffer · Waitlist
    Standalone-страница на которую ссылается checkout-blocked баннер и
    пара CTA с лендинга. Принимает ?intent=pro&promo=BETA99 чтобы
    сохранить намерение пользователя — bulk-email в день одобрения CP
@@ -62,7 +62,7 @@ export default async function WaitlistPage({
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-slate-900 text-white">
                 <Sparkles size={14} />
               </span>
-              <span className="text-[15px] font-semibold tracking-tight">CareerPilot</span>
+              <span className="text-[15px] font-semibold tracking-tight">VibeOffer</span>
             </Link>
           </div>
 

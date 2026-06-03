@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 
 /* ============================================================
-   CareerPilot · Connect HH
+   VibeOffer · Connect HH
    Client component — preserves /api/hh/login POST + /api/hh/session-status GET.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.
    ============================================================ */
@@ -86,7 +86,7 @@ export default function ConnectHHPage() {
             </div>
           </div>
           <p className="mt-3 max-w-[560px] text-[14px] leading-[1.55] text-slate-500">
-            Чтобы CareerPilot видел полные данные о вакансиях (зарплатные вилки,
+            Чтобы VibeOffer видел полные данные о вакансиях (зарплатные вилки,
             требования, описание команды) — нужно один раз войти в hh.ru через
             наш безопасный бэкенд. Отклики отправляются только с вашего
             подтверждения.

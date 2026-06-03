@@ -20,4 +20,4 @@ export function isEmailWhitelisted(email: string): boolean {
 }
 
 export const WHITELIST_REJECT_MESSAGE =
-  'CareerPilot работает в режиме закрытой беты. Запросите invite на hello@careerpilot.app — мы пригласим вас в течение 24 часов.'
+  'VibeOffer работает в режиме закрытой беты. Запросите invite на hello@vibeoffer.today — мы пригласим вас в течение 24 часов.'

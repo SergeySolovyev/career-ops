@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 
 /* ============================================================
-   CareerPilot · Analytics
+   VibeOffer · Analytics
    Server component — preserves /api/stats, /api/profile.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.
    ============================================================ */

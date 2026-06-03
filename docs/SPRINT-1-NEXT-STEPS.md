@@ -21,7 +21,7 @@
 ### Шаг 1 — Telegram credentials (5 минут)
 
 1. Открой https://my.telegram.org → **API development tools** → **Create application**
-2. Заполни форму (App title `CareerPilot`, short name `careerpilot`, URL любой, Platform `Other`)
+2. Заполни форму (App title `VibeOffer`, short name `careerpilot`, URL любой, Platform `Other`)
 3. Скопируй из ответа:
    - `App api_id` — целое число
    - `App api_hash` — 32-символьная hex-строка
@@ -74,7 +74,7 @@ curl https://tg-<ip-дашами>.nip.io/health
 
 ### Шаг 3 — Vercel env vars (3 минуты)
 
-В Vercel Dashboard → CareerPilot → **Settings → Environment Variables** добавь 4 переменные (Production + Preview):
+В Vercel Dashboard → VibeOffer → **Settings → Environment Variables** добавь 4 переменные (Production + Preview):
 
 | Переменная | Значение | Откуда |
 |---|---|---|
@@ -93,7 +93,7 @@ Vercel deploy `ade9d7c` сейчас building. После того как ста
 2. Меню "..." → **Promote to Production**
 3. Confirm
 
-Через ~30 секунд `careerpilot-umber.vercel.app` будет на новом коммите.
+Через ~30 секунд `vibeoffer.today` будет на новом коммите.
 
 ---
 
@@ -101,7 +101,7 @@ Vercel deploy `ade9d7c` сейчас building. После того как ста
 
 После всех 4 шагов:
 
-1. Открой https://careerpilot-umber.vercel.app/settings → должен видеть **10 default Telegram-каналов** с зелёным "active" статусом
+1. Открой https://vibeoffer.today/settings → должен видеть **10 default Telegram-каналов** с зелёным "active" статусом
 2. Перейди на /matches → нажми **"Сканировать TG"** в правом верхнем углу
 3. Через ~30 секунд должно появиться **5–30 новых вакансий** с бейджем `@g_jobbot` (или другой)
 4. Бейдж `🔄 dup` должен появиться у вакансий, которые повторяются между HH и TG

@@ -1,4 +1,4 @@
-# Подключение домена careerpilot.ru к Vercel + Yandex 360 mail
+# Подключение домена vibeoffer.today к Vercel + Yandex 360 mail
 
 **Время на выполнение:** 30 минут активных действий + до 24ч DNS propagation.
 
@@ -16,9 +16,9 @@
 | RU-CENTER | ₽290 | да | бюрократическая |
 
 **Действие Сергея:**
-1. https://www.reg.ru/domain/new/ → ввести `careerpilot.ru`
-2. Если занят — план B: `careerpilot.app` (₽1490/год у Reg.ru) или
-   `getcareerpilot.ru` (₽199/год).
+1. https://www.reg.ru/domain/new/ → ввести `vibeoffer.today`
+2. Если занят — план B: `vibeoffer.today` (₽1490/год у Reg.ru) или
+   `getvibeoffer.today` (₽199/год).
 3. Оформить с защитой персональных данных whois (₽199 поверх) — иначе
    email Сергея публично торчит в whois.
 
@@ -28,11 +28,11 @@
 
 ```bash
 # Через Vercel CLI (если установлен):
-vercel domains add careerpilot.ru careerpilot
+vercel domains add vibeoffer.today careerpilot
 
 # Или в web UI:
 # 1. https://vercel.com/<team>/careerpilot/settings/domains
-# 2. Add Domain → careerpilot.ru
+# 2. Add Domain → vibeoffer.today
 # 3. Vercel покажет DNS-записи (см. п. 3)
 ```
 
@@ -81,14 +81,14 @@ Yandex даст точные значения в момент подключен
 
 ---
 
-## 4. Почта поддержки support@careerpilot.ru (15 минут)
+## 4. Почта поддержки support@vibeoffer.today (15 минут)
 
 ### Вариант 1 — Yandex 360 для бизнеса (рекомендую)
 
 - https://360.yandex.ru/business → Подключить домен
 - Цена: 0₽ до 5 пользователей, далее 199₽/мес/юзер
-- Создать ящики: `support@careerpilot.ru`, `info@careerpilot.ru`,
-  `yana@careerpilot.ru` (опц.)
+- Создать ящики: `support@vibeoffer.today`, `info@vibeoffer.today`,
+  `yana@vibeoffer.today` (опц.)
 - DNS-записи прописать у регистратора (см. п. 3 B)
 - Подтвердить домен через TXT-запись (Yandex выдаст)
 
@@ -98,7 +98,7 @@ Yandex даст точные значения в момент подключен
 
 ### Вариант 3 — временно email-forwarding через Reg.ru (бесплатно)
 
-В DNS Reg.ru есть «Email-форвардинг»: всё что приходит на `support@careerpilot.ru`
+В DNS Reg.ru есть «Email-форвардинг»: всё что приходит на `support@vibeoffer.today`
 → переотправляется на личный email Сергея. Без отправки исходящих — только приём.
 **Подходит для первых 100 пользователей**, дальше переводимся на 360.
 
@@ -108,14 +108,14 @@ Yandex даст точные значения в момент подключен
 
 ```bash
 vercel env add NEXT_PUBLIC_SITE_URL production
-# Значение: https://careerpilot.ru
+# Значение: https://vibeoffer.today
 
 vercel env add NEXT_PUBLIC_SITE_URL preview
-# Значение: https://careerpilot.ru
+# Значение: https://vibeoffer.today
 
 # В offer/page.tsx, refund/page.tsx, privacy/page.tsx есть жёсткие
-# упоминания careerpilot-umber.vercel.app — заменить на careerpilot.ru:
-git grep -l "careerpilot-umber.vercel.app" apps/web/
+# упоминания vibeoffer.today — заменить на vibeoffer.today:
+git grep -l "vibeoffer.today" apps/web/
 # Найти и заменить — это один коммит
 ```
 
@@ -123,7 +123,7 @@ git grep -l "careerpilot-umber.vercel.app" apps/web/
 - `apps/web/lib/cloudpayments.ts` — проверить `successUrl` использует `NEXT_PUBLIC_SITE_URL`
 - `apps/web/app/api/billing/checkout/route.ts` — там `baseUrl` берётся из env, OK
 - `apps/web/app/api/billing/webhook/route.ts` — webhook URL отдаётся в CP анкете,
-  обновить там же: `https://careerpilot.ru/api/billing/webhook`
+  обновить там же: `https://vibeoffer.today/api/billing/webhook`
 
 После обновления env vars:
 ```bash
@@ -134,12 +134,12 @@ vercel --prod
 
 ## 6. Финальный чек-лист (после propagation)
 
-- [ ] `curl -I https://careerpilot.ru` → 200 OK с заголовком от Vercel
-- [ ] `curl -I https://careerpilot.ru/offer` → 200, оферта показывается
-- [ ] DNS check: https://dnschecker.org/?#A/careerpilot.ru → зелёные галки в РФ
-- [ ] SSL: https://www.ssllabs.com/ssltest/analyze.html?d=careerpilot.ru → A+
-- [ ] Email test: написать на `support@careerpilot.ru`, дошло до целевого ящика
-- [ ] В CP личном кабинете обновить: site=careerpilot.ru, webhook=careerpilot.ru/api/billing/webhook
+- [ ] `curl -I https://vibeoffer.today` → 200 OK с заголовком от Vercel
+- [ ] `curl -I https://vibeoffer.today/offer` → 200, оферта показывается
+- [ ] DNS check: https://dnschecker.org/?#A/vibeoffer.today → зелёные галки в РФ
+- [ ] SSL: https://www.ssllabs.com/ssltest/analyze.html?d=vibeoffer.today → A+
+- [ ] Email test: написать на `support@vibeoffer.today`, дошло до целевого ящика
+- [ ] В CP личном кабинете обновить: site=vibeoffer.today, webhook=vibeoffer.today/api/billing/webhook
 
 ---
 

@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 /* ============================================================
-   CareerPilot · Landing
+   VibeOffer · Landing
    - Hero with subtle 3D-ish canvas animation (AI search radar)
    - Proof tiles (live stats)
    - Product screenshot carousel (dashboard / matches / chat)
@@ -79,7 +79,7 @@ function Header() {
             <Sparkles size={14} />
           </span>
           <span className="text-[15px] font-semibold tracking-tight">
-            CareerPilot
+            VibeOffer
           </span>
           <span className="ml-1 rounded border border-slate-200 px-1.5 py-[1px] font-mono text-[10px] text-slate-500">
             BETA
@@ -701,7 +701,7 @@ function DashboardScreen() {
           <span className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-900 text-white">
             <Sparkles size={12} />
           </span>
-          <span className="text-[13px] font-semibold">CareerPilot</span>
+          <span className="text-[13px] font-semibold">VibeOffer</span>
         </div>
         <div className="mt-2 mb-1 px-2 font-mono text-[10px] uppercase tracking-wider text-slate-500">
           Workspace
@@ -1088,7 +1088,7 @@ function FeatureGrid() {
           </h2>
         </div>
         <div className="col-span-12 text-[16px] leading-[1.65] text-slate-500 lg:col-span-6 lg:col-start-7">
-          Поиск работы — это поиск сигнала в шуме. CareerPilot снимает с вас
+          Поиск работы — это поиск сигнала в шуме. VibeOffer снимает с вас
           80% подготовительной работы: сканирование вакансий, оценку
           релевантности, подготовку материалов под каждую роль. Остаётся
           только нажать «отправить» и встречаться с людьми.
@@ -1561,7 +1561,7 @@ function Footer() {
             <span className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-900 text-white">
               <Sparkles size={12} />
             </span>
-            <span className="text-[13.5px] font-semibold">CareerPilot</span>
+            <span className="text-[13.5px] font-semibold">VibeOffer</span>
             <span className="ml-2 text-[12.5px] text-slate-500">
               — AI-платформа поиска работы
             </span>
@@ -1572,7 +1572,7 @@ function Footer() {
             <a href="/offer" className="hover:text-slate-900">Оферта</a>
             <a href="/privacy" className="hover:text-slate-900">Конфиденциальность</a>
             <a href="/refund" className="hover:text-slate-900">Возврат</a>
-            <a href="mailto:support@careerpilot.app" className="hover:text-slate-900">Контакты</a>
+            <a href="mailto:support@vibeoffer.today" className="hover:text-slate-900">Контакты</a>
           </div>
         </div>
 
@@ -1597,8 +1597,8 @@ function Footer() {
           <div>
             <div className="font-semibold uppercase tracking-wider text-slate-400">Связь</div>
             <div className="mt-1">
-              <a href="mailto:support@careerpilot.app" className="hover:text-slate-900">
-                support@careerpilot.app
+              <a href="mailto:support@vibeoffer.today" className="hover:text-slate-900">
+                support@vibeoffer.today
               </a>
             </div>
             <div>Поддержка: пн–пт, 10:00–19:00 МСК</div>

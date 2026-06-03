@@ -63,7 +63,7 @@ export default async function AppLayout({
           </span>
           <div className="flex flex-col leading-tight">
             <span className="text-[14px] font-semibold tracking-tight">
-              CareerPilot
+              VibeOffer
             </span>
             <span className="font-mono text-[10px] text-slate-500">
               workspace · v4.2

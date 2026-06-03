@@ -41,7 +41,7 @@ function handleStatus(): string {
     const scores = entries.filter(([, v]) => v.score > 0).map(([, v]) => v.score as number)
     const avgScore = scores.length > 0 ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1) : '0'
 
-    return `📊 *CareerPilot — Статус*
+    return `📊 *VibeOffer — Статус*
 
 🔍 Найдено: *${found}*
 🤖 Оценено AI: *${aiEvaluated}*
@@ -97,7 +97,7 @@ async function handleFreeText(text: string): Promise<string> {
       body: JSON.stringify({
         model,
         max_tokens: 600,
-        system: `Ты — AI карьерный консультант CareerPilot. Отвечай кратко (до 200 слов), на русском, в Markdown для Telegram.
+        system: `Ты — AI карьерный консультант VibeOffer. Отвечай кратко (до 200 слов), на русском, в Markdown для Telegram.
 Помогаешь с поиском работы: советы по CV, подготовка к собеседованию, анализ оффера, переговоры по зарплате.
 Стиль — дружелюбный, конкретный, без воды. Если не хватает контекста — задай 1 уточняющий вопрос.`,
         messages: [{ role: 'user', content: text }],
@@ -146,7 +146,7 @@ export async function POST(req: Request) {
     let reply = ''
 
     if (text === '/start') {
-      reply = `👋 Привет! Я *CareerPilot Bot* — твой AI-ассистент в поиске работы.
+      reply = `👋 Привет! Я *VibeOffer Bot* — твой AI-ассистент в поиске работы.
 
 📋 Команды:
 /status — статистика поиска
@@ -159,7 +159,7 @@ export async function POST(req: Request) {
     } else if (text === '/top') {
       reply = handleTop()
     } else if (text === '/help') {
-      reply = `🤖 *CareerPilot Bot*
+      reply = `🤖 *VibeOffer Bot*
 
 Команды:
 /status — воронка поиска
@@ -171,7 +171,7 @@ export async function POST(req: Request) {
 • Что написать в cover letter?
 • Как вести переговоры по зарплате?
 
-🌐 Web: careerpilot.vercel.app`
+🌐 Web: vibeoffer.today`
     } else {
       reply = await handleFreeText(text)
     }
@@ -189,7 +189,7 @@ export async function POST(req: Request) {
 export async function GET() {
   return NextResponse.json({
     status: 'ok',
-    bot: 'CareerPilot',
+    bot: 'VibeOffer',
     commands: ['/start', '/status', '/top', '/help'],
   })
 }

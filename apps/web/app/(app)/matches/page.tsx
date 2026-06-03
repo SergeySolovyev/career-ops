@@ -24,7 +24,7 @@ import ScanTgButton from './scan-tg-button'
 import ApplyButton from './apply-button'
 
 /* ============================================================
-   CareerPilot · Matches page
+   VibeOffer · Matches page
    Server component — preserves /api/profile fetch + user_evaluations schema.
    Visual layer refreshed via Claude Design (Linear/Notion/Raycast aesthetic).
    ============================================================ */

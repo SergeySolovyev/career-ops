@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 
 /* ============================================================
-   CareerPilot · Dashboard
+   VibeOffer · Dashboard
    Server component — preserves /api/stats, /api/profile, loadJSON.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.
    ============================================================ */

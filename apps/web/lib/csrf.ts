@@ -24,7 +24,7 @@ export function checkCsrfOrigin(req: NextRequest | Request): NextResponse | null
   const allowedOrigins = [
     process.env.NEXT_PUBLIC_SITE_URL,
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
-    'https://careerpilot-umber.vercel.app', // production canonical
+    'https://vibeoffer.today', // production canonical
   ].filter(Boolean) as string[]
 
   // Allow Vercel preview URLs (*.vercel.app under our scope)

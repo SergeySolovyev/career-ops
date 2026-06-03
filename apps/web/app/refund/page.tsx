@@ -13,8 +13,8 @@ import Link from 'next/link'
  */
 
 export const metadata = {
-  title: 'Политика возврата · CareerPilot',
-  description: 'Условия и порядок возврата средств за подписку CareerPilot.',
+  title: 'Политика возврата · VibeOffer',
+  description: 'Условия и порядок возврата средств за подписку VibeOffer.',
 }
 
 export default function RefundPage() {
@@ -30,7 +30,7 @@ export default function RefundPage() {
         href="/"
         className="mb-8 inline-block font-mono text-[11px] uppercase tracking-wider text-slate-500 hover:text-slate-900"
       >
-        ← CareerPilot
+        ← VibeOffer
       </Link>
 
       <header className="mb-10">
@@ -56,7 +56,7 @@ export default function RefundPage() {
           </h2>
           <p>
             Настоящая Политика регулирует порядок возврата денежных средств,
-            уплаченных Пользователем за подписку на сервис CareerPilot,
+            уплаченных Пользователем за подписку на сервис VibeOffer,
             предоставляемый индивидуальным предпринимателем{' '}
             <strong>Бирюковой Яной Владимировной</strong> (ИНН 010510099667,
             ОГРНИП 326774600321772), далее — «Исполнитель».
@@ -159,7 +159,7 @@ export default function RefundPage() {
           <p>Для возврата отправьте письменное обращение на:</p>
           <ul className="mt-2 list-disc space-y-1 pl-6">
             <li>
-              Email: <strong>support@careerpilot.app</strong>
+              Email: <strong>support@vibeoffer.today</strong>
             </li>
             <li>с указанием: email учётной записи, дата платежа, сумма;</li>
             <li>тема письма: «Возврат средств».</li>
@@ -214,7 +214,7 @@ export default function RefundPage() {
             <br />
             Адрес: 109316, г. Москва, Волгоградский пр-т, д. 32/5 к. 4, кв. 1407А
             <br />
-            Email: <strong>support@careerpilot.app</strong>
+            Email: <strong>support@vibeoffer.today</strong>
           </p>
           <p className="mt-4 text-[12.5px] text-slate-500">
             При невозможности досудебного урегулирования споры подлежат

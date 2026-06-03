@@ -19,7 +19,7 @@ import {
 import TelegramChannels from '@/components/settings/TelegramChannels'
 
 /* ============================================================
-   CareerPilot · Settings
+   VibeOffer · Settings
    Client component — preserves useState, useEffect, /api/profile
    fetch + localStorage fallback, save/reset/update handlers.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.

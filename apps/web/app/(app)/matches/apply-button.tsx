@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-const DISCLAIMER_TEXT = `⚠️ Внимание: автоматический отклик через CareerPilot
+const DISCLAIMER_TEXT = `⚠️ Внимание: автоматический отклик через VibeOffer
 
-CareerPilot отправит отклик на вакансию от вашего имени, используя сохранённую сессию hh.ru. AI-сгенерированное cover letter будет отправлено в HH.
+VibeOffer отправит отклик на вакансию от вашего имени, используя сохранённую сессию hh.ru. AI-сгенерированное cover letter будет отправлено в HH.
 
 Это нарушает Условия использования hh.ru. HH может:
 • заблокировать ваш аккаунт за автоматизированную активность
@@ -92,7 +92,7 @@ export default function ApplyButton({ vacancyUrl, score }: { vacancyUrl: string;
                     className="mt-1"
                   />
                   <span>
-                    Я понимаю риски и принимаю их на себя. Использую CareerPilot на свой страх и риск.
+                    Я понимаю риски и принимаю их на себя. Использую VibeOffer на свой страх и риск.
                   </span>
                 </label>
 

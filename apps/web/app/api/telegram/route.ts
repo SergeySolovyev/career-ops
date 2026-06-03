@@ -63,7 +63,7 @@ export async function POST(req: Request) {
     // Command: /start
     if (text === '/start') {
       await sendTelegramMessage(chatId, [
-        '<b>CareerPilot Bot</b>',
+        '<b>VibeOffer Bot</b>',
         '',
         'AI-платформа автоматизации поиска работы.',
         '',
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: true })
       }
       await sendTelegramMessage(chatId, [
-        '<b>CareerPilot — Статус</b>',
+        '<b>VibeOffer — Статус</b>',
         '',
         `Обработано вакансий: <b>${stats.found}</b>`,
         `Рекомендовано (apply/maybe): <b>${stats.recommended}</b>`,

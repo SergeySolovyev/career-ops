@@ -16,8 +16,8 @@
 2. **api_id + api_hash от my.telegram.org** — после регистрации новой SIM:
    - Авторизация на my.telegram.org с новой SIM
    - API development tools → Create new application
-   - App title: `CareerPilot Worker` · short name: `cp-worker`
-   - URL: `https://careerpilot-umber.vercel.app` (потом careerpilot.ru)
+   - App title: `VibeOffer Worker` · short name: `cp-worker`
+   - URL: `https://vibeoffer.today`
    - Platform: Desktop
    - Получить `api_id` (число) и `api_hash` (32 hex)
 
@@ -93,7 +93,7 @@ vercel --prod
 
 ```bash
 # 1. /api/tg/scan-now должен теперь возвращать 200 (был 503)
-curl -X POST https://careerpilot-umber.vercel.app/api/tg/scan-now \
+curl -X POST https://vibeoffer.today/api/tg/scan-now \
   -H "Cookie: <auth-cookie>"
 # Ожидаем: {"ok":true,"channels_scanned":N,...}
 

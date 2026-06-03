@@ -7,7 +7,7 @@ import type { MetadataRoute } from 'next'
  * Replaces public/robots.txt (deleted).
  */
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://careerpilot-umber.vercel.app'
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://vibeoffer.today'
   return {
     rules: [
       {

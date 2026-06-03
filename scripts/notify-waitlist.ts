@@ -15,8 +15,8 @@
  * Переменные окружения:
  *   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY  — доступ к БД
  *   RESEND_API_KEY (или) SMTP_HOST/USER/PASS — отправка
- *   FROM_EMAIL=support@careerpilot.ru
- *   SITE_URL=https://careerpilot.ru
+ *   FROM_EMAIL=support@vibeoffer.today
+ *   SITE_URL=https://vibeoffer.today
  *
  * Зависимости:
  *   npm i -D @supabase/supabase-js resend tsx
@@ -38,8 +38,8 @@ interface WaitlistRow {
   created_at: string
 }
 
-const FROM = process.env.FROM_EMAIL || 'support@careerpilot.ru'
-const SITE_URL = process.env.SITE_URL || 'https://careerpilot.ru'
+const FROM = process.env.FROM_EMAIL || 'support@vibeoffer.today'
+const SITE_URL = process.env.SITE_URL || 'https://vibeoffer.today'
 const DRY_RUN = process.argv.includes('--dry-run')
 const limitArg = process.argv.find((a) => a.startsWith('--limit='))
 const LIMIT = limitArg ? parseInt(limitArg.split('=')[1], 10) : null
@@ -104,7 +104,7 @@ async function main() {
 
 async function sendEmail(row: WaitlistRow) {
   const onboardUrl = buildOnboardUrl(row)
-  const subject = '🚀 CareerPilot — приём платежей запущен'
+  const subject = '🚀 VibeOffer — приём платежей запущен'
   const html = renderEmail({ ctaUrl: onboardUrl })
 
   // Resend — самый простой провайдер для тестового rollout
@@ -147,7 +147,7 @@ function buildOnboardUrl(row: WaitlistRow): string {
 function renderEmail({ ctaUrl }: { ctaUrl: string }): string {
   return `<!doctype html>
 <html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:560px;margin:0 auto;padding:32px 20px;color:#0f172a;">
-  <h1 style="font-size:22px;font-weight:600;margin:0 0 16px;">🚀 CareerPilot — приём платежей запущен</h1>
+  <h1 style="font-size:22px;font-weight:600;margin:0 0 16px;">🚀 VibeOffer — приём платежей запущен</h1>
   <p style="font-size:15px;line-height:1.6;color:#334155;">
     Спасибо, что подписались в waitlist. Сегодня всё заработало —
     жмёшь ссылку → 2 минуты онбординга → первый AI-скан вакансий → Pro за ₽99 на 30 дней.
@@ -163,12 +163,12 @@ function renderEmail({ ctaUrl }: { ctaUrl: string }): string {
   </p>
   <p style="font-size:13px;color:#64748b;line-height:1.6;margin-top:24px;">
     Есть вопросы? Просто ответьте на это письмо — отвечу лично.<br>
-    — Яна, CareerPilot
+    — Яна, VibeOffer
   </p>
   <hr style="border:none;border-top:1px solid #e2e8f0;margin:32px 0 16px;">
   <p style="font-size:11px;color:#94a3b8;line-height:1.5;">
     ИП Бирюкова Я.В. · ИНН 010510099667 · ОГРНИП 326774600321772<br>
-    Это письмо отправлено потому что вы подписались на waitlist CareerPilot.
+    Это письмо отправлено потому что вы подписались на waitlist VibeOffer.
     Чтобы больше не получать — просто ответьте «отписаться».
   </p>
 </body></html>`

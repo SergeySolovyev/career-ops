@@ -3,13 +3,13 @@ import type { MetadataRoute } from 'next'
 /**
  * Dynamic sitemap — generated at build time.
  * Single source of truth: NEXT_PUBLIC_SITE_URL. When we move from
- * careerpilot-umber.vercel.app → careerpilot.ru, only that env var changes.
+ * vibeoffer.today → vibeoffer.today, only that env var changes.
  *
  * Replaces the previous static public/sitemap.xml (deleted) which hardcoded
  * the Vercel preview domain.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://careerpilot-umber.vercel.app'
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://vibeoffer.today'
   const now = new Date()
 
   // Only public, indexable routes. Authenticated pages (/dashboard, /matches,

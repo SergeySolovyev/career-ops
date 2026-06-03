@@ -3,7 +3,7 @@ import { Sparkles, LogIn, Mail, Lock, AlertCircle } from 'lucide-react'
 import { signIn } from './actions'
 
 /* ============================================================
-   CareerPilot · Login
+   VibeOffer · Login
    Server component — preserves signIn action + searchParams error.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.
    ============================================================ */
@@ -32,7 +32,7 @@ export default async function LoginPage({
           </span>
           <div className="flex flex-col leading-tight">
             <span className="text-[14px] font-semibold tracking-tight">
-              CareerPilot
+              VibeOffer
             </span>
             <span className="font-mono text-[10px] text-slate-500">
               workspace · v4.2
@@ -47,7 +47,7 @@ export default async function LoginPage({
               Sign in · email + password
             </div>
             <h1 className="mt-1 text-[26px] font-semibold tracking-[-0.015em] grad-text">
-              Войти в CareerPilot
+              Войти в VibeOffer
             </h1>
             <p className="mt-2 text-[13.5px] leading-[1.5] text-slate-500">
               Введите email и пароль — и попадёте в свой AI-кабинет.

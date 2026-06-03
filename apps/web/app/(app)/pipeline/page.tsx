@@ -17,7 +17,7 @@ import {
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 
 /* ============================================================
-   CareerPilot · Pipeline
+   VibeOffer · Pipeline
    Server component — preserves /api/profile + application_log query.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.
    ============================================================ */
@@ -196,7 +196,7 @@ export default async function PipelinePage() {
               Pipeline откликов
             </h1>
             <p className="mt-3 max-w-[540px] text-[15px] leading-[1.55] text-slate-500">
-              История AI-откликов через CareerPilot. Статусы обновляются по мере
+              История AI-откликов через VibeOffer. Статусы обновляются по мере
               того, как HR просматривают и отвечают.
             </p>
           </div>

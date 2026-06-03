@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Платёж не прошёл · CareerPilot',
+  title: 'Платёж не прошёл · VibeOffer',
 }
 
 // Next.js 15: searchParams is async (Promise<>). Must await it.
@@ -36,7 +36,7 @@ export default async function BillingFailPage({
           Попробовать ещё раз
         </Link>
         <a
-          href="mailto:support@careerpilot.ru"
+          href="mailto:support@vibeoffer.today"
           className="btn-secondary h-11 px-6"
         >
           Написать в поддержку

@@ -15,7 +15,7 @@ import {
 import { useRef, useState, useEffect, useCallback } from 'react'
 
 /* ============================================================
-   CareerPilot · Chat — AI Career Advisor
+   VibeOffer · Chat — AI Career Advisor
    Client component — preserves useChat + Web Speech API + all handlers.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.
    ============================================================ */

@@ -2,7 +2,7 @@
 
 **Цель:** запустить TG-поиск + Tinkoff-платежи. Всё что я мог автоматизировать — уже сделано. Это твой список.
 
-**Прод сейчас:** https://careerpilot-umber.vercel.app — hh.ru scanner + Free quota gate + Pro intent flow работают live.
+**Прод сейчас:** https://vibeoffer.today — hh.ru scanner + Free quota gate + Pro intent flow работают live.
 
 **Что НЕ работает пока:**
 1. TG-поиск каналов — кнопка возвращает "Telegram-сканер скоро будет включён"
@@ -18,8 +18,8 @@
 - https://www.tinkoff.ru/kassa/
 - "Подключить" → выбрать ИП → войти в ЛК Tinkoff Бизнес
 - Заполнить анкету магазина:
-  - Название: CareerPilot
-  - Сайт: https://careerpilot-umber.vercel.app
+  - Название: VibeOffer
+  - Сайт: https://vibeoffer.today
   - Категория: Программное обеспечение (1521 ОКВЭД)
   - Описание: AI-платформа поиска работы. Pro подписка ₽299/мес, Premium ₽699/мес.
   - Тип товара: цифровой, доставка не требуется
@@ -40,7 +40,7 @@
 ### A3. Webhook URL (2 мин, после A2)
 В том же ЛК Tinkoff:
 - Магазин → Настройки → Уведомления
-- **URL:** `https://careerpilot-umber.vercel.app/api/billing/webhook`
+- **URL:** `https://vibeoffer.today/api/billing/webhook`
 - **Метод:** POST, тип JSON
 - **События:** все (AUTHORIZED, CONFIRMED, REJECTED, REFUNDED)
 - Save
@@ -78,9 +78,9 @@
 ### B2. Получить api_id + api_hash (~3 мин)
 - https://my.telegram.org → войти под новым TG-аккаунтом
 - API development tools → Create new application:
-  - Title: `CareerPilot`
+  - Title: `VibeOffer`
   - Short name: `careerpilot`
-  - URL: `https://careerpilot.app`
+  - URL: `https://vibeoffer.today`
   - Platform: Other
 - Скопировать **api_id** (число) и **api_hash** (32-hex)
 - Скинуть мне в чат **только в формате:**

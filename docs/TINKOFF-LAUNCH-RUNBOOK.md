@@ -77,7 +77,7 @@ Invoke-RestMethod -Method POST -Uri "https://api.vercel.com/v13/deployments?team
 
 In lk.tinkoff.ru/business → Касса → Магазины → ваш магазин (DEMO) → Настройки → Уведомления:
 
-- **URL:** `https://careerpilot-umber.vercel.app/api/billing/webhook`
+- **URL:** `https://vibeoffer.today/api/billing/webhook`
 - **Метод:** `POST`
 - **Тип:** `JSON`
 - **События:** все (`AUTHORIZED`, `CONFIRMED`, `REJECTED`, `REFUNDED`)

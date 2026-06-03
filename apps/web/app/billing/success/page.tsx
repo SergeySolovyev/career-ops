@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Подписка активирована · CareerPilot',
+  title: 'Подписка активирована · VibeOffer',
 }
 
 // Next.js 15: searchParams is async (Promise<>). Must await it.

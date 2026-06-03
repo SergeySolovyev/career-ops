@@ -11,9 +11,9 @@ import Link from 'next/link'
  */
 
 export const metadata = {
-  title: 'Политика конфиденциальности · CareerPilot',
+  title: 'Политика конфиденциальности · VibeOffer',
   description:
-    'Политика обработки персональных данных пользователей сервиса CareerPilot.',
+    'Политика обработки персональных данных пользователей сервиса VibeOffer.',
 }
 
 export default function PrivacyPage() {
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
         href="/"
         className="mb-8 inline-block font-mono text-[11px] uppercase tracking-wider text-slate-500 hover:text-slate-900"
       >
-        ← CareerPilot
+        ← VibeOffer
       </Link>
 
       <header className="mb-10">
@@ -58,10 +58,10 @@ export default function PrivacyPage() {
             </Link>
             . Связь:{' '}
             <a
-              href="mailto:hello@careerpilot.app"
+              href="mailto:hello@vibeoffer.today"
               className="text-emerald-700 underline"
             >
-              hello@careerpilot.app
+              hello@vibeoffer.today
             </a>
             .
           </p>
@@ -200,10 +200,10 @@ export default function PrivacyPage() {
           <p className="mt-3">
             Для реализации этих прав — письмо на{' '}
             <a
-              href="mailto:hello@careerpilot.app"
+              href="mailto:hello@vibeoffer.today"
               className="text-emerald-700 underline"
             >
-              hello@careerpilot.app
+              hello@vibeoffer.today
             </a>{' '}
             с темой «Запрос по 152-ФЗ».
           </p>

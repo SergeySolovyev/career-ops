@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 /**
- * Публичная оферта на оказание услуг сервиса CareerPilot.
+ * Публичная оферта на оказание услуг сервиса VibeOffer.
  *
  * Юридически — публичная оферта (ст. 437 ГК РФ): акцептом считается оплата.
  * Используется банками-эквайерами (Tinkoff Касса) для модерации магазина —
@@ -15,9 +15,9 @@ import Link from 'next/link'
  */
 
 export const metadata = {
-  title: 'Публичная оферта · CareerPilot',
+  title: 'Публичная оферта · VibeOffer',
   description:
-    'Договор-оферта на оказание услуг сервиса CareerPilot — AI-платформы поиска работы.',
+    'Договор-оферта на оказание услуг сервиса VibeOffer — AI-платформы поиска работы.',
 }
 
 export default function OfferPage() {
@@ -33,7 +33,7 @@ export default function OfferPage() {
         href="/"
         className="mb-8 inline-block font-mono text-[11px] uppercase tracking-wider text-slate-500 hover:text-slate-900"
       >
-        ← CareerPilot
+        ← VibeOffer
       </Link>
 
       <header className="mb-10">
@@ -58,12 +58,12 @@ export default function OfferPage() {
             индивидуального предпринимателя <strong>Бирюковой Яны Владимировны</strong>{' '}
             (далее — «Исполнитель», ИНН 010510099667, ОГРНИП 326774600321772) в
             адрес любого физического лица (далее — «Пользователь»), желающего
-            воспользоваться услугами сервиса CareerPilot, размещённого по адресу{' '}
+            воспользоваться услугами сервиса VibeOffer, размещённого по адресу{' '}
             <a
-              href="https://careerpilot-umber.vercel.app"
+              href="https://vibeoffer.today"
               className="text-emerald-700 underline"
             >
-              careerpilot-umber.vercel.app
+              vibeoffer.today
             </a>{' '}
             (далее — «Сервис»).
           </p>
@@ -148,10 +148,10 @@ export default function OfferPage() {
             неиспользованному периоду в течение 10 рабочих дней с момента получения
             письменного заявления на адрес{' '}
             <a
-              href="mailto:hello@careerpilot.app"
+              href="mailto:hello@vibeoffer.today"
               className="text-emerald-700 underline"
             >
-              hello@careerpilot.app
+              hello@vibeoffer.today
             </a>
             .
           </p>
@@ -258,7 +258,7 @@ export default function OfferPage() {
             <div>БИК: 044525411</div>
             <div>Корр. счёт: 30101810145250000411</div>
             <div>ИНН банка: 7702070139 · КПП: 770943002</div>
-            <div className="mt-2 pt-2 border-t border-slate-200">Email: hello@careerpilot.app</div>
+            <div className="mt-2 pt-2 border-t border-slate-200">Email: hello@vibeoffer.today</div>
           </div>
         </section>
       </div>

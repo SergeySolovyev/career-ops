@@ -33,7 +33,7 @@ preemptive оптимизаций под 10 000 юзеров, которых н�
 |---|---|---|---|
 | H1 | Подать заявку CloudPayments + загрузить паспорт | Яна | 1 час |
 | H2 | Купить SIM + получить api_id/api_hash + ssh DO + запустить TG worker | Сергей | 25 мин |
-| H3 | Купить careerpilot.ru + подвязать к Vercel | Сергей | 30 мин |
+| H3 | Купить vibeoffer.today + подвязать к Vercel | Сергей | 30 мин |
 | H4 | Применить миграцию 009 на Supabase prod | Сергей | 5 мин |
 | H5 | Уведомление в РКН (152-ФЗ ст. 22) | Сергей | 30 мин |
 | H6 | Заявка в АТОЛ Онлайн на онлайн-кассу (54-ФЗ) | Яна | 1 день |
@@ -147,9 +147,9 @@ Subagents stateless, вызываются по триггерам. Не пыта
        → vercel --prod (или дождаться auto-deploy)
        → Открыть /waitlist на prod — проверить что форма работает
 
-[ ] 3. Купить careerpilot.ru на Reg.ru (10 мин)
+[ ] 3. Купить vibeoffer.today на Reg.ru (10 мин)
        → См. docs/DOMAIN-CONFIG-careerpilot-ru.md шаг 1
-       → Если .ru занят — .app или getcareerpilot.ru
+       → Если .ru занят — .app или getvibeoffer.today
 
 [ ] 4. Подвязать домен к Vercel (20 мин активных + 1-24ч DNS)
        → docs/DOMAIN-CONFIG-careerpilot-ru.md шаги 2-3

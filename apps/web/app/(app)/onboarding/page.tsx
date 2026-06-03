@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 
 /* ============================================================
-   CareerPilot · Onboarding
+   VibeOffer · Onboarding
    Client component — preserves 3-step state machine, saveProfile POST,
    and /api/onboarding/first-response generation.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.

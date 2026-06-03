@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-// GET /api/telegram/setup?url=https://careerpilot.vercel.app
+// GET /api/telegram/setup?url=https://vibeoffer.today
 // Настраивает webhook для Telegram-бота
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)

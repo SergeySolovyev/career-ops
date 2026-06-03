@@ -38,10 +38,10 @@ export async function POST(req: NextRequest) {
 
   // OrderId format: <userId-prefix>-<unix-ms>-<rand>
   const orderId = `${user.id.slice(0, 8)}-${Date.now()}-${randomUUID().slice(0, 8)}`
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://careerpilot-umber.vercel.app'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://vibeoffer.today'
 
   const tierLabel = body.tier === 'pro' ? 'Pro' : 'Premium'
-  const description = `CareerPilot ${tierLabel}${isPromo ? ' (промо BETA99)' : ''}`
+  const description = `VibeOffer ${tierLabel}${isPromo ? ' (промо BETA99)' : ''}`
 
   // Subscription auto-renewal: starts at regular price (not promo) after 30 days.
   // CloudPayments handles the schedule + emits Recurrent webhook on each charge.

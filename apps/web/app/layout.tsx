@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'CareerPilot — AI найдёт работу за вас',
+  title: 'VibeOffer — AI найдёт работу за вас',
   description: 'Загрузите CV — система 24/7 сканирует вакансии, оценивает AI, генерирует tailored CV и откликается автоматически.',
 }
 

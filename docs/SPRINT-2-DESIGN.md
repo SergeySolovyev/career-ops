@@ -8,7 +8,7 @@
 
 ## 1. Why this sprint
 
-CareerPilot v1 был под Директорский ICP (CDO/Head of AI, ₽500K–1.5M). После Sprint 1 у нас два источника вакансий — но UI/copy всё ещё «директорский». Пользователь решил **полный pivot на масс-маркет 20–30 лет, IT/digital в городах РФ/СНГ**, готовых платить ₽300–500/мес ("капуччино pricing"). Это требует переписать tone, scoring criteria и onboarding под новую аудиторию.
+VibeOffer v1 был под Директорский ICP (CDO/Head of AI, ₽500K–1.5M). После Sprint 1 у нас два источника вакансий — но UI/copy всё ещё «директорский». Пользователь решил **полный pivot на масс-маркет 20–30 лет, IT/digital в городах РФ/СНГ**, готовых платить ₽300–500/мес ("капуччино pricing"). Это требует переписать tone, scoring criteria и onboarding под новую аудиторию.
 
 **Без Sprint 2** текущая аудитория увидит лендинг с "Для Director / VP · FinTech · AI/ML · Банки" и сразу bounce'нет — это **conversion killer**.
 

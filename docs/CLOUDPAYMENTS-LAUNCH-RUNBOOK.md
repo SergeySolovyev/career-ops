@@ -26,7 +26,7 @@
   alter table public.user_profiles
     add column if not exists consent_accepted_at timestamptz;
   ```
-- [ ] **Купить домен careerpilot.ru** (или альтернативу) на reg.ru / nic.ru (~₽200/год)
+- [ ] **Купить домен vibeoffer.today** (или альтернативу) на reg.ru / nic.ru (~₽200/год)
 - [ ] **Привязать домен к Vercel** (5 мин через dashboard или REST API)
 - [ ] **NEXT_PUBLIC_SITE_URL** обновить в Vercel env (1 мин)
 
@@ -42,8 +42,8 @@
 ### 1.2. Заполнение анкеты магазина
 | Поле | Значение |
 |---|---|
-| Название магазина | CareerPilot |
-| Сайт | https://careerpilot.ru (или vercel.app до миграции) |
+| Название магазина | VibeOffer |
+| Сайт | https://vibeoffer.today (или vercel.app до миграции) |
 | Категория MCC | 7372 — Computer Software Stores / 5734 — Computer Software |
 | Описание услуги | «AI-помощник для поиска работы. Месячная подписка с автопродлением. Помощь в составлении персонализированных резюме и cover letter, AI-оценка вакансий по 10 критериям.» |
 | Средний чек | 299 ₽ |
@@ -72,9 +72,9 @@
 
 ### 1.5. Ссылки на юридические страницы
 Указать в анкете URL:
-- Оферта: https://careerpilot.ru/offer (или vercel.app/offer)
-- Privacy: https://careerpilot.ru/privacy
-- Refund: https://careerpilot.ru/refund
+- Оферта: https://vibeoffer.today/offer (или vercel.app/offer)
+- Privacy: https://vibeoffer.today/privacy
+- Refund: https://vibeoffer.today/refund
 
 ---
 
@@ -104,8 +104,8 @@ CloudPayments **сама не делает чеки** — нужна интег�
 1. Открыть https://pd.rkn.gov.ru/operators-registry/notification/
 2. Заполнить форму как «новый оператор»:
    - Оператор: ИП Бирюкова Я.В.
-   - Цели обработки: «Оказание услуг по подписочной модели сервиса CareerPilot»
-   - Категории субъектов: «пользователи сервиса CareerPilot»
+   - Цели обработки: «Оказание услуг по подписочной модели сервиса VibeOffer»
+   - Категории субъектов: «пользователи сервиса VibeOffer»
    - Категории ПДн: ФИО, email, история взаимодействия с сервисом, IP-адрес
    - Срок обработки: до отзыва согласия
    - Подача через ЛК или почтой
@@ -126,7 +126,7 @@ CLOUDPAYMENTS_API_PASSWORD = xxx
 ```
 
 Также в CP кабинете → Уведомления:
-- URL для всех событий: `https://careerpilot.ru/api/billing/webhook`
+- URL для всех событий: `https://vibeoffer.today/api/billing/webhook`
 - Метод: POST
 - Включить события: Pay, Fail, Refund, Cancel, Recurrent
 

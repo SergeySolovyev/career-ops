@@ -11,7 +11,7 @@ import {
 import { signUp } from './actions'
 
 /* ============================================================
-   CareerPilot · Signup
+   VibeOffer · Signup
    Server component — preserves signUp action + searchParams error.
    Visual layer refreshed — Linear/Notion/Raycast aesthetic.
    ============================================================ */
@@ -55,7 +55,7 @@ export default async function SignupPage({
             </span>
             <div className="flex flex-col leading-tight">
               <span className="text-[14px] font-semibold tracking-tight">
-                CareerPilot
+                VibeOffer
               </span>
               <span className="font-mono text-[10px] text-slate-500">
                 workspace · v4.2
@@ -107,7 +107,7 @@ export default async function SignupPage({
             </span>
             <div className="flex flex-col leading-tight">
               <span className="text-[14px] font-semibold tracking-tight">
-                CareerPilot
+                VibeOffer
               </span>
               <span className="font-mono text-[10px] text-slate-500">
                 workspace · v4.2
