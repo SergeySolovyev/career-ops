@@ -23,6 +23,12 @@ const VALID_SOURCES: WaitlistSource[] = [
 
 const VALID_INTENTS: WaitlistIntent[] = ['pro', 'premium', 'free']
 
+// VC research-сигнал: outcome-based vs subscription pricing.
+// Собираем preference на /waitlist для проверки гипотезы Sequoia/Emergence
+// о том что junior-IT-аудитория готова к pay-on-success модели.
+type PricingPreference = 'subscription' | 'success_fee' | 'unsure'
+const VALID_PRICING: PricingPreference[] = ['subscription', 'success_fee', 'unsure']
+
 export type WaitlistResult =
   | { ok: true; alreadyExisted: boolean }
   | { ok: false; error: string }
@@ -63,6 +69,16 @@ export async function addToWaitlist(formData: FormData): Promise<WaitlistResult>
   const utm_medium = (formData.get('utm_medium') as string) || null
   const utm_campaign = (formData.get('utm_campaign') as string) || null
 
+  // Research-сигналы: pricing preference + founder-call интерес
+  const rawPricing = (formData.get('pricing_preference') as string) || ''
+  const pricing_preference: PricingPreference | null = (VALID_PRICING as string[]).includes(
+    rawPricing,
+  )
+    ? (rawPricing as PricingPreference)
+    : null
+  // Checkbox value === 'on' когда отмечен, отсутствует когда не отмечен
+  const wants_founder_call = formData.get('wants_founder_call') === 'on'
+
   // Заголовки берём из next/headers — referrer и user-agent для аналитики
   const h = await headers()
   const referrer = h.get('referer')
@@ -74,7 +90,11 @@ export async function addToWaitlist(formData: FormData): Promise<WaitlistResult>
   const clientIp = fwd.split(',')[0]?.trim() || null
   const ip_hash = hashIpForWaitlist(clientIp)
 
-  const entry: WaitlistEntry & { ip_hash: string | null } = {
+  const entry: WaitlistEntry & {
+    ip_hash: string | null
+    pricing_preference: PricingPreference | null
+    wants_founder_call: boolean
+  } = {
     email,
     source,
     intent,
@@ -85,6 +105,8 @@ export async function addToWaitlist(formData: FormData): Promise<WaitlistResult>
     referrer,
     user_agent,
     ip_hash,
+    pricing_preference,
+    wants_founder_call,
   }
 
   try {

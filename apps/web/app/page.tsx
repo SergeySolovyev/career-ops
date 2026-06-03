@@ -131,10 +131,14 @@ function Hero() {
             работу <mark className="hl">за вас</mark>
           </h1>
           <p className="mt-6 max-w-[520px] text-[17px] leading-[1.6] text-slate-500">
-            Загрузите резюме — остальное сделаем мы. Сканирование вакансий,
-            AI-оценка по 10 критериям, генерация CV и сопроводительных писем
-            под каждую вакансию — всё на автопилоте.
+            За 14 дней получите 5-10 целевых офферов под ваш CV.
+            Без бесконечного скролла hh, без переписывания резюме под
+            каждый отклик, без «здравствуйте, рассмотрите мою кандидатуру».
           </p>
+          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[12px] font-medium text-emerald-900">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            Возврат 14 дней без вопросов · оплата только если зашло
+          </div>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link href="/signup" className="btn-primary">
               Начать бесплатно <ArrowRight size={14} />
