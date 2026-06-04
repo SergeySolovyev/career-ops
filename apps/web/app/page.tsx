@@ -103,8 +103,11 @@ function Header() {
           >
             Войти
           </Link>
-          <Link href="/signup" className="btn-primary h-9 text-[13px]">
-            Начать бесплатно
+          <Link
+            href="/signup?intent=pro&promo=BETA99"
+            className="btn-primary btn-liquid h-9 text-[13px]"
+          >
+            Pro за ₽99
             <ArrowRight size={14} />
           </Link>
         </div>
@@ -135,25 +138,26 @@ function Hero() {
             Без бесконечного скролла hh, без переписывания резюме под
             каждый отклик, без «здравствуйте, рассмотрите мою кандидатуру».
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[12px] font-medium text-emerald-900">
+          <div className="glass-pill mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-[12px] font-medium text-emerald-900">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             Возврат 14 дней без вопросов · оплата только если зашло
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link href="/signup" className="btn-primary">
-              Начать бесплатно <ArrowRight size={14} />
+            <Link
+              href="/signup?intent=pro&promo=BETA99"
+              className="btn-primary btn-liquid"
+            >
+              Получить доступ за ₽99 <ArrowRight size={14} />
             </Link>
-            <Link href="/dashboard" className="btn-secondary">
-              <LayoutDashboard size={14} />
-              Открыть демо-кабинет
-            </Link>
-            <Link href="/chat" className="btn-secondary">
-              <MessageSquare size={14} />
-              Спросить AI
+            <Link
+              href="/waitlist?source=landing_hero&intent=pro&promo=BETA99"
+              className="text-[13px] text-slate-500 underline-offset-2 hover:text-slate-900 hover:underline"
+            >
+              Не готов сейчас — встать в waitlist →
             </Link>
           </div>
           <div className="mt-6 flex items-center gap-3 text-[12.5px] text-slate-500">
-            <span>Демо с реальными данными. Без регистрации.</span>
+            <span>₽99 первый месяц для первых 100 · далее ₽299/мес</span>
             <span className="text-slate-300">·</span>
             <span className="inline-flex items-center gap-1">
               <kbd className="kbd">⌘</kbd>
@@ -482,7 +486,7 @@ function ProofTiles() {
           </h2>
         </div>
         <div className="hidden text-[12.5px] text-slate-500 md:block">
-          Пример из демо-кабинета · реальные цифры после первого скана
+          Бенчмарк AI-сканера · реальные цифры после первого скана у Pro-юзера
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -1392,23 +1396,12 @@ function Pricing() {
             Профи-инструмент. Доступно.
           </h2>
           <p className="mx-auto mt-3 max-w-[520px] text-[15px] text-slate-500">
-            Начните бесплатно. Обновитесь, когда увидите первый match ≥ 4.0.
+            Один тариф для тех кто реально ищет работу. ₽99 первый месяц,
+            возврат 14 дней без вопросов.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          <PriceCard
-            tier="Free"
-            price="₽0"
-            cadence="/ навсегда"
-            blurb="Попробовать платформу без рисков."
-            cta={{ label: "Начать бесплатно", href: "/signup", variant: "secondary" }}
-            features={[
-              "3 AI-оценки / месяц",
-              "Просмотр всех вакансий",
-              "Базовый трекер откликов",
-            ]}
-          />
+        <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-3 md:grid-cols-2">
           <PriceCard
             tier="Pro"
             tierColor="#2563eb"
@@ -1416,7 +1409,7 @@ function Pricing() {
             cadence="первый месяц, далее ₽299 / мес"
             blurb="Для активного поиска с AI-помощником. Промо BETA99 — ₽99 первый месяц."
             highlight
-            cta={{ label: "Попробовать Pro · ₽99 первый месяц", href: "/signup?intent=pro&promo=BETA99", variant: "primary" }}
+            cta={{ label: "Получить доступ за ₽99", href: "/signup?intent=pro&promo=BETA99", variant: "primary" }}
             features={[
               "30 AI-оценок / месяц",
               "Tailored CV в PDF",
@@ -1529,24 +1522,21 @@ function FinalCTA() {
             Остальное — наше.
           </h2>
           <p className="mx-auto mt-5 max-w-[520px] text-[15.5px] text-slate-500">
-            Без регистрации — откройте демо-кабинет и посмотрите на вакансии,
-            которые AI нашёл сегодня.
+            2 минуты онбординга. ₽99 за первый месяц. Возврат 14 дней
+            без вопросов — если за это время не зашло.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/signup" className="btn-primary h-11 px-5 text-[14px]">
-              Начать бесплатно <ArrowRight size={14} />
-            </Link>
             <Link
-              href="/dashboard"
-              className="btn-secondary h-11 px-5 text-[14px]"
+              href="/signup?intent=pro&promo=BETA99"
+              className="btn-primary btn-liquid h-11 px-5 text-[14px]"
             >
-              Открыть демо-кабинет
+              Получить доступ за ₽99 <ArrowRight size={14} />
             </Link>
             <Link
               href="/waitlist?source=landing_final_cta&intent=pro&promo=BETA99"
               className="text-[13px] text-slate-500 underline-offset-2 hover:text-slate-900 hover:underline"
             >
-              Pro ₽99 не открыт — встать в waitlist →
+              Не готов сейчас — встать в waitlist →
             </Link>
           </div>
         </div>

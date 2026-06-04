@@ -218,6 +218,65 @@ mark.hl {
   to { transform: translate(-50%, -50%) translateY(6px); }
 }
 
+/* ---------- Motion polish (paywall-first hero CTA) ---------- */
+/* «Liquid sheen» — медленный sweep светового градиента поверх CTA.
+   Ставится поверх .btn-primary через .btn-liquid. 3.6с + большая пауза
+   создают «дышащую» кнопку, которая ловит глаз но не отвлекает от копи.
+   respect prefers-reduced-motion для accessibility. */
+.btn-liquid {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  background-size: 200% 100%;
+  animation: liquid-bg 8s ease-in-out infinite;
+}
+.btn-liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  animation: liquid-sheen 3.6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+.btn-liquid > * {
+  position: relative;
+  z-index: 2;
+}
+@keyframes liquid-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+@keyframes liquid-sheen {
+  0%   { transform: translateX(-120%); }
+  60%  { transform: translateX(220%); }
+  100% { transform: translateX(220%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-liquid { animation: none; }
+  .btn-liquid::before { animation: none; opacity: 0; }
+}
+
+/* Glass-pill — для trust-индикаторов в hero. Backdrop-blur поверх emerald.
+   Создаёт ощущение «premium» сервиса (профессиональная покупаемая услуга),
+   а не очередного AI-toy. */
+.glass-pill {
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  background: rgba(236, 253, 245, 0.62);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 4px 20px -8px rgba(16, 185, 129, 0.25);
+}
+
 /* ---------- Focus ---------- */
 button:focus-visible,
 a:focus-visible {
