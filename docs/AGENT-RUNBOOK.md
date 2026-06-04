@@ -127,13 +127,60 @@ Alerts: 0 records 2+ дня подряд = разбираться (Sentry дол
 
 ## Запуск future-агентов (Sprint A-B roadmap)
 
-### CV-Tailor Agent (Sprint A)
+### CV-Tailor Agent (Sprint A — РЕАЛИЗОВАН)
 
-**Не реализован, но registered.** Перед стартом разработки:
-1. Создать `apps/web/lib/agents/cv-tailor.ts` по шаблону `outreach-drafter.ts`
+**Production-ready.** Файлы: `apps/web/lib/agents/cv-tailor.ts` + API route
+`POST /api/agents/cv-tailor`.
+
+**Использование через API (после auth):**
+
+```bash
+# Вариант 1: используем сохранённую evaluation
+curl -X POST https://vibeoffer.today/api/agents/cv-tailor \
+  -H "Cookie: <auth-cookie>" \
+  -H "Content-Type: application/json" \
+  -d '{"vacancyId":"https://hh.ru/vacancy/123456"}'
+
+# Вариант 2: ad-hoc с inline CV + JD
+curl -X POST https://vibeoffer.today/api/agents/cv-tailor \
+  -H "Cookie: <auth-cookie>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "originalCv": "Иван Иванов, junior frontend...",
+    "vacancy": {
+      "title": "Frontend Developer",
+      "company": "Ozon",
+      "description": "React 18, TypeScript, ..."
+    }
+  }'
+```
+
+**Возвращает:**
+```json
+{
+  "ok": true,
+  "output": {
+    "original": "...",
+    "tailored": "...",
+    "diff": [
+      {"type": "replace", "before": "Опытный разработчик", "after": "Frontend developer с 2 годами опыта на React + TypeScript", "reason": "Привязка к JD требованию 'опыт React 18 ≥ 1 год'"}
+    ],
+    "ethics_flags": []
+  },
+  "latency_ms": 12450,
+  "tokens": {"input": 1234, "output": 890}
+}
+```
+
+**Что мониторить (quality bar из registry):**
+- `ethics_flags.length === 0` для ≥ 95% вызовов (иначе SOP drift на fabrications)
+- Re-eval-score Match Agent на tailored CV должен быть ≥ baseline + 0.5
+- Tailored CV длиной 0-15% короче оригинала
+
+**TODO Sprint A (после первых 10 paid users):**
+1. Wire to `/onboarding` Step 3 → кнопка «Подогнать CV под топ-матч»
 2. Создать golden-set: 10 CV+JD пар с reference tailoring от Яны
-3. Wire to `/onboarding` Step 3 как кнопку «Подогнать CV под топ-матч»
-4. Eval: re-eval-score Match Agent на tailored CV ≥ original + 0.5
+3. Добавить `tailored_cvs` таблицу для сохранения версий (одна на (user, vacancy))
 
 ### Salary-Anchor Agent (Sprint B)
 
