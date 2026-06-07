@@ -142,7 +142,7 @@ export default function WaitlistForm(props: Props) {
         <div className="space-y-1.5">
           <PricingRadio
             value="subscription"
-            label="₽490/мес подпиской — стандартно"
+            label="₽299/мес подпиской — стандартно"
             checked={pricingPref === 'subscription'}
             onChange={setPricingPref}
             disabled={pending}

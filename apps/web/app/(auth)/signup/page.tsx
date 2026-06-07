@@ -64,7 +64,7 @@ export default async function SignupPage({
           </Link>
 
           <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
-            Free plan · 3 AI оценки в месяц · без карты
+            ₽99 первый месяц · возврат 14 дней без вопросов
           </div>
           <h1 className="mt-2 text-[40px] font-semibold leading-[1.05] tracking-[-0.02em] grad-text">
             AI найдёт работу

@@ -150,7 +150,7 @@ export default async function WaitlistPage({
             <FactCard
               kpi="₽99"
               label="первый месяц для первых 100"
-              hint="дальше — ₽490/мес, без скрытых платежей"
+              hint="дальше — ₽299/мес, без скрытых платежей"
             />
           </div>
         </div>

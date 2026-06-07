@@ -690,22 +690,30 @@ function OnboardingForm() {
                 )}
 
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
-                    {intent
-                      ? 'или продолжить на free плане'
-                      : 'setup complete · entering workspace'}
-                  </span>
-                  <button
-                    onClick={() => router.push('/dashboard')}
-                    className={
-                      intent
-                        ? 'btn-secondary h-10 px-5 text-[13px]'
-                        : 'btn-primary h-10 px-5 text-[13px]'
-                    }
-                  >
-                    В кабинет
-                    <ArrowRight size={14} />
-                  </button>
+                  {intent ? (
+                    // Pay-first paradigm: при intent=pro/premium НЕТ escape hatch
+                    // в /dashboard. Кто не готов — на waitlist (через checkoutError).
+                    // Кто готов — checkout-кнопка выше, и она единственная.
+                    <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
+                      доступ к матчам после оплаты
+                    </span>
+                  ) : (
+                    // Пользователь без intent (organic signup) — идёт в /dashboard
+                    // где сидит paywall на /matches. Это для тех кто хочет
+                    // сначала осмотреться.
+                    <>
+                      <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
+                        setup complete · entering workspace
+                      </span>
+                      <button
+                        onClick={() => router.push('/dashboard')}
+                        className="btn-primary h-10 px-5 text-[13px]"
+                      >
+                        В кабинет
+                        <ArrowRight size={14} />
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             )}
