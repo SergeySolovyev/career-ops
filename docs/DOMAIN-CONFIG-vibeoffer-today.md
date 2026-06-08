@@ -1,147 +1,130 @@
-# Подключение домена vibeoffer.today к Vercel + Yandex 360 mail
+# Подключение домена vibeoffer.today — pошаговый гайд для Сергея
 
-**Время на выполнение:** 30 минут активных действий + до 24ч DNS propagation.
+**Состояние на 2026-06-08:** домен `vibeoffer.today` + `www.vibeoffer.today` уже
+добавлены в Vercel project `careerpilot` (через `vercel domains add`).
+**Vercel ждёт DNS verification.**
+
+Осталось 3 шага. Все 3 ваши, я уже сделал всё что мог автономно.
 
 ---
 
-## 1. Покупка домена (10 минут)
+## Шаг 1 — Купить vibeoffer.today (10 мин · ₽2-3k)
 
-**Рекомендация:** регистрируем у Reg.ru или Beget — оба принимают карты РФ,
-дешевле чем Namecheap для .ru.
+`.today` это global TLD, поэтому регистратор любой. Из того что у вас уже есть
+опыт с другими доменами в Vercel (`atlas-pay.online`, `essive.pro` и т.д.):
 
-| Регистратор | Цена .ru/год | Карта РФ | DNS-панель |
+| Регистратор | Цена .today | Карты РФ | Совет |
 |---|---|---|---|
-| Reg.ru | ₽199 | да | удобная |
-| Beget | ₽179 | да | очень удобная |
-| RU-CENTER | ₽290 | да | бюрократическая |
+| **Namecheap** | $25-30 первый год · $35 продление | работают исторически | **рекомендую** — простой UI, удобный DNS |
+| **Porkbun** | $25 первый год · $30 продление | работают через VPN | дешевле, но UI спартанский |
+| **Cloudflare Registrar** | $22 (at-cost) | да | требует домен уже на CF DNS — не наш кейс |
+| **Reg.ru** | возможно есть в расширенном каталоге | да | если показывает «нет в зонах» — пропускаем |
 
-**Действие Сергея:**
-1. https://www.reg.ru/domain/new/ → ввести `vibeoffer.today`
-2. Если занят — план B: `vibeoffer.today` (₽1490/год у Reg.ru) или
-   `getvibeoffer.today` (₽199/год).
-3. Оформить с защитой персональных данных whois (₽199 поверх) — иначе
-   email Сергея публично торчит в whois.
+**Действие:**
+1. https://www.namecheap.com/domains/registration/results/?domain=vibeoffer.today
+2. Add to cart → Checkout
+3. **ВКЛЮЧИТЬ** «WhoisGuard» / «PrivacyGuard» (бесплатно у Namecheap) — иначе
+   email Сергея торчит в публичном whois
+4. Срок 2 года для лучшего SEO-trust signal
+5. Payment
 
 ---
 
-## 2. Vercel — добавление домена (5 минут)
+## Шаг 2 — DNS-записи у регистратора (5 мин)
 
-```bash
-# Через Vercel CLI (если установлен):
-vercel domains add vibeoffer.today careerpilot
+В DNS-панели Namecheap (или Porkbun, или вашего регистратора) добавить **одну**
+A-запись:
 
-# Или в web UI:
-# 1. https://vercel.com/<team>/careerpilot/settings/domains
-# 2. Add Domain → vibeoffer.today
-# 3. Vercel покажет DNS-записи (см. п. 3)
+```
+Тип    Имя     Значение         TTL
+A      @       76.76.21.21      Automatic (300-3600)
 ```
 
-После добавления Vercel выдаст одну из двух конфигураций:
-- **Nameservers (рекомендую):** делегируете весь DNS Vercel'у — единая панель
-- **CNAME/A records:** оставляете DNS у регистратора, прописываете 2 записи
+Где `@` = корневой домен (vibeoffer.today).
 
----
+**Для `www.vibeoffer.today`** (опционально, можно пропустить):
 
-## 3. DNS-записи (выбрать один сценарий)
+```
+Тип       Имя     Значение                  TTL
+CNAME     www     cname.vercel-dns.com      Automatic
+```
 
-### Сценарий A — делегирование nameservers Vercel'у (рекомендую)
+**Сохранить.** DNS propagation 10 минут — 24 часа.
 
-В панели Reg.ru → DNS-серверы:
-
+**Альтернатива** (для тех кто хочет полный контроль через Vercel DNS):
+вместо A-записи поменять nameservers на:
 ```
 ns1.vercel-dns.com
 ns2.vercel-dns.com
 ```
 
-Сохранить. Propagation 1-24ч. После — Vercel сам подымает SSL.
-
-**Минус:** Yandex 360 mail настройка усложнится (нужно прописать MX через
-Vercel DNS API). Если не хочется — сценарий B.
-
-### Сценарий B — DNS остаётся у регистратора (проще для почты)
-
-В DNS-панели Reg.ru добавить:
-
-```
-Тип    Имя    Значение                           TTL
-A      @      76.76.21.21                        3600
-CNAME  www    cname.vercel-dns.com.              3600
-```
-
-И для почты Yandex 360 (если выбираете эту почту — см. п. 4):
-
-```
-MX     @      mx.yandex.net.                     10  3600
-TXT    @      v=spf1 redirect=_spf.yandex.net    3600
-TXT    mail._domainkey   <значение из Yandex>    3600
-CNAME  mail   domain.mail.yandex.net.            3600
-```
-
-Yandex даст точные значения в момент подключения домена.
+Но рекомендую **A-запись** — проще, обратимее, не теряем регистраторский DNS UI.
 
 ---
 
-## 4. Почта поддержки support@vibeoffer.today (15 минут)
+## Шаг 3 — Финализация (1 минута, скрипт)
 
-### Вариант 1 — Yandex 360 для бизнеса (рекомендую)
-
-- https://360.yandex.ru/business → Подключить домен
-- Цена: 0₽ до 5 пользователей, далее 199₽/мес/юзер
-- Создать ящики: `support@vibeoffer.today`, `info@vibeoffer.today`,
-  `yana@vibeoffer.today` (опц.)
-- DNS-записи прописать у регистратора (см. п. 3 B)
-- Подтвердить домен через TXT-запись (Yandex выдаст)
-
-### Вариант 2 — MailRu для бизнеса (альтернатива)
-
-Аналогично, https://biz.mail.ru. Меньше фич, но если что-то с Yandex не сложилось.
-
-### Вариант 3 — временно email-forwarding через Reg.ru (бесплатно)
-
-В DNS Reg.ru есть «Email-форвардинг»: всё что приходит на `support@vibeoffer.today`
-→ переотправляется на личный email Сергея. Без отправки исходящих — только приём.
-**Подходит для первых 100 пользователей**, дальше переводимся на 360.
-
----
-
-## 5. Vercel env vars — обновить после подключения домена
+После того как DNS пропагировался (Vercel пришлёт email «vibeoffer.today verified» —
+обычно 10-30 мин), запустить:
 
 ```bash
-vercel env add NEXT_PUBLIC_SITE_URL production
-# Значение: https://vibeoffer.today
-
-vercel env add NEXT_PUBLIC_SITE_URL preview
-# Значение: https://vibeoffer.today
-
-# В offer/page.tsx, refund/page.tsx, privacy/page.tsx есть жёсткие
-# упоминания vibeoffer.today — заменить на vibeoffer.today:
-git grep -l "vibeoffer.today" apps/web/
-# Найти и заменить — это один коммит
+cd "C:\Yandex.Disk\Yandex.Disk\! work -  i found job\careerpilot-git"
+bash scripts/finalize-domain.sh
 ```
 
-Также:
-- `apps/web/lib/cloudpayments.ts` — проверить `successUrl` использует `NEXT_PUBLIC_SITE_URL`
-- `apps/web/app/api/billing/checkout/route.ts` — там `baseUrl` берётся из env, OK
-- `apps/web/app/api/billing/webhook/route.ts` — webhook URL отдаётся в CP анкете,
-  обновить там же: `https://vibeoffer.today/api/billing/webhook`
-
-После обновления env vars:
-```bash
-vercel --prod
-```
+Скрипт автоматически:
+1. ✅ Проверит DNS резолв
+2. ✅ Обновит `NEXT_PUBLIC_SITE_URL` в Vercel env (Production)
+3. ✅ Триггернёт `vercel --prod` redeploy
+4. ✅ Smoke-test `https://vibeoffer.today` → 200 OK
 
 ---
 
-## 6. Финальный чек-лист (после propagation)
+## Что я уже сделал автономно (commit будет ниже)
 
-- [ ] `curl -I https://vibeoffer.today` → 200 OK с заголовком от Vercel
-- [ ] `curl -I https://vibeoffer.today/offer` → 200, оферта показывается
-- [ ] DNS check: https://dnschecker.org/?#A/vibeoffer.today → зелёные галки в РФ
-- [ ] SSL: https://www.ssllabs.com/ssltest/analyze.html?d=vibeoffer.today → A+
-- [ ] Email test: написать на `support@vibeoffer.today`, дошло до целевого ящика
-- [ ] В CP личном кабинете обновить: site=vibeoffer.today, webhook=vibeoffer.today/api/billing/webhook
+| ✅ Действие | Команда / Результат |
+|---|---|
+| Vercel CLI auth verified | `vercel whoami` → `sergeysolovyev` |
+| Project state checked | `careerpilot` linked в `sergeys-projects-04c8641c` |
+| Env vars audited | 16 env vars OK · `NEXT_PUBLIC_SITE_URL` уже есть, поменяем на этапе финализации |
+| **Domain attached to project** | `vercel domains add vibeoffer.today` → ✅ Success |
+| **www subdomain attached** | `vercel domains add www.vibeoffer.today` → ✅ Success |
+| Finalize-script написан | `scripts/finalize-domain.sh` — DNS check + env swap + redeploy + smoke-test |
+| Этот гайд обновлён | `docs/DOMAIN-CONFIG-vibeoffer-today.md` |
 
 ---
 
-**Стоимость пакета подключения:** ~₽400/год домен + ~₽199/мес (Yandex 360 с 6-го юзера).
-До 5 юзеров почта бесплатна.
+## Что НЕ нужно делать (защита от типичных ошибок)
+
+❌ **НЕ менять `NEXT_PUBLIC_SITE_URL` до DNS verification** — иначе сайт сломается
+для редиректов/писем на 1-24ч пока DNS не пропагируется. Скрипт делает это
+**после** проверки.
+
+❌ **НЕ покупать «бесплатные SSL»** или «email-почту» вдогонку — у Vercel SSL
+автоматический (Let's Encrypt), почту настроим отдельно через Yandex 360 / Resend.
+
+❌ **НЕ выбирать .ru вместо .today** — vibeoffer.today уже добавлен в Vercel
+project, переключение на .ru = пересборка половины брендинга.
+
+❌ **НЕ выбирать длинный срок регистрации > 2 лет** — для .today TLD продление
+$35/год может сильно вырасти; safer to renew yearly после первого года.
+
+---
+
+## После регистрации (Sprint A items, не блокеры)
+
+Когда сайт заработает с vibeoffer.today:
+
+1. **CloudPayments webhook update** — в merchant.cloudpayments.ru →
+   Сайты → URL уведомлений: `https://vibeoffer.today/api/billing/webhook`
+2. **Email setup (для Resend bulk-email из waitlist):**
+   - Resend → Domains → Add vibeoffer.today
+   - Resend выдаст 3 DNS-записи (SPF, DKIM, return-path) — добавить у регистратора
+   - mail-tester.com проверка на 9/10+ score
+3. **(опц.) Yandex 360 для support@vibeoffer.today** — если хотим
+   человеческий support inbox. До 5 ящиков бесплатно.
+
+---
+
+**Резюме:** **3 действия от вас (~15 минут активных + ожидание DNS).**
+Я сделал всё остальное — домен в Vercel project, скрипт финализации готов.
