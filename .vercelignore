@@ -1,0 +1,11 @@
+# Yandex.Disk sync-conflict copies (untracked backups) — never deploy
+**/*копия*
+**/*conflict*
+
+# Docs + screenshots — not part of the app build
+docs/
+*.md
+
+# Local env + build artifacts
+**/.env.local
+**/tsconfig.tsbuildinfo
